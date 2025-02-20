@@ -55,24 +55,60 @@ ApnaBazar/
 │   │-- wsgi.py
 │   │-- asgi.py
 │-- apps/
-│   │-- accounts/                  # Handles user authentication (login, signup, logout, profile)
+│   │-- home/                  # home (home page)
+│   │   │-- migration
+│   │   │   │-- __init__.py
 │   │   │-- models.py
 │   │   │-- views.py
 │   │   │-- urls.py
 │   │   │-- forms.py
+│   │   │-- test.py
+│   │   │-- apps.py
+│   │-- accounts/                  # Handles user authentication (login, signup, logout, profile)
+│   │   │-- migration
+│   │   │   │-- __init__.py
+│   │   │-- models.py
+│   │   │-- views.py
+│   │   │-- urls.py
+│   │   │-- forms.py
+│   │   │-- test.py
+│   │   │-- apps.py
 │   │-- store/                     # Handles product management, cart, and wishlist
+│   │   │-- migration
+│   │   │   │-- __init__.py
 │   │   │-- models.py
 │   │   │-- views.py
 │   │   │-- urls.py
-│   │   │-- templates/
+│   │   │-- forms.py
+│   │   │-- test.py
+│   │   │-- apps.py
 │   │-- payment/                    # Handles Razorpay integration
+│   │   │-- migration
+│   │   │   │-- __init__.py
 │   │   │-- models.py
 │   │   │-- views.py
 │   │   │-- urls.py
+│   │   │-- forms.py
+│   │   │-- test.py
+│   │   │-- apps.py
 │   │-- price_comparison/           # Fetches price data from an Excel sheet
 │   │   │-- utils.py
 │-- static/                        # Static files (CSS, JS, Images)
-│-- templates/                     # Global templates                       # Uploaded images
+│   │-- css
+│   │   │-- base.css
+│   │   │-- home.css
+│   │-- images                      # Uploaded images
+│   │   │-- *.jpg/png
+│   │-- js
+│   │   │-- script.js
+│   │-- favicon.svg
+│-- templates/                     # Global templates                       
+│   │-- accounts
+│   │   │-- login.html
+│   │-- base
+│   │   │-- base.html
+│   │-- home
+│   │   │-- index.html
 │-- db.sqlite3                      # SQLite Database (can be changed to PostgreSQL)
 │-- requirements.txt                 # Dependencies
 │-- manage.py                        # Django's CLI management tool
