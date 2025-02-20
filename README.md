@@ -22,7 +22,11 @@ ApnaBazar is a Python Django-based e-commerce website for groceries.
 2. Create a virtual environment and activate it:
     ```bash
     python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    
+    # for mac
+    source venv/bin/activate  
+    # On Windows use 
+    venv\Scripts\activate
 3. Install dependencies:
     ```bash
     pip install -r requirements.txt
