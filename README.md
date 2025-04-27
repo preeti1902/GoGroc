@@ -1,6 +1,6 @@
-# 🛒 ApnaBazar - Online Grocery Store
+# 🛒 GoGroc - Online Grocery Store
 
-ApnaBazar is a Python Django-based e-commerce website for groceries. 
+GoGroc is a Python Django-based e-commerce website for groceries. 
 
 ## 🚀 Features
 - User authentication (Login, Signup, Logout, Forgot Password)
