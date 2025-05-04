@@ -1,5 +1,71 @@
 {% extends "base/base.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="/media/css/login.css">
+{% endblock head %}
+
 {% block main %}
+<section class="login-container">
+  <div class="login-image-section">
+    <div class="login-image-wrapper">
+      <img class="login-logo" alt="" />
+    </div>
+    <div class="login-content-container">
+      <h1 class="login-section-heading">
+        Qualityful organic fruit & <span>vegetables.</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="login-form-section">
+    <div class="login-form-wrapper">
+      <div class="login-logo-container">
+        <a href="#" class="login-logo-container custom-anchor-and-button-style">
+          <img src="/media/images/login/Gogroc-logo.jpg" alt="Logo" />
+        </a>
+      </div>
+
+      <h2>Welcome Back!</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+        <div class="login-input-container">
+          <div class="login-form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"/>
+          </div>
+
+          <div class="login-form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"/>
+          </div>
+        </div>
+        <div class="login-remember-forgot">
+          <div class="login-remember-me">
+            <input type="checkbox" value="remember-me" id="remember-me" />
+            <label for="remember-me">Remember me</label>
+          </div>
   
+          <a class="custom-anchor-and-button-style" href="#">Forgot Password?</a>
+        </div>
+  
+        <button type="submit" class="login-login-btn custom-anchor-and-button-style">Log In</button>
+      </form>
+
+      <div class="login-or-divider">or</div>
+
+      <button class="login-google-signin custom-anchor-and-button-style">
+        <object data="/media/images/login/google-logo.jpg"></object>
+        <span>Sign in with Google</span>
+      </button>
+    </div>
+
+    <div>
+      <p>
+        Not registered yet?
+        <a class="custom-anchor-and-button-style" href="{% url 'register' %}">Sign up </a>
+      </p>
+    </div>
+  </div>
+</section>
 {% endblock main %}

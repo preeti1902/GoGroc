@@ -4,11 +4,13 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from ..base.models import Profile
+from .models import Profile
 from ..base.emails import sendAccountActivationEmail
 import uuid
 from .emails import sendPasswordResetEmail
+from django.views.decorators.csrf import ensure_csrf_cookie
 
+# register view
 def registerView(request):
     if request.method == 'POST':
         firstName = request.POST.get('first_name')
@@ -26,6 +28,7 @@ def registerView(request):
         return HttpResponseRedirect(request.path_info)
     return render(request ,'accounts/register.html')
 
+#  login view
 def loginView(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -53,6 +56,7 @@ def loginView(request):
             return HttpResponseRedirect(request.path_info)
     return render(request, 'accounts/login.html')
 
+# email activation view
 def emailActivationView(request, emailToken):
     try:
         user = Profile.objects.get(emailToken=emailToken)
@@ -93,6 +97,7 @@ def passwordResetView(request, token):
         print(e)
     return render(request, 'accounts/reset_password.html',context)
 
+# forgot password view
 def forgotPasswordView(request):
     try:
         if request.method == 'POST':

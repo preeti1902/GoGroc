@@ -31,7 +31,7 @@
       <div class="container">
 
         <h1 class="h1">
-          <a href="{% url 'index' %}" class="logo">Apna<span class="span">Bazar</span></a>
+          <a href="{% url 'index' %}" class="logo">Go<span class="span">Groc</span></a>
         </h1>
 
         <button class="nav-open-btn" aria-label="Open Menu" data-nav-open-btn>
@@ -78,9 +78,9 @@
 
           <div class="search-wrapper" data-search-wrapper>
 
-            <button class="header-action-btn" aria-label="Toggle search" data-search-btn>
-              <ion-icon name="search-outline" class="search-icon"></ion-icon>
-              <ion-icon name="close-outline" class="close-icon"></ion-icon>
+            <button class="" aria-label="Toggle search" data-search-btn>
+              <ion-icon name="" class="search-icon"></ion-icon>
+              <ion-icon name="" class="close-icon"></ion-icon>
             </button>
 
             <div class="input-wrapper">
@@ -104,9 +104,21 @@
 
             <data class="btn-badge" value="2">02</data>
           </button>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="action-btn-login" aria-label="Logout">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </a>
+          {% else %}
+          <a href="{% url 'login' %}" class="action-btn-login" aria-label="Login">
+            <ion-icon name="log-in-outline"></ion-icon>
+          </a>
+        
+          <a href="{% url 'register' %}" class="action-btn-login" aria-label="Sign Up">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </a>
+          {% endif %}
 
         </div>
-
       </div>
     </div>
 
@@ -127,7 +139,7 @@
           <a href="./product-details.html" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/product-small-1.jpg" width="46" height="46" loading="lazy"
+              <img src="/media/images/home/product-small-1.jpg" width="46" height="46" loading="lazy"
                 alt="Bright Side Vegetarian">
             </figure>
 
@@ -148,7 +160,7 @@
           <a href="./product-details.html" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/product-small-2.jpg" width="46" height="46" loading="lazy" alt="Eco Vegetable">
+              <img src="/media/images/home/product-small-2.jpg" width="46" height="46" loading="lazy" alt="Eco Vegetable">
             </figure>
 
             <div>
@@ -168,7 +180,7 @@
           <a href="./product-details.html" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/product-small-3.jpg" width="46" height="46" loading="lazy"
+              <img src="/media/images/home/product-small-3.jpg" width="46" height="46" loading="lazy"
                 alt="House of Veggies">
             </figure>
 
@@ -209,7 +221,7 @@
           <a href="./product-details.html" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/product-small-1.jpg" width="46" height="46" loading="lazy"
+              <img src="/media/images/home/product-small-1.jpg" width="46" height="46" loading="lazy"
                 alt="Bright Side Vegetarian">
             </figure>
 
@@ -230,7 +242,7 @@
           <a href="./product-details.html" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/product-small-2.jpg" width="46" height="46" loading="lazy" alt="Eco Vegetable">
+              <img src="/media/images/home/product-small-2.jpg" width="46" height="46" loading="lazy" alt="Eco Vegetable">
             </figure>
 
             <div>

@@ -35,6 +35,11 @@
     --russian-violet_65: hsla(245, 97%, 13%, 0.65);
     --rhythm: hsl(220, 17%, 49%);
     --spanish-gray: hsl(156, 3%, 61%);
+    --primary-lighter: hsl(240, 33%, 86%);
+    --text-dark: hsl(240, 54%, 15%);
+    --text-light: hsl(242, 18%, 64%);
+    --bg-color: #ffcc00;
+    --primary: hsl(222, 98%, 60%);
 
     /**
      * typography
@@ -476,6 +481,18 @@ body {
 }
 
 .header-action-btn:is(:hover, :focus):not(:focus-visible) {
+    outline: 2px solid var(--emerald);
+}
+
+.action-btn-login {
+    background-color: var(--mint-cream);
+    color: var(--space-cadet);
+    font-size: 20px;
+    padding: 15px 14px;
+    border-radius: 100px;
+}
+
+.action-btn-login:is(:hover, :focus):not(:focus-visible) {
     outline: 2px solid var(--emerald);
 }
 
@@ -1163,7 +1180,6 @@ body {
     }
 
 }
-
 
 
 

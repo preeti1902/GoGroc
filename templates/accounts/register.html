@@ -1,0 +1,77 @@
+{% extends "base/base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="/media/css/login.css">
+{% endblock head %}
+
+{% block main %}
+<section class="login-container">
+
+    <div class="login-image-section">
+        <div class="image-wrapper">
+            <img class="login-logo" alt="">
+        </div>
+
+        <div class="login-content-container">
+            <h1 class="login-section-heading">Qualityful organic fruit & <span>vegetables.</span>
+            </h1>
+        </div>
+    </div>
+
+    <div class="login-form-section">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="login-form-wrapper">
+                <div class="login-logo-container">
+                    <a href="#" class="login-logo-container">
+                        <img src="/media/images/login/Gogroc-logo.jpg" alt="Logo">
+                    </a>
+                </div>
+                <p>Register your account</p>
+
+                <div class="login-input-container">
+                    <div class="login-form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="textbox" id="first_name" name="first_name" required>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="textbox" id="last_name" name="last_name" required>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+
+                </div>
+                <button class="login-login-btn custom-anchor-and-button-style" type="submit">Sign up</button>
+        </form>
+        <div class="login-or-divider">or</div>
+
+        <button class="login-google-signin custom-anchor-and-button-style">
+            <object data="/media/images/login/google-logo.jpg"></object>
+            <span>Sign up with Google</span>
+        </button>
+    </div>
+
+    <div>
+        <p>Already have an account?
+            <a class="custom-anchor-and-button-style" href="{% url 'login' %}">Sign in</a>
+        </p>
+    </div>
+    </div>
+
+</section>
+{% endblock main %}
