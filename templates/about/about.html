@@ -1,9 +1,190 @@
 {% extends "base/base.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="/media/css/product.css">
+<link rel="stylesheet" href="/media/css/about.css">
 {% endblock head %}
 
 {% block main %}
 
+<section class="video-hero">
+    <video autoplay muted loop class="hero-video">
+      <source src="/media/videos/about/vd1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay">
+      <h1>Freshness Delivered to Your Doorstep</h1>
+      <p>Experience seamless grocery shopping with fast delivery, easy returns, and the best prices online.</p>
+      <ul class="features-list">
+        <div class="rotating-features">
+          <div class="feature-item"> Monthly Deliveries of Groceries</div>
+          <div class="feature-item"> Smart Price Comparison</div>
+          <div class="feature-item"> Organic & Fresh Items</div>
+          <div class="feature-item"> Easy Upload of Shopping List</div>
+          <div class="feature-item"> QR Code for Order Details</div>
+        </div>
+
+      </ul>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <div class="section">
+    <div class="image-box">
+      <img src="/media/images/about/team.jpg" alt="Grocery delivery team">
+    </div>
+    <div class="text-box">
+      <div class="badge">TEAM OF 50 EXPERTS</div>
+      <h2>Dedicated and Customer-Focused Team</h2>
+      <p>At GoGroc, our mission is to make fresh groceries accessible and convenient. With a skilled team working round
+        the clock, we ensure that every order is picked, packed, and delivered with care and efficiency. Since 2020,
+        we’ve been blending technology and trust to serve thousands of happy families.</p>
+      <div class="tags">
+        <span>#FreshDelivery</span>
+        <span>#QuickSupport</span>
+        <span>#CustomerCare</span>
+        <span>#GreenChoices</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <div class="highlight-section">
+    <div class="text-box">
+      <div class="highlight-badge">DAILY ORDERS</div>
+      <h2>Wide Range of Quality Grocery Products</h2>
+      <p>From organic vegetables to pantry staples, GoGroc offers over 10,000 carefully selected products. We partner
+        directly with local farmers and trusted suppliers to deliver only the freshest and safest groceries. Every
+        product undergoes a quality check to meet our high standards.</p>
+    </div>
+    <div class="image-box">
+      <img src="/media/images/about/qulity.jpg" alt="Grocery products and vegetables">
+    </div>
+  </div>
+
+
+  <!-- People Working Section -->
+  <section class="team-wrapper">
+    <h2 class="team-heading">People building GoGroc</h2>
+    <div class="team-section">
+
+      <div class="team-card">
+        <img src="/media/images/about/p3.jpeg" alt="Person 1">
+        <h3>Alfiya Hassan</h3>
+        <p>UI/UX Designer</p>
+        <div class="social-links">
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:jane@example.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="/media/images/about/p4.jpg" alt="Person 1">
+        <h3>Preeti Kumari</h3>
+        <p>UI/UX Designer</p>
+        <div class="social-links">
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:jane@example.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="/media/images/about/p2.jpg" alt="Person 1">
+        <h3>Chiranth H</h3>
+        <p>UI/UX Designer</p>
+        <div class="social-links">
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:jane@example.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img src="/media/images/about/p5.webp" alt="Person 2">
+        <h3>Soumya Patil</h3>
+        <p>Frontend Developer</p>
+        <div class="social-links">
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:john@example.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-info">
+    <h2 class="contact-heading">Contact & Media Inquiries</h2>
+    <div class="contact-details">
+      <p><strong>For media inquiries:</strong> write to us at <a href="mailto:press@gogroc.com">press@gogroc.com</a> or
+        check out our <a href="#">press page</a>.</p>
+
+      <p><strong>For all other inquiries:</strong> contact us at <a
+          href="mailto:gogroc351@gmail.com">gogroc351@gmail.com</a>.</p>
+
+      <p><strong>Operational address:</strong><br>
+        GoGroc commerce Private Limited <br>
+        Aps College of Engineering,<br>
+        Somnahalli Kanakpura, Bengaluru 560082,<br>
+        Karnataka, India
+      </p>
+
+      <p><strong>CIN:</strong> U74140HR2015PTC055568</p>
+      <p><strong>Phone No.:</strong> 011-40592373</p>
+    </div>
+  </section>
+
+  <section class="gogroc-smart-features">
+
+    <div class="gogroc-feature-item">
+      <h3>#Automate Recurring Orders</h3>
+      <p>GoGroc allows users to set up their grocery orders just once and get the same items delivered automatically
+        every month—no need to reorder manually. Once you place an order and opt for a subscription, it becomes your
+        recurring monthly cart. If you want, you can customize the items before the next delivery; otherwise, the same
+        products will be delivered as scheduled. It's a simple, time-saving way to ensure your essentials never run out.
+      </p>
+    </div>
+
+    <div class="gogroc-feature-item">
+      <h3>#Enable Price Comparison</h3>
+      <p>This feature pulls pricing data from major e-commerce platforms—Flipkart, Amazon, and Blinkit—for the same
+        product. It then displays all three prices in one interface so users can make informed decisions on where to
+        buy. Whether someone is budget-conscious or just loves a good deal, this smart comparison tool makes sure they
+        always get the best value.</p>
+    </div>
+
+    <div class="gogroc-feature-item">
+      <h3>#Simplify Shopping List Management</h3>
+      <p>Users can upload or manually enter their grocery lists, and GoGroc intelligently maps it to available products
+        for instant checkout readiness.</p>
+    </div>
+
+    <div class="gogroc-feature-item">
+      <h3>#Enhance Order Communication & Security</h3>
+      <p>To ensure transparency and easy tracking, each order includes a unique QR code that can be shared via SMS or
+        email. This code acts as a digital receipt and delivery reference, allowing recipients to confirm orders
+        quickly. It's particularly useful for shared households, workplaces, or gifts, where the person receiving the
+        order may not be the one who placed it.</p>
+    </div>
+
+   </section>
+
+        <script>
+          const items = document.querySelectorAll('.feature-item');
+          let current = 0;
+
+          function showNextFeature() {
+            items.forEach((item, index) => {
+              item.classList.remove('active');
+              item.style.zIndex = 0;
+            });
+
+            const currentItem = items[current];
+            currentItem.classList.add('active');
+            currentItem.style.zIndex = 1;
+
+            current = (current + 1) % items.length;
+          }
+
+          showNextFeature(); // Initial call
+          setInterval(showNextFeature, 2000); // Change item every 2 seconds
+        </script>
 {% endblock main %}
