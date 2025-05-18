@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Product, Category
+from .models import Product
 import json
 
 def getProduct(request, slug):
@@ -11,3 +11,6 @@ def getProduct(request, slug):
     except Exception as e:
         print(e)
         return HttpResponse(status=500, content=json.dumps({'error': str(e)}), content_type='application/json')
+
+def getProducts(request):
+    return render(request, 'store/products.html')
