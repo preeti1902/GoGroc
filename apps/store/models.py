@@ -21,7 +21,9 @@ class Product(BaseModel):
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     stock = models.PositiveIntegerField(default=0)
+    rating = models.IntegerField(default=0)
     description = models.TextField()
     is_available = models.BooleanField(default=True)
 
