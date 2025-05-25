@@ -8,13 +8,12 @@
 <main class="product-page">
     <div class="product-container">
         <div class="product-image">
-            <img src="/media/images/product/eggs.png" alt="Eggs in carton" />
+            <img src="/media/{{product.product_images.first.image}}" alt="Eggs in carton" />
         </div>
 
         <div class="product-details">
-            <h2>Eggs</h2>
-            <p>SKU: 0014</p>
-            <p class="price"><del>$9.99</del> <strong>$8.99</strong></p>
+            <h2>{{product.name}}</h2>
+            <p class="price"><del>&#8377;{{original_price}}</del> <strong>&#8377;{{product.price}}</strong></p>
             <div class="price-comparison">
                 <h3>Compare Prices</h3>
                 <div class="price-row">
