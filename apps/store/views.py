@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Product
+from .models import Product, Category
 import json
 
 def getProduct(request, slug):
@@ -21,7 +21,8 @@ def getProduct(request, slug):
 
 def getProducts(request):
     products = Product.objects.all()
+    category = Category.objects.all()
     for product in products:
         product.original_price = product.price + product.discount if product.discount else product.price
-    context = {'products': products}
+    context = {'products': products, 'categories': category}
     return render(request, 'store/products.html', context)
