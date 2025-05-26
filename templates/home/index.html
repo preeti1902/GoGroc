@@ -179,11 +179,10 @@
                     <div class="tooltip">Add to Whishlist</div>
                   </button>
 
-                  <button class="product-btn" aria-label="Quick View">
+                  <a href="{% url 'product' product.slug %}" class="product-btn" aria-label="Quick View">
                     <ion-icon name="eye-outline"></ion-icon>
-
                     <div class="tooltip">Quick View</div>
-                  </button>
+                  </a>
                 </div>
               </figure>
 
@@ -208,7 +207,15 @@
                   <data class="price">&#8377;{{product.price}}</data>
                 </div>
 
-                <button class="btn btn-primary">Add to Cart</button>
+                <form method="POST" action="{% url 'addToCart' product.uuid %}" class="add-to-cart-form">
+                {% csrf_token %}
+                <div class="quantity-controls">
+                  <button type="button" class="plusAndminus decrease-btn">−</button>
+                  <input type="number" name="quantity" class="quantity-input" value="0" min="0" readonly>
+                  <button type="button" class="plusAndminus increase-btn">+</button>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+              </form>
 
               </div>
 

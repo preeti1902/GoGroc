@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from .models import Product, Category
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Product, Category, Cart, CartItem
 import json
 
 def getProduct(request, slug):
@@ -26,3 +27,20 @@ def getProducts(request):
         product.original_price = product.price + product.discount if product.discount else product.price
     context = {'products': products, 'categories': category}
     return render(request, 'store/products.html', context)
+
+@login_required
+def addToCart(request, uuid):
+    product = get_object_or_404(Product, uuid=uuid)
+    user = request.user
+    quantity = int(request.POST.get("quantity", 1))
+
+    cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+    if not created:
+        cart_item.quantity += quantity
+    else:
+        cart_item.quantity = quantity
+    cart_item.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

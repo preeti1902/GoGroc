@@ -91,3 +91,15 @@ for (let i = 0; i < productThumbnails.length; i++) {
 
     });
 }
+
+document.querySelectorAll('.add-to-cart-form').forEach(form => {
+    const input = form.querySelector('.quantity-input');
+    form.querySelector('.increase-btn').addEventListener('click', () => {
+        input.value = parseInt(input.value) + 1;
+    });
+    form.querySelector('.decrease-btn').addEventListener('click', () => {
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    });
+});

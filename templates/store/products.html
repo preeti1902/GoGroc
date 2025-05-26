@@ -1,8 +1,8 @@
-{% extends "base/base.html" %} 
+{% extends "base/base.html" %}
 
 {% block head %}
 <link rel="stylesheet" href="/media/css/products.css" />
-{% endblock head %} 
+{% endblock head %}
 
 {% block main %}
 <main>
@@ -29,44 +29,51 @@
           <li>
             <div class="product-card">
               <figure class="card-banner">
-                <img class="product-image" src="/media/{{product.product_images.first.image}}" width="189" height="189" loading="lazy" alt="{{product.name}}" />
-        
+                <img class="product-image" src="/media/{{product.product_images.first.image}}" width="189" height="189"
+                  loading="lazy" alt="{{product.name}}" />
+
                 <div class="btn-wrapper">
                   <button class="product-btn" aria-label="Add to Whishlist">
                     <ion-icon name="heart-outline"></ion-icon>
-        
+
                     <div class="tooltip">Add to Whishlist</div>
                   </button>
-        
+
                   <button class="product-btn" aria-label="Quick View">
                     <ion-icon name="eye-outline"></ion-icon>
-        
+
                     <div class="tooltip">Quick View</div>
                   </button>
                 </div>
               </figure>
-        
+
               <div class="rating-wrapper">
                 {% for i in "12345"|make_list %}
-                  {% if forloop.counter <= product.rating %}
-                    <ion-icon name="star"></ion-icon>
+                {% if forloop.counter <= product.rating %} <ion-icon name="star"></ion-icon>
                   {% else %}
-                    <ion-icon name="star-outline"></ion-icon>
+                  <ion-icon name="star-outline"></ion-icon>
                   {% endif %}
-                {% endfor %}
+                  {% endfor %}
               </div>
-        
+
               <h3 class="h4 card-title">
                 <a href="{% url 'product' product.slug %}">{{product.name}}</a>
               </h3>
-        
+
               <div class="price-wrapper">
                 <del class="del">&#8377;{{product.original_price}}</del>
-        
+
                 <data class="price">&#8377;{{product.price}}</data>
               </div>
-        
-              <button class="btn btn-primary">Add to Cart</button>
+              <form method="POST" action="{% url 'addToCart' product.uuid %}" class="add-to-cart-form">
+                {% csrf_token %}
+                <div class="quantity-controls">
+                  <button type="button" class="plusAndminus decrease-btn">−</button>
+                  <input type="number" name="quantity" class="quantity-input" value="0" min="0" readonly>
+                  <button type="button" class="plusAndminus increase-btn">+</button>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+              </form>
             </div>
           </li>
           {% endfor %}
@@ -75,4 +82,5 @@
     </section>
   </article>
 </main>
+
 {% endblock main %}

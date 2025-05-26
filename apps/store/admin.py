@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Category, Order, OrderProduct, Cart, Wishlist, ProductImage
+from .models import *
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -17,5 +17,7 @@ admin.site.register(Category)
 admin.site.register(Order)
 admin.site.register(OrderProduct)
 admin.site.register(Cart)
+admin.site.register(CartItem)
 admin.site.register(Wishlist)
 admin.site.register(ProductImage)
+admin.site.register(Coupon)
