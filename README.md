@@ -17,8 +17,8 @@ GoGroc is a Python Django-based e-commerce website for groceries.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/preeti1902/ApnaBazar.git
-   cd ApnaBazar
+   git clone https://github.com/preeti1902/GoGroc.git
+   cd GoGroc
 2. Create a virtual environment and activate it:
     ```bash
     python -m venv venv
