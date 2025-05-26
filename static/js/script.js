@@ -103,3 +103,7 @@ document.querySelectorAll('.add-to-cart-form').forEach(form => {
         }
     });
 });
+
+function toggleDropdown(id) {
+    document.getElementById(id).classList.toggle('show');
+}

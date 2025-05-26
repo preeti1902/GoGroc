@@ -1,8 +1,149 @@
-{% extends "base/base.html" %}
-
+{% extends "base/base.html" %} 
 {% block head %}
-<link rel="stylesheet" href="">
-{% endblock head %}
-
+<link rel="stylesheet" href="/media/css/cart.css" />
+{% endblock head %} 
 {% block main %}
+<main>
+    <div class="container">
+        <div class="form-section">
+            <h2>Delivery Address</h2>
+            <div class="delivery-details">
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>First Name</label>
+                        <input type="text" placeholder="Enter first name" />
+                    </div>
+                    <div class="flex-col">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Enter last name" />
+                    </div>
+                    <div class="flex-col">
+                        <label>Contact Number</label>
+                        <input type="text" placeholder="Enter contact number" />
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>House No</label>
+                        <input type="text" />
+                    </div>
+                    <div class="flex-col">
+                        <label>Apartment Name</label>
+                        <input type="text" />
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>Street Details</label>
+                        <input type="text" />
+                    </div>
+                    <div class="flex-col">
+                        <label>Landmark</label>
+                        <input type="text" />
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>City</label>
+                        <select>
+                            <option>Bangalore</option>
+                        </select>
+                    </div>
+                    <div class="flex-col">
+                        <label>Area</label>
+                        <input type="text" value="100 Feet Rd-Koramangala" />
+                    </div>
+                    <div class="flex-col">
+                        <label>Pincode</label>
+                        <input type="text" value="560095" />
+                    </div>
+                </div>
+
+                <label>Choose nick name for this address:</label>
+                <div class="nickname-buttons">
+                    <button class="active">HOME</button>
+                    <button>OFFICE</button>
+                    <button>OTHER</button>
+                </div>
+
+                <button class="btn">ADD ADDRESS</button>
+            </div>
+
+            <div class="collapsible">
+                <div class="dropdown" onclick="toggleDropdown('delivery-options')">
+                    <strong>Delivery Options</strong>
+                </div>
+                <div class="options" id="delivery-options">
+                    <label><input type="radio" name="delivery" /> Standard Delivery (Free, 3–5
+                        days)</label><br />
+                    <label><input type="radio" name="delivery" /> Express Delivery (₹50, 1–2
+                        days)</label><br />
+                    <label><input type="radio" name="delivery" /> Same Day Delivery
+                        (₹100)</label>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="dropdown" onclick="toggleDropdown('payment-options')">
+                    <strong>Payment Options</strong>
+                </div>
+                <div class="options" id="payment-options">
+                    <label><input type="radio" name="payment" /> Credit/Debit Card</label><br />
+                    <label><input type="radio" name="payment" /> PayPal</label><br />
+                    <label><input type="radio" name="payment" /> COD</label><br />
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Summary -->
+        <!-- HTML -->
+        <div class="summary-wrapper">
+            <div class="gogroc-header">
+                <img src="images\WhatsApp Image 2025-02-18 at 21.59.46_97d398d2.jpg" alt="gogroc logo"
+                    class="gogroc-logo" />
+                <button class="join-btn">JOIN NOW</button>
+                <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
+            </div>
+
+            <div class="summary-section">
+                <h3>Order Summary</h3>
+
+                <div class="voucher-box">
+                    <input type="text" placeholder="Enter voucher code" />
+                    <button class="btn">APPLY</button>
+                    <p><a href="#">You have 8 vouchers available</a></p>
+                </div>
+
+                <div class="summary-line">
+                    <span>Basket Value</span>
+                    <span>Rs 110</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Delivery Charge</span>
+                    <span>Rs 50</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Voucher Discount</span>
+                    <a href="#">Apply Voucher</a>
+                </div>
+
+                <div class="summary-line">
+                    <span><input type="checkbox" checked /></span><span class="Wallet">Used from GoGroc Wallet</span>
+                    <span>Rs 0</span>
+                </div>
+
+                <div class="summary-line total">
+                    <span>Total Amount Payable</span>
+                    <span>Rs 160</span>
+                </div>
+                <p class="savings">Your Total Savings Rs 22.50</p>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock main %}

@@ -1,0 +1,77 @@
+{% extends "base/base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="/media/css/dashboard.css">
+{% endblock head %}
+
+{% block main %}
+<main>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Change Password</h2>
+            <ul>
+                <li class="active"><i class="fas fa-th"></i> Dashboard</li>
+                <li><i class="fas fa-user"></i> Personal Info</li>
+                <li><i class="fas fa-credit-card"></i> Payment Method</li>
+                <li><i class="fas fa-shopping-cart"></i> Order</li>
+                <li><i class="fas fa-heart"></i> Wishlist</li>
+                <li><i class="fas fa-map-marker-alt"></i> Address</li>
+                <li><i class="fas fa-star"></i> Reviews</li>
+                <li><i class="fas fa-lock"></i> Change Password</li>
+                <li><i class="fas fa-life-ring"></i> Support Ticket</li>
+                <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="navbar">
+                <h1>Hello, Sajjad</h1>
+                <div class="toggle-switch">
+                    <span>Switch Dashboard</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <section class="cards">
+                <div class="card">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>New Orders</h3>
+                    <p>656</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Delivery Completed</h3>
+                    <p>99,783</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Support Tickets</h3>
+                    <p>09</p>
+                </div>
+            </section>
+
+            <!-- Personal Info -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h3>Personal Information</h3>
+                    <p><strong>Name:</strong> Sajjad</p>
+                    <p><strong>Email:</strong> demoemail@gmail.com</p>
+                    <p><strong>Phone:</strong> 023 434 54354</p>
+                </div>
+                <div class="info-box">
+                    <h3>Shop Information</h3>
+                    <p><strong>Name:</strong> EcoShop Super-Shop</p>
+                    <p><strong>Email:</strong> demoemail@gmail.com</p>
+                    <p><strong>Phone:</strong> 023 434 54354</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</main>
+{% endblock main %}
