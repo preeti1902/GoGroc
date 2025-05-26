@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 from ..base.emails import sendAccountActivationEmail
+from apps.store.models import CartItem
 
 
 class Profile(BaseModel):
@@ -17,7 +18,7 @@ class Profile(BaseModel):
     phone = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return f"Profile for {self.user.username}"
 
 class ProfileImage(BaseModel):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_images")
@@ -25,14 +26,6 @@ class ProfileImage(BaseModel):
 
     def __str__(self):
         return f"Profile Image of {self.profile.user.username}"
-    
-class Cart(BaseModel):
-    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='carts')
-    isPaid = models.BooleanField(default=False)
-    amount = models.IntegerField(null=True)
-    
-    def __str__(self):
-        return f"Cart for {self.user.username}"
 
 
 @receiver(post_save , sender = User)

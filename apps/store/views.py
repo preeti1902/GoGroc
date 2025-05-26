@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Product, Category, Cart, CartItem
+from .models import Product, Category, Cart, CartItem, Wishlist
 import json
 
 def getProduct(request, slug):
@@ -23,9 +23,20 @@ def getProduct(request, slug):
 def getProducts(request):
     products = Product.objects.all()
     category = Category.objects.all()
+    
     for product in products:
         product.original_price = product.price + product.discount if product.discount else product.price
-    context = {'products': products, 'categories': category}
+
+    # Add this block to get the user's wishlist product UUIDs
+    wishlist_product_ids = []
+    if request.user.is_authenticated:
+        wishlist_product_ids = list(request.user.wishlist.all().values_list('product__uuid', flat=True))
+
+    context = {
+        'products': products,
+        'categories': category,
+        'wishlist_product_ids': wishlist_product_ids,
+    }
     return render(request, 'store/products.html', context)
 
 @login_required
@@ -42,5 +53,18 @@ def addToCart(request, uuid):
     else:
         cart_item.quantity = quantity
     cart_item.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def addToWishlist(request, uuid):
+    product = get_object_or_404(Product, uuid=uuid)
+    user = request.user
+
+    wishlist_item = Wishlist.objects.filter(user=user, product=product).first()
+    if wishlist_item:
+        wishlist_item.delete()
+    else:
+        Wishlist.objects.create(user=user, product=product)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

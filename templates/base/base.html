@@ -87,17 +87,32 @@
 
           </div>
 
+          {% if request.user.is_authenticated %}
           <button class="header-action-btn" aria-label="Open whishlist" data-panel-btn="whishlist">
             <ion-icon name="heart-outline"></ion-icon>
 
-            <data class="btn-badge" value="3">03</data>
+            <data class="btn-badge">{{ request.user.wishlist.count }}</data>
           </button>
 
           <button class="header-action-btn" aria-label="Open shopping cart" data-panel-btn="cart">
             <ion-icon name="basket-outline"></ion-icon>
 
-            <data class="btn-badge" value="2">02</data>
+            <span class="btn-badge">{{ request.user.cart.cart_items.count }}</span>
           </button>
+          {% else %}
+          <button class="header-action-btn" aria-label="Open whishlist" data-panel-btn="whishlist">
+            <ion-icon name="heart-outline"></ion-icon>
+
+            <data class="btn-badge">0</data>
+          </button>
+
+          <button class="header-action-btn" aria-label="Open shopping cart" data-panel-btn="cart">
+            <ion-icon name="basket-outline"></ion-icon>
+
+            <data class="btn-badge">0</data>
+          </button>
+          {% endif %}
+
           {% if request.user.is_authenticated %}
           <a href="{% url 'logout' %}" class="action-btn-login" aria-label="Logout">
             <ion-icon name="log-out-outline"></ion-icon>
