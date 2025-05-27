@@ -1,0 +1,671 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    min-height: 100vh;
+}
+
+/* Header Section */
+.order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.back-nav {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #666;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-nav:hover {
+    color: #4CAF50;
+}
+
+.back-nav i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.order-id h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.order-date {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Main Content Layout */
+.main-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.left-section {
+    flex: 2;
+    min-width: 0;
+}
+
+.right-section {
+    flex: 1;
+    min-width: 320px;
+    position: sticky;
+    top: 20px;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 40px;
+}
+
+.items-section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.item-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.item-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.item-details p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.item-price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.current-price {
+    font-weight: bold;
+    color: #333;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+}
+
+.discount {
+    background: #4CAF50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.quantity {
+    font-size: 13px;
+    color: #666;
+}
+
+.item-total {
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 20px;
+}
+
+/* Status Section */
+.status-section {
+    margin-bottom: 40px;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.status-header h2 {
+    font-size: 20px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.delivered {
+    background: #e8f5e8;
+    color: #4CAF50;
+}
+
+.status-badge.shipped {
+    background: #e3f2fd;
+    color: #2196F3;
+}
+
+.status-badge.processing {
+    background: #fff3e0;
+    color: #FF9800;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 40px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: -52px;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    color: #999;
+}
+
+.timeline-item.completed .timeline-icon {
+    background: #4CAF50;
+    color: white;
+}
+
+.timeline-content h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.timeline-content p {
+    font-size: 14px;
+    color: #4CAF50;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.timeline-content span {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Delivery Section */
+.delivery-section {
+    margin-bottom: 40px;
+}
+
+.delivery-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.delivery-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.delivery-address h4 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.delivery-address h4 i {
+    margin-right: 8px;
+    color: #4CAF50;
+}
+
+.address-details {
+    line-height: 1.6;
+    color: #666;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px 0;
+}
+
+.info-item strong {
+    color: #333;
+}
+
+.info-item span {
+    color: #666;
+    text-align: right;
+}
+
+/* Action Section */
+.action-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    flex: 1;
+    justify-content: center;
+    min-width: 140px;
+}
+
+.btn.primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #45a049;
+}
+
+.btn.secondary {
+    background: white;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.btn.secondary:hover {
+    background: #f5f5f5;
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+/* Info Section */
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-card h4 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.info-card h4 i {
+    margin-right: 8px;
+    color: #4CAF50;
+}
+
+.info-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.rating i {
+    color: #FFD700;
+    font-size: 16px;
+}
+
+.rating span {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Right Section - Payment Summary */
+.payment-summary-wrapper {
+    position: sticky;
+    top: 20px;
+}
+
+.gogroc-header {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px 6px 0 0;
+    background: #fff;
+    text-align: center;
+}
+
+.gogroc-logo {
+    height: 60px;
+    vertical-align: middle;
+}
+
+.join-btn {
+    margin-top: 8px;
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.join-subtext {
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.payment-section {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.payment-section h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.payment-summary {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.summary-row.discount span:last-child {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.summary-row.total {
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.payment-method {
+    margin-bottom: 15px;
+}
+
+.method-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.method-info i {
+    font-size: 20px;
+    color: #4CAF50;
+    margin-right: 15px;
+    margin-top: 2px;
+}
+
+.method-info strong {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.method-info p {
+    font-size: 13px;
+    color: #666;
+    margin: 2px 0;
+}
+
+.upi-id {
+    font-family: monospace;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.transaction-id {
+    font-size: 13px;
+    background: #f0f0f0;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.transaction-id strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #333;
+}
+
+.transaction-id span {
+    color: #666;
+    font-family: monospace;
+}
+
+.savings {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .right-section {
+        position: static;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .back-nav {
+        margin-bottom: 10px;
+    }
+
+    .delivery-card {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .item-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .item-image {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .item-total {
+        text-align: center;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    .action-section {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .info-section {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-header h1 {
+        font-size: 18px;
+    }
+
+    .status-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .timeline {
+        padding-left: 30px;
+    }
+
+    .timeline-item {
+        padding-left: 30px;
+    }
+
+    .timeline-icon {
+        left: -42px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .gogroc-logo {
+        height: 50px;
+    }
+}
