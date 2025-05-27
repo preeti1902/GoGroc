@@ -1,4 +1,4 @@
-from .views import getProduct, getProducts, addToCart, addToWishlist, cartPage, dashboard, orderPage, productOrder
+from .views import *
 from django.urls import path
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('<slug>/', getProduct, name="product"),
     path('', getProducts, name="products"),
     path('addToCart/<uuid>/', addToCart, name='addToCart'),
+    path('removeFromCart/<uuid>/', removeFromCart, name='removeFromCart'),
     path('addToWishlist/<uuid:uuid>/', addToWishlist, name='addToWishlist'),
     ]

@@ -109,6 +109,19 @@ def addToCart(request, uuid):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+def removeFromCart(request, uuid):
+    user = request.user
+    product = get_object_or_404(Product, uuid=uuid)
+
+    cart = Cart.objects.filter(user=user, is_paid=False).first()
+    if cart:
+        cart_item = cart.cart_items.filter(product=product).first()
+        if cart_item:
+            cart_item.delete()
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
 def addToWishlist(request, uuid):
     product = get_object_or_404(Product, uuid=uuid)
     user = request.user

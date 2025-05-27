@@ -986,8 +986,11 @@ body {
     color: var(--emerald);
 }
 
-
-
+.cart-form{
+    display: inline;
+    position: fixed;
+    left: 85%;
+}
 
 
 /*-----------------------------------*\

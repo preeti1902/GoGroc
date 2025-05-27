@@ -173,11 +173,15 @@
                   alt="Fresh Orangey">
 
                 <div class="btn-wrapper">
-                  <button class="product-btn" aria-label="Add to Whishlist">
+                  <a href="{% url 'addToWishlist' product.uuid %}" class="product-btn" aria-label="Toggle Wishlist">
+                    {% if product.uuid in wishlist_product_ids %}
+                    <ion-icon name="heart"></ion-icon>
+                    <div class="tooltip">Remove from Wishlist</div>
+                    {% else %}
                     <ion-icon name="heart-outline"></ion-icon>
-
-                    <div class="tooltip">Add to Whishlist</div>
-                  </button>
+                    <div class="tooltip">Add to Wishlist</div>
+                    {% endif %}
+                  </a>
 
                   <a href="{% url 'product' product.slug %}" class="product-btn" aria-label="Quick View">
                     <ion-icon name="eye-outline"></ion-icon>

@@ -144,78 +144,29 @@
 
       <ul class="panel-list">
 
+        {% for item in wishlist_items %}
         <li class="panel-item">
-          <a href="./product-details.html" class="panel-card">
+          <div class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/home/product-small-1.jpg" width="46" height="46" loading="lazy"
+              <img src="/media/{{item.product.product_images.first.image}}" width="46" height="46" loading="lazy"
                 alt="Bright Side Vegetarian">
             </figure>
 
             <div>
-              <p class="item-title">Bright Side Vegetarian</p>
-
-              <span class="item-value">$20.15x1</span>
+              <a href="{% url 'product' item.product.slug %}" class="item-title">{{item.product.name}}</a>
+              <span class="item-value">₹{{ item.product.price }}</span>
             </div>
 
-            <button class="item-close-btn" aria-label="Remove item">
+            <a href="{% url 'addToWishlist' item.product.uuid %}" class="item-close-btn" aria-label="Remove item">
               <ion-icon name="close-outline"></ion-icon>
-            </button>
+            </a>
 
-          </a>
+
+          </div>
         </li>
-
-        <li class="panel-item">
-          <a href="./product-details.html" class="panel-card">
-
-            <figure class="item-banner">
-              <img src="/media/images/home/product-small-2.jpg" width="46" height="46" loading="lazy"
-                alt="Eco Vegetable">
-            </figure>
-
-            <div>
-              <p class="item-title">Eco Vegetable</p>
-
-              <span class="item-value">$13.25x2</span>
-            </div>
-
-            <button class="item-close-btn" aria-label="Remove item">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-          </a>
-        </li>
-
-        <li class="panel-item">
-          <a href="./product-details.html" class="panel-card">
-
-            <figure class="item-banner">
-              <img src="/media/images/home/product-small-3.jpg" width="46" height="46" loading="lazy"
-                alt="House of Veggies">
-            </figure>
-
-            <div>
-              <p class="item-title">House of Veggies</p>
-
-              <span class="item-value">$20.15x1</span>
-            </div>
-
-            <button class="item-close-btn" aria-label="Remove item">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-          </a>
-        </li>
-
+        {% endfor %}
       </ul>
-
-      <div class="subtotal">
-        <p class="subtotal-text">Subtotal:</p>
-
-        <data class="subtotal-value" value="215.14">$215.14</data>
-      </div>
-
-      <a href="./whishlist.html" class="panel-btn">View Whishlist</a>
 
     </div>
 
@@ -227,54 +178,37 @@
 
       <ul class="panel-list">
 
+        {% for item in cart_items %}
         <li class="panel-item">
-          <a href="./product-details.html" class="panel-card">
+          <div href="{% url 'product' item.product.slug %}" class="panel-card">
 
             <figure class="item-banner">
-              <img src="/media/images/home/product-small-1.jpg" width="46" height="46" loading="lazy"
+              <img src="/media/{{item.product.product_images.first.image }}" width="46" height="46" loading="lazy"
                 alt="Bright Side Vegetarian">
             </figure>
 
             <div>
-              <p class="item-title">Bright Side Vegetarian</p>
+              <a href="{% url 'product' item.product.slug %}" class="item-title">{{ item.product.name }}</a>
 
-              <span class="item-value">$20.15x1</span>
+              <span class="item-value">₹{{ item.product.price }} × {{ item.quantity }}</span>
             </div>
 
-            <button class="item-close-btn" aria-label="Remove item">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
+            <form method="POST" action="{% url 'removeFromCart' item.product.uuid %}" class="cart-form">
+              {% csrf_token %}
+              <button type="submit" class="item-close-btn" aria-label="Remove item">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+            </form>
+          </div>
 
-          </a>
         </li>
-
-        <li class="panel-item">
-          <a href="./product-details.html" class="panel-card">
-
-            <figure class="item-banner">
-              <img src="/media/images/home/product-small-2.jpg" width="46" height="46" loading="lazy"
-                alt="Eco Vegetable">
-            </figure>
-
-            <div>
-              <p class="item-title">Eco Vegetable</p>
-
-              <span class="item-value">$13.25x2</span>
-            </div>
-
-            <button class="item-close-btn" aria-label="Remove item">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-          </a>
-        </li>
-
+        {% endfor %}
       </ul>
 
       <div class="subtotal">
         <p class="subtotal-text">Subtotal:</p>
 
-        <data class="subtotal-value" value="215.14">$215.14</data>
+        <data class="subtotal-value" value="215.14">₹{{cart_total}}</data>
       </div>
 
       <a href="./cart.html" class="panel-btn">View Cart</a>
