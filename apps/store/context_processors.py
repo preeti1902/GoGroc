@@ -7,7 +7,7 @@ def cart_items_context(request):
         cart = Cart.objects.filter(user=request.user, is_paid=False).first()
         if cart:
             cart_items = cart.cart_items.select_related("product").all()
-            cart_total = cart.total_price()
+            cart_total = cart.get_cart_total_without_discount()
     return {
         'cart_items': cart_items,
         'cart_total': cart_total

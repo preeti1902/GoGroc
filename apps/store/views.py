@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
-from .models import Product, Category, Cart, CartItem, Wishlist, Coupon
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+import razorpay
+
+from apnabazar import settings
+from .models import Product, Category, Cart, CartItem, Wishlist, Coupon ,Address
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
 
@@ -41,47 +45,77 @@ def getProducts(request):
 
 @login_required
 def cartPage(request):
-    cart_obj = None
-    try:
-        cart_obj = Cart.objects.get(is_paid=False, user=request.user)
-    except Cart.DoesNotExist:
-        cart_obj = None
+    cart_obj = Cart.objects.filter(is_paid=False, user=request.user).first()
+    coupons = Coupon.objects.all()
 
     if request.method == 'POST':
-        coupon = request.POST.get('coupon')
-        coupon_obj = Coupon.objects.filter(coupon_code__icontains=coupon)
-
-        if not coupon_obj.exists():
-            messages.warning(request, 'Coupon Invalid')
+        if 'remove_coupon' in request.POST:
+            if cart_obj:
+                cart_obj.coupon = None
+                cart_obj.save()
+                messages.success(request, "Coupon removed successfully.")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        if cart_obj and cart_obj.coupon:
-            messages.warning(request, 'Coupon Already Exist')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        coupon_code = request.POST.get('coupon')
+        coupon_obj = Coupon.objects.filter(coupon_code__iexact=coupon_code).first()
 
-        if cart_obj and cart_obj.get_cart_total() < coupon_obj[0].minimum_amount:
-            messages.warning(request, f'Amount should be greater than {coupon_obj[0].minimum_amount}')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if not coupon_obj:
+            messages.warning(request, 'Invalid Coupon')
+        elif cart_obj and cart_obj.coupon:
+            messages.warning(request, 'Coupon already applied')
+        elif coupon_obj.is_expired:
+            messages.warning(request, 'Coupon expired')
+        elif cart_obj and cart_obj.get_cart_total_without_discount() < coupon_obj.minimum_amount:
+            messages.warning(request, f'Minimum amount should be Rs {coupon_obj.minimum_amount}')
+        else:
+            cart_obj.coupon = coupon_obj
+            cart_obj.save()
+            messages.success(request, 'Coupon applied successfully.')
 
-        if coupon_obj[0].is_expired:
-            messages.warning(request, 'Coupon Expired')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-        cart_obj.coupon = coupon_obj[0]
-        cart_obj.save()
-        messages.success(request, 'Coupon Applied')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    print("Cart Object:", cart_obj.get_cart_total())
+    
+    if cart_obj and cart_obj.cart_items.exists():
+        client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
+        try:
+            amount = int(float(cart_obj.get_cart_total()) * 100)
+            if amount <= 0:
+                messages.warning(request, "Cart total is too low to proceed with payment.")
+                payment = None
+            else:
+                payment = client.order.create({
+                    'amount': amount,
+                    'currency': 'INR',
+                    'payment_capture': 1
+                })
+                cart_obj.razor_pay_order_id = payment['id']
+                cart_obj.save()
+                print("Razorpay Order ID:", payment['id'])
+        except Exception as e:
+            messages.error(request, f"Payment gateway error: {str(e)}")
+            payment = None
+    else:
+        messages.warning(request, 'Please Add Something to your cart')
+        payment = None
 
-    # Fetch all addresses of the user
     addresses = request.user.addresses.all()
-
     context = {
         'cart': cart_obj,
-        'addresses': addresses  # Pass addresses to the template
+        'addresses': addresses,
+        'coupons': coupons,
+        'payment':payment,
     }
     return render(request, 'store/cart.html', context)
 
-
+def success(request):
+    order_id = request.GET.get('razorpay_order_id')
+    try:
+        cart = Cart.objects.get(razor_pay_order_id=order_id)
+        cart.is_paid = True
+        cart.save()
+        return HttpResponseRedirect(request.path_info)
+    except Cart.DoesNotExist:
+        return HttpResponse("Invalid payment reference", status=400)
 
 @login_required
 def dashboard(request):
@@ -108,8 +142,8 @@ def addToCart(request, uuid):
     quantity = int(request.POST.get("quantity", 1))
 
     cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
 
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
         cart_item.quantity += quantity
     else:
@@ -151,3 +185,40 @@ def orderPage(request):
 @login_required
 def productOrder(request):
     return render(request, 'store/order.html')
+
+@login_required
+def addAddress(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        mobile = request.POST.get('mobile')
+
+        house_no = request.POST.get('house_no')
+        apartment_name = request.POST.get('apartment_name')
+        street_details = request.POST.get('street_details')
+        landmark = request.POST.get('landmark')
+
+        full_address = f"{house_no}, {apartment_name}, {street_details}, {landmark}"
+
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        zip_code = request.POST.get('zip_code')
+        address_type = request.POST.get('address_type', 'home')
+
+        Address.objects.create(
+            user=request.user,
+            first_name=first_name,
+            last_name=last_name,
+            mobile=mobile,
+            address=full_address,
+            city=city,
+            state=state,
+            country="India",
+            zip_code=zip_code,
+            address_type=address_type
+        )
+        messages.success(request, "Address saved successfully!")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    messages.warning(request, "Invalid request method.")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

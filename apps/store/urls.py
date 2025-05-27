@@ -3,6 +3,8 @@ from django.urls import path
 
 urlpatterns = [
     path('cart/', cartPage, name='cartPage'),
+    path('success/', success, name='success'),
+    path('add-address/', addAddress, name='addAddress'),
     path('dashboard/', dashboard, name='dashboard'),
     path('orders/', orderPage, name='orderPage'),
     path('orders/orderId/', productOrder, name='productOrder'),
