@@ -1,7 +1,9 @@
+import uuid
 from django.db import models
 from ..base.models import BaseModel
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from apps.accounts.models import Address
 
 class Category(BaseModel):
     name = models.CharField(max_length=255, unique=True)
@@ -99,32 +101,71 @@ class Wishlist(BaseModel):
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"
 
+class Order(BaseModel):
+    ORDER_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
+    ]
+
+    PAYMENT_METHOD_CHOICES = [
+        ('cod', 'Cash on Delivery'),
+        ('razorpay', 'Razorpay'),
+        ('upi', 'UPI'),
+        ('card', 'Credit/Debit Card'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
+    products = models.ManyToManyField(Product, through="OrderProduct")
+    
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='cod')
+
+    transaction_id = models.CharField(max_length=255, blank=True, null=True)
+    delivery_instructions = models.TextField(blank=True, null=True)
+    is_completed = models.BooleanField(default=False)
+    order_number = models.CharField(max_length=100, unique=True, blank=True)
+
+    def calculate_total(self):
+        return sum([op.total_price() for op in self.orderproduct_set.all()])
+
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = f"ORD{uuid.uuid4().hex[:10].upper()}"
+        self.total = self.calculate_total()
+        super(Order, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Order #{self.uuid} by {self.user.username} - ₹{self.total}"
+
 class OrderProduct(BaseModel):
-    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    price_at_order = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def total_price(self):
-        return self.quantity * self.product.price
+        return self.quantity * self.price_at_order
 
-    def save(self,*args,**kwargs):
+    def save(self, *args, **kwargs):
+        if not self.price_at_order:
+            self.price_at_order = self.product.price
         if self.quantity < 1:
             self.delete()
-        super(OrderProduct, self).save(*args,**kwargs)
+        super(OrderProduct, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.order.user.username} - {self.product.name} ({self.quantity})"
-
-class Order(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
-    products = models.ManyToManyField(Product, through="OrderProduct")
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    is_completed = models.BooleanField(default=False)
-
-    def save(self,*args,**kwargs):
-        self.total = sum([product.price for product in self.products.all()])
-        super(Order, self).save(*args,**kwargs)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.total}"
 

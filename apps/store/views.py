@@ -44,34 +44,44 @@ def cartPage(request):
     cart_obj = None
     try:
         cart_obj = Cart.objects.get(is_paid=False, user=request.user)
-    except Exception as e:
-        print(e)
+    except Cart.DoesNotExist:
+        cart_obj = None
+
     if request.method == 'POST':
         coupon = request.POST.get('coupon')
         coupon_obj = Coupon.objects.filter(coupon_code__icontains=coupon)
-        
+
         if not coupon_obj.exists():
             messages.warning(request, 'Coupon Invalid')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
-        if cart_obj.coupon:
+
+        if cart_obj and cart_obj.coupon:
             messages.warning(request, 'Coupon Already Exist')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
-        if cart_obj.get_cart_total() < coupon_obj[0].minimum_amount:
+
+        if cart_obj and cart_obj.get_cart_total() < coupon_obj[0].minimum_amount:
             messages.warning(request, f'Amount should be greater than {coupon_obj[0].minimum_amount}')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
+
         if coupon_obj[0].is_expired:
             messages.warning(request, 'Coupon Expired')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-             
+
         cart_obj.coupon = coupon_obj[0]
         cart_obj.save()
         messages.success(request, 'Coupon Applied')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    context = {'cart': cart_obj}
+
+    # Fetch all addresses of the user
+    addresses = request.user.addresses.all()
+
+    context = {
+        'cart': cart_obj,
+        'addresses': addresses  # Pass addresses to the template
+    }
     return render(request, 'store/cart.html', context)
+
+
 
 @login_required
 def dashboard(request):

@@ -5,7 +5,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 from ..base.emails import sendAccountActivationEmail
-from apps.store.models import CartItem
 
 class Address(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
