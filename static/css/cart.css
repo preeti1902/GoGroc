@@ -2,16 +2,15 @@
 .cart-main {
     padding-top: 20px;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+    background: var(--mint-cream);
 }
 
 .cart-container {
     display: flex;
     max-width: 1200px;
-    margin: 30px auto;
     gap: 20px;
     flex-wrap: wrap;
-    padding: 0 20px;
+    padding: 40px 20px;
 }
 
 .form-section {
@@ -228,6 +227,8 @@
     flex: 1;
     min-width: 320px;
     max-width: 400px;
+    position: relative;
+    left: 25%;
 }
 
 /* GoGroc Header Styles - Fixed */
