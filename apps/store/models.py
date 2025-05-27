@@ -4,6 +4,7 @@ from ..base.models import BaseModel
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from apps.accounts.models import Address
+from django.db.models import Q
 
 class Category(BaseModel):
     name = models.CharField(max_length=255, unique=True)
@@ -52,25 +53,34 @@ class Coupon(BaseModel):
         return self.coupon_code 
 
 class Cart(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cart")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart")
     coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
     is_paid = models.BooleanField(default=False)
-    razor_pay_order_id = models.CharField(max_length=100,null=True,blank=True)
-    razor_pay_payment_id = models.CharField(max_length=100,null=True,blank=True)
-    razor_pay_payment_signature = models.CharField(max_length=100,null=True,blank=True)
+    razor_pay_order_id = models.CharField(max_length=100, null=True, blank=True)
+    razor_pay_payment_id = models.CharField(max_length=100, null=True, blank=True)
+    razor_pay_payment_signature = models.CharField(max_length=100, null=True, blank=True)
 
     def get_discount_price(self):
         return self.coupon.discount_price if self.coupon else 0
-    
+
     def get_cart_total_without_discount(self):
-        total_price = sum(cart_item.get_product_price() for cart_item in self.cart_items.all())
+        return sum(cart_item.total_price() for cart_item in self.cart_items.all())
+
+    def get_cart_total(self):
+        total_price = self.get_cart_total_without_discount() - self.get_discount_price()
         return total_price
 
     def __str__(self):
         return f"{self.user.username}'s Cart"
-
-    def total_price(self):
-        return sum(item.total_price() for item in self.cart_items.all())
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user'],
+                condition=Q(is_paid=False),
+                name='unique_unpaid_cart_per_user'
+            )
+        ]
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items')

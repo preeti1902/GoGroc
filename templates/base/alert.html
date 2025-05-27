@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
+  <style>
+    /* Your custom styles go here */
+
+    /* Message box style */
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+
+    /* Close button style */
+    .close {
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1;
+      color: #000;
+      text-shadow: 0 1px 0 #fff;
+      opacity: 0.2;
+      transition: opacity 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <!-- Your content goes here -->
+
+    <!-- Message box -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-primary">
+          {{ message }}
+          <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+</body>
+</html>
