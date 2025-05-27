@@ -4,336 +4,303 @@
 {% endblock head %} 
 {% block main %}
 <div class="container">
-        <div class="header">
-            <h1>🛒 Order History</h1>
-            <p>Track and manage all your grocery orders</p>
-        </div>
-
-        <div class="stats">
-            <div class="stat-card">
-                <h3 id="total-orders">0</h3>
-                <p>Total Orders</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="delivered-orders">0</h3>
-                <p>Delivered</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="pending-orders">0</h3>
-                <p>Pending</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="total-savings">₹0</h3>
-                <p>Total Savings</p>
-            </div>
-        </div>
-
-        <div class="controls">
-            <div class="search-container">
-                <input type="text" class="search-input" id="search-input" placeholder="Search by order ID, customer name, or product...">
-                <span class="search-icon">🔍</span>
-            </div>
-            <div class="filter-container">
-                <select class="filter-select" id="status-filter">
-                    <option value="">All Status</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-                <select class="filter-select" id="date-filter">
-                    <option value="">All Time</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="orders-table-container">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Product</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-tbody">
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pagination" id="pagination"></div>
+    <!-- Header -->
+    <div class="order-header">
+      <div class="back-nav">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Orders</span>
+      </div>
+      <div class="order-id">
+        <h1>Order #GOG12345678</h1>
+        <span class="order-date">Placed on March 15, 2024</span>
+      </div>
     </div>
 
-    <script>
-        // Sample orders data
-        const ordersData = [
-            {
-                id: 'ORD-001',
-                customer: 'John Smith',
-                email: 'john@example.com',
-                product: 'Fresh Vegetables & Fruits',
-                date: '2024-12-15',
-                amount: 899.99,
-                savings: 150.00,
-                status: 'delivered',
-                address: '123 Main St, Mumbai, MH 400001',
-                phone: '+91 98765 43210'
-            },
-            {
-                id: 'ORD-002',
-                customer: 'Sarah Johnson',
-                email: 'sarah@example.com',
-                product: 'Rice & Pulses Combo',
-                date: '2024-12-14',
-                amount: 1299.99,
-                savings: 200.00,
-                status: 'processing',
-                address: '456 Oak Ave, Delhi, DL 110001',
-                phone: '+91 87654 32109'
-            },
-            {
-                id: 'ORD-003',
-                customer: 'Mike Wilson',
-                email: 'mike@example.com',
-                product: 'Dairy Products Pack',
-                date: '2024-12-13',
-                amount: 599.99,
-                savings: 75.00,
-                status: 'pending',
-                address: '789 Pine St, Bangalore, KA 560001',
-                phone: '+91 76543 21098'
-            },
-            {
-                id: 'ORD-004',
-                customer: 'Emma Brown',
-                email: 'emma@example.com',
-                product: 'Organic Grains & Cereals',
-                date: '2024-12-12',
-                amount: 799.99,
-                savings: 120.00,
-                status: 'delivered',
-                address: '321 Elm St, Chennai, TN 600001',
-                phone: '+91 65432 10987'
-            },
-            {
-                id: 'ORD-005',
-                customer: 'David Lee',
-                email: 'david@example.com',
-                product: 'Fresh Meat & Seafood',
-                date: '2024-12-11',
-                amount: 1499.99,
-                savings: 300.00,
-                status: 'cancelled',
-                address: '654 Maple Ave, Hyderabad, TS 500001',
-                phone: '+91 54321 09876'
-            },
-            {
-                id: 'ORD-006',
-                customer: 'Lisa Garcia',
-                email: 'lisa@example.com',
-                product: 'Spices & Condiments',
-                date: '2024-12-10',
-                amount: 349.99,
-                savings: 50.00,
-                status: 'delivered',
-                address: '987 Cedar Ln, Pune, MH 411001',
-                phone: '+91 43210 98765'
-            },
-            {
-                id: 'ORD-007',
-                customer: 'Robert Taylor',
-                email: 'robert@example.com',
-                product: 'Beverages & Juices',
-                date: '2024-12-09',
-                amount: 459.99,
-                savings: 80.00,
-                status: 'processing',
-                address: '147 Birch St, Kolkata, WB 700001',
-                phone: '+91 32109 87654'
-            },
-            {
-                id: 'ORD-008',
-                customer: 'Jennifer Davis',
-                email: 'jennifer@example.com',
-                product: 'Snacks & Bakery Items',
-                date: '2024-12-08',
-                amount: 699.99,
-                savings: 90.00,
-                status: 'pending',
-                address: '258 Spruce Ave, Ahmedabad, GJ 380001',
-                phone: '+91 21098 76543'
-            }
-        ];
+    <div class="main-content">
+      <!-- Left Section - Order Items and Details -->
+      <div class="left-section">
+        <!-- Order Items -->
+        <div class="items-section">
+          <h2>Items Ordered (3 items)</h2>
 
-        let filteredOrders = [...ordersData];
-        let currentPage = 1;
-        const ordersPerPage = 5;
+          <div class="item-card">
+            <div class="item-image">
+              <img src="https://via.placeholder.com/80x80/4CAF50/white?text=Apples" alt="Red Apples">
+            </div>
+            <div class="item-details">
+              <h4>Fresh Red Apples</h4>
+              <p>Brand: Farm Fresh | 1 kg</p>
+              <div class="item-price">
+                <span class="current-price">₹150</span>
+                <span class="original-price">₹180</span>
+                <span class="discount">16% OFF</span>
+              </div>
+              <div class="quantity">Qty: 2</div>
+            </div>
+            <div class="item-total">
+              <strong>₹300</strong>
+            </div>
+          </div>
 
-        // Initialize the page
-        function init() {
-            updateStats();
-            renderOrders();
-            setupEventListeners();
+          <div class="item-card">
+            <div class="item-image">
+              <img src="https://via.placeholder.com/80x80/FF9800/white?text=Bread" alt="Whole Wheat Bread">
+            </div>
+            <div class="item-details">
+              <h4>Whole Wheat Bread</h4>
+              <p>Brand: Daily Fresh | 400g</p>
+              <div class="item-price">
+                <span class="current-price">₹45</span>
+                <span class="original-price">₹50</span>
+                <span class="discount">10% OFF</span>
+              </div>
+              <div class="quantity">Qty: 1</div>
+            </div>
+            <div class="item-total">
+              <strong>₹45</strong>
+            </div>
+          </div>
+
+          <div class="item-card">
+            <div class="item-image">
+              <img src="https://via.placeholder.com/80x80/2196F3/white?text=Milk" alt="Fresh Milk">
+            </div>
+            <div class="item-details">
+              <h4>Fresh Toned Milk</h4>
+              <p>Brand: Pure Dairy | 1 Litre</p>
+              <div class="item-price">
+                <span class="current-price">₹55</span>
+              </div>
+              <div class="quantity">Qty: 1</div>
+            </div>
+            <div class="item-total">
+              <strong>₹55</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Status Timeline -->
+        <div class="status-section">
+          <div class="status-header">
+            <h2>Order Status</h2>
+            <span class="status-badge delivered">Delivered</span>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item completed">
+              <div class="timeline-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Order Confirmed</h4>
+                <p>March 15, 2024 at 2:30 PM</p>
+                <span>Your order has been confirmed and is being prepared</span>
+              </div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-icon">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Order Packed</h4>
+                <p>March 15, 2024 at 4:15 PM</p>
+                <span>Your order has been packed and ready for pickup</span>
+              </div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Out for Delivery</h4>
+                <p>March 16, 2024 at 9:00 AM</p>
+                <span>Your order is out for delivery</span>
+              </div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Delivered</h4>
+                <p>March 16, 2024 at 2:45 PM</p>
+                <span>Order delivered successfully to your address</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Details -->
+        <div class="delivery-section">
+          <h2>Delivery Details</h2>
+          <div class="delivery-card">
+            <div class="delivery-address">
+              <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+              <div class="address-details">
+                <strong>John Doe</strong><br>
+                +91 9876543210<br>
+                123, ABC Apartment, 2nd Floor<br>
+                100 Feet Road, Koramangala<br>
+                Bangalore, Karnataka - 560095
+              </div>
+            </div>
+            <div class="delivery-info">
+              <div class="info-item">
+                <strong>Delivery Partner:</strong>
+                <span>GoGroc Express</span>
+              </div>
+              <div class="info-item">
+                <strong>Delivery Boy:</strong>
+                <span>Ramesh Kumar (+91 9988776655)</span>
+              </div>
+              <div class="info-item">
+                <strong>Delivery Time:</strong>
+                <span>March 16, 2024 at 2:45 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+          <button class="btn secondary">
+            <i class="fas fa-download"></i>
+            Download Invoice
+          </button>
+          <button class="btn secondary">
+            <i class="fas fa-headset"></i>
+            Need Help?
+          </button>
+          <button class="btn primary">
+            <i class="fas fa-redo"></i>
+            Reorder Items
+          </button>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="info-section">
+          <div class="info-card">
+            <h4><i class="fas fa-shield-alt"></i> Return & Exchange Policy</h4>
+            <p>Items can be returned within 24 hours of delivery for fresh products. Packaged goods can be returned
+              within 7 days if unopened.</p>
+          </div>
+
+          <div class="info-card">
+            <h4><i class="fas fa-star"></i> Rate Your Experience</h4>
+            <p>Help us improve by rating your delivery experience and product quality.</p>
+            <div class="rating" id="star-rating">
+              <i class="fa-star far" data-rating="1"></i>
+              <i class="fa-star far" data-rating="2"></i>
+              <i class="fa-star far" data-rating="3"></i>
+              <i class="fa-star far" data-rating="4"></i>
+              <i class="fa-star far" data-rating="5"></i>
+              <span id="rating-value">4.0/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Section - Payment Summary -->
+      <div class="right-section">
+        <div class="payment-summary-wrapper">
+          <div class="gogroc-header">
+            <img src="images\WhatsApp Image 2025-02-18 at 21.59.46_97d398d2.jpg" alt="gogroc logo"
+              class="gogroc-logo" />
+            <button class="join-btn">JOIN NOW</button>
+            <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
+          </div>
+
+          <div class="payment-section">
+            <h3>Payment Summary</h3>
+
+            <div class="payment-summary">
+              <div class="summary-row">
+                <span>Items Total (3 items)</span>
+                <span>₹400</span>
+              </div>
+              <div class="summary-row">
+                <span>Delivery Charges</span>
+                <span>₹30</span>
+              </div>
+              <div class="summary-row discount">
+                <span>Discount Applied</span>
+                <span>-₹30</span>
+              </div>
+
+              <div class="summary-row total">
+                <span>Total Amount Paid</span>
+                <span>₹350</span>
+              </div>
+            </div>
+
+            <div class="payment-method">
+              <div class="method-info">
+                <i class="fas fa-credit-card"></i>
+                <div>
+                  <strong>Payment Method</strong>
+                  <p>UPI - Google Pay</p>
+                  <p class="upi-id">@okaxis</p>
+                </div>
+              </div>
+              <div class="transaction-id">
+                <strong>Transaction ID:</strong>
+                <span>TXN123456789ABC</span>
+              </div>
+            </div>
+
+            <p class="savings">Your Total Savings ₹30</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add any interactive functionality here
+    document.querySelector('.back-nav').addEventListener('click', function () {
+      // Navigate back to orders page
+      console.log('Navigate back to orders');
+    });
+
+    // Add click handlers for action buttons
+    document.querySelectorAll('.btn').forEach(button => {
+      button.addEventListener('click', function (e) {
+        const action = this.textContent.trim();
+        console.log(`Action clicked: ${action}`);
+      });
+    });
+
+    //handling ratings
+    const stars = document.querySelectorAll('#star-rating i');
+    const ratingValue = document.getElementById('rating-value');
+    let currentRating = 4;
+
+    function updateStars(rating) {
+      stars.forEach(star => {
+        const value = parseInt(star.getAttribute('data-rating'));
+        if (value <= rating) {
+          star.classList.remove('far');
+          star.classList.add('fas');
+        } else {
+          star.classList.remove('fas');
+          star.classList.add('far');
         }
+      });
+      ratingValue.textContent = `${rating}.0/5`;
+    }
 
-        // Update statistics
-        function updateStats() {
-            const totalOrders = ordersData.length;
-            const deliveredOrders = ordersData.filter(order => order.status === 'delivered').length;
-            const pendingOrders = ordersData.filter(order => order.status === 'pending').length;
-            const totalSavings = ordersData.reduce((sum, order) => sum + order.savings, 0);
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        currentRating = parseInt(star.getAttribute('data-rating'));
+        updateStars(currentRating);
+      });
+    });
 
-            document.getElementById('total-orders').textContent = totalOrders;
-            document.getElementById('delivered-orders').textContent = deliveredOrders;
-            document.getElementById('pending-orders').textContent = pendingOrders;
-            document.getElementById('total-savings').textContent = `₹${totalSavings.toFixed(2)}`;
-        }
+    // Initial star fill
+    updateStars(currentRating);
 
-        // Render orders table
-        function renderOrders() {
-            const tbody = document.getElementById('orders-tbody');
-            const startIndex = (currentPage - 1) * ordersPerPage;
-            const endIndex = startIndex + ordersPerPage;
-            const ordersToShow = filteredOrders.slice(startIndex, endIndex);
-
-            if (ordersToShow.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="no-orders">No orders found</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = ordersToShow.map(order => `
-                <tr>
-                    <td><strong>${order.id}</strong></td>
-                    <td>${order.customer}</td>
-                    <td>${order.product}</td>
-                    <td>${formatDate(order.date)}</td>
-                    <td><strong>₹${order.amount.toFixed(2)}</strong></td>
-                    <td><span class="status ${order.status}">${order.status}</span></td>
-                    <td>
-                        <button class="action-btn view-btn" onclick="viewOrder('${order.id}')">👁️</button>
-                    </td>
-                </tr>
-            `).join('');
-
-            renderPagination();
-        }
-
-        // Render pagination
-        function renderPagination() {
-            const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
-            const pagination = document.getElementById('pagination');
-            
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-
-            let paginationHTML = '';
-            
-            // Previous button
-            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
-            
-            // Page numbers
-            for (let i = 1; i <= totalPages; i++) {
-                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-                    paginationHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-                } else if (i === currentPage - 3 || i === currentPage + 3) {
-                    paginationHTML += '<span>...</span>';
-                }
-            }
-            
-            // Next button
-            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
-            
-            pagination.innerHTML = paginationHTML;
-        }
-
-        // Change page
-        function changePage(page) {
-            const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
-            if (page >= 1 && page <= totalPages) {
-                currentPage = page;
-                renderOrders();
-            }
-        }
-
-        // Format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        // Filter orders
-        function filterOrders() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const statusFilter = document.getElementById('status-filter').value;
-            const dateFilter = document.getElementById('date-filter').value;
-
-            filteredOrders = ordersData.filter(order => {
-                const matchesSearch = order.id.toLowerCase().includes(searchTerm) ||
-                                    order.customer.toLowerCase().includes(searchTerm) ||
-                                    order.product.toLowerCase().includes(searchTerm);
-                
-                const matchesStatus = !statusFilter || order.status === statusFilter;
-                
-                let matchesDate = true;
-                if (dateFilter) {
-                    const orderDate = new Date(order.date);
-                    const today = new Date();
-                    
-                    switch (dateFilter) {
-                        case 'today':
-                            matchesDate = orderDate.toDateString() === today.toDateString();
-                            break;
-                        case 'week':
-                            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-                            matchesDate = orderDate >= weekAgo;
-                            break;
-                        case 'month':
-                            const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-                            matchesDate = orderDate >= monthAgo;
-                            break;
-                    }
-                }
-
-                return matchesSearch && matchesStatus && matchesDate;
-            });
-
-            currentPage = 1;
-            renderOrders();
-        }
-
-        // View order - redirect to order details page
-        function viewOrder(orderId) {
-            // Redirect to order details page with order ID as parameter
-            // You can customize this URL based on your routing setup
-            window.location.href = `order-details.html?id=${orderId}`;
-            
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            const searchInput = document.getElementById('search-input');
-            const statusFilter = document.getElementById('status-filter');
-            const dateFilter = document.getElementById('date-filter');
-
-            searchInput.addEventListener('input', filterOrders);
-            statusFilter.addEventListener('change', filterOrders);
-            dateFilter.addEventListener('change', filterOrders);
-        }
-
-        // Initialize the application
-        init();
-    </script>
+  </script>
 {% endblock main %}
