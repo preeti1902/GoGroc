@@ -9,7 +9,7 @@ body {
     background: #f9f7f2;
 }
 
-.header {
+.product-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,15 +22,15 @@ body {
     color: #1c3c2f;
 }
 
-.nav a,
-.login,
-.cart {
+.product-nav a,
+.product-login,
+.product-cart {
     margin-left: 1rem;
     text-decoration: none;
     color: #333;
 }
 
-.search {
+.product-search {
     margin-left: 1rem;
     padding: 0.5rem;
 }
