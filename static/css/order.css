@@ -318,19 +318,20 @@ body {
 }
 
 .info-item {
-    display: flex;
-    justify-content: space-between;
+    display: block;
     margin-bottom: 10px;
     padding: 8px 0;
 }
 
 .info-item strong {
     color: #333;
+    display: block;
+    margin: 4px;
 }
 
 .info-item span {
     color: #666;
-    text-align: right;
+    display: block;
 }
 
 /* Action Section */
@@ -419,8 +420,11 @@ body {
 }
 
 .rating i {
-    color: #FFD700;
-    font-size: 16px;
+  cursor: pointer;
+  font-size: 20px;
+ color: #FFD700;
+
+  transition: color 0.3s;
 }
 
 .rating span {
