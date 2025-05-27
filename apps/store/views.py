@@ -120,3 +120,11 @@ def addToWishlist(request, uuid):
         Wishlist.objects.create(user=user, product=product)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def orderPage(request):
+    return render(request, 'store/orders.html')
+
+@login_required
+def productOrder(request):
+    return render(request, 'store/order.html')
