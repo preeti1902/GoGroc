@@ -3,204 +3,200 @@
 <link rel="stylesheet" href="/media/css/cart.css" />
 {% endblock head %} 
 {% block main %}
-<main>
-    <div class="container">
-        <div class="form-section">
-            <h2>Delivery Address</h2>
-            
-            <!-- Existing Addresses Section -->
-            <div class="existing-addresses">
-                <h3>Select Existing Address</h3>
-                <div class="address-options">
-                    <div class="address-card">
-                        <input type="radio" name="address" id="home-address" />
-                        <label for="home-address" class="address-label">
-                            <div class="address-nickname">HOME</div>
-                            <div class="address-details">
-                                <strong>John Doe</strong><br>
-                                +91 9876543210<br>
-                                123, ABC Apartment<br>
-                                100 Feet Road, Koramangala<br>
-                                Bangalore - 560095
-                            </div>
-                        </label>
+<main class="cart-main">
+        <div class="cart-container">
+            <div class="form-section">
+                <h2>Delivery Address</h2>
+                
+                <!-- Existing Addresses Section -->
+                <div class="existing-addresses">
+                    <h3>Select Existing Address</h3>
+                    <div class="address-options">
+                        <div class="address-card">
+                            <input type="radio" name="address" id="home-address" />
+                            <label for="home-address" class="address-label">
+                                <div class="address-nickname">HOME</div>
+                                <div class="address-details">
+                                    <strong>John Doe</strong><br>
+                                    +91 9876543210<br>
+                                    123, ABC Apartment<br>
+                                    100 Feet Road, Koramangala<br>
+                                    Bangalore - 560095
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="address-card">
+                            <input type="radio" name="address" id="office-address" />
+                            <label for="office-address" class="address-label">
+                                <div class="address-nickname">OFFICE</div>
+                                <div class="address-details">
+                                    <strong>John Doe</strong><br>
+                                    +91 9876543210<br>
+                                    456, Tech Park<br>
+                                    Outer Ring Road, Marathahalli<br>
+                                    Bangalore - 560037
+                                </div>
+                            </label>
+                        </div>
                     </div>
                     
-                    <div class="address-card">
-                        <input type="radio" name="address" id="office-address" />
-                        <label for="office-address" class="address-label">
-                            <div class="address-nickname">OFFICE</div>
-                            <div class="address-details">
-                                <strong>John Doe</strong><br>
-                                +91 9876543210<br>
-                                456, Tech Park<br>
-                                Outer Ring Road, Marathahalli<br>
-                                Bangalore - 560037
+                    <button class="add-new-address-btn" onclick="toggleAddressForm()">
+                        + Add New Address
+                    </button>
+                </div>
+
+                <!-- Add New Address Form -->
+                <div class="add-address-form" id="add-address-form" style="display: none;">
+                    <h3>Add New Address</h3>
+                    <div class="delivery-details">
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label>First Name</label>
+                                <input type="text" placeholder="Enter first name" />
                             </div>
-                        </label>
+                            <div class="flex-col">
+                                <label>Last Name</label>
+                                <input type="text" placeholder="Enter last name" />
+                            </div>
+                            <div class="flex-col">
+                                <label>Contact Number</label>
+                                <input type="text" placeholder="Enter contact number" />
+                            </div>
+                        </div>
+
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label>House No</label>
+                                <input type="text" />
+                            </div>
+                            <div class="flex-col">
+                                <label>Apartment Name</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label>Street Details</label>
+                                <input type="text" />
+                            </div>
+                            <div class="flex-col">
+                                <label>Landmark</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label>City</label>
+                                <select>
+                                    <option>Bangalore</option>
+                                </select>
+                            </div>
+                            <div class="flex-col">
+                                <label>Area</label>
+                                <input type="text" placeholder="Enter area" />
+                            </div>
+                            <div class="flex-col">
+                                <label>Pincode</label>
+                                <input type="text" placeholder="Enter pincode" />
+                            </div>
+                        </div>
+
+                        <label>Choose nick name for this address:</label>
+                        <div class="nickname-buttons">
+                            <button type="button" class="nickname-btn active" onclick="selectNickname(this)">HOME</button>
+                            <button type="button" class="nickname-btn" onclick="selectNickname(this)">OFFICE</button>
+                            <button type="button" class="nickname-btn" onclick="selectNickname(this)">OTHER</button>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn cancel-btn" onclick="toggleAddressForm()">CANCEL</button>
+                            <button type="button" class="btn save-btn">SAVE ADDRESS</button>
+                        </div>
                     </div>
                 </div>
-                
-                <button class="add-new-address-btn" onclick="toggleAddressForm()">
-                    + Add New Address
-                </button>
-            </div>
 
-            <!-- Add New Address Form -->
-            <div class="add-address-form" id="add-address-form" style="display: none;">
-                <h3>Add New Address</h3>
-                <div class="delivery-details">
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label>First Name</label>
-                            <input type="text" placeholder="Enter first name" />
-                        </div>
-                        <div class="flex-col">
-                            <label>Last Name</label>
-                            <input type="text" placeholder="Enter last name" />
-                        </div>
-                        <div class="flex-col">
-                            <label>Contact Number</label>
-                            <input type="text" placeholder="Enter contact number" />
-                        </div>
+                <!-- Delivery Options -->
+                <div class="collapsible">
+                    <div class="dropdown" onclick="toggleDropdown('delivery-options')">
+                        <strong>Delivery Options</strong>
                     </div>
-
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label>House No</label>
-                            <input type="text" />
-                        </div>
-                        <div class="flex-col">
-                            <label>Apartment Name</label>
-                            <input type="text" />
-                        </div>
-                    </div>
-
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label>Street Details</label>
-                            <input type="text" />
-                        </div>
-                        <div class="flex-col">
-                            <label>Landmark</label>
-                            <input type="text" />
-                        </div>
-                    </div>
-
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label>City</label>
-                            <select>
-                                <option>Bangalore</option>
-                            </select>
-                        </div>
-                        <div class="flex-col">
-                            <label>Area</label>
-                            <input type="text" placeholder="Enter area" />
-                        </div>
-                        <div class="flex-col">
-                            <label>Pincode</label>
-                            <input type="text" placeholder="Enter pincode" />
-                        </div>
-                    </div>
-
-                    <label>Choose nick name for this address:</label>
-                    <div class="nickname-buttons">
-                        <button type="button" class="nickname-btn active" onclick="selectNickname(this)">HOME</button>
-                        <button type="button" class="nickname-btn" onclick="selectNickname(this)">OFFICE</button>
-                        <button type="button" class="nickname-btn" onclick="selectNickname(this)">OTHER</button>
-                    </div>
-
-                    <div class="form-buttons">
-                        <button type="button" class="btn cancel-btn" onclick="toggleAddressForm()">CANCEL</button>
-                        <button type="button" class="btn">SAVE ADDRESS</button>
+                    <div class="options" id="delivery-options">
+                        <label><input type="radio" name="delivery" /> Standard Delivery (Free, 3-5 days)</label>
+                        <label><input type="radio" name="delivery" /> Express Delivery (₹50, 1-2 days)</label>
+                        <label><input type="radio" name="delivery" /> Same Day Delivery (₹100)</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Delivery Options -->
-            <div class="collapsible">
-                <div class="dropdown" onclick="toggleDropdown('delivery-options')">
-                    <strong>Delivery Options</strong>
-                </div>
-                <div class="options" id="delivery-options">
-                    <label><input type="radio" name="delivery" /> Standard Delivery (Free, 3–5 days)</label><br />
-                    <label><input type="radio" name="delivery" /> Express Delivery (₹50, 1–2 days)</label><br />
-                    <label><input type="radio" name="delivery" /> Same Day Delivery (₹100)</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Summary -->
-        <div class="summary-wrapper">
-            <div class="gogroc-header">
-                <img src="images\WhatsApp Image 2025-02-18 at 21.59.46_97d398d2.jpg" alt="gogroc logo"
-                    class="gogroc-logo" />
-                <button class="join-btn">JOIN NOW</button>
-                <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
-            </div>
-
-            <div class="summary-section">
-                <h3>Order Summary</h3>
-
-                <div class="voucher-box">
-                    <input type="text" placeholder="Enter voucher code" />
-                    <button class="btn">APPLY</button>
-                    <p><a href="#">You have 8 vouchers available</a></p>
+            <!-- Right Summary -->
+            <div class="summary-wrapper">
+                <div class="gogroc-header">
+                    <div class="gogroc-logo">
+                        <img id="logoimg" src="logo.jpg" alt="">
+                    </div>
+                    <button class="join-btn">JOIN NOW</button>
+                    <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
                 </div>
 
-                <div class="summary-line">
-                    <span>Basket Value</span>
-                    <span>Rs 110</span>
-                </div>
+                <div class="summary-section">
+                    <h3>Order Summary</h3>
 
-                <div class="summary-line">
-                    <span>Delivery Charge</span>
-                    <span>Rs 50</span>
-                </div>
+                    <div class="voucher-box">
+                        <input type="text" placeholder="Enter voucher code" />
+                        <button class="btn apply-btn">APPLY</button>
+                        <p><a href="#">You have 8 vouchers available</a></p>
+                    </div>
 
-                <div class="summary-line">
-                    <span>Voucher Discount</span>
-                    <a href="#">Apply Voucher</a>
-                </div>
+                    <div class="summary-line">
+                        <span>Basket Value</span>
+                        <span>Rs 110</span>
+                    </div>
 
-                <div class="summary-line">
-                    <span><input type="checkbox" checked /></span><span class="Wallet">Used from GoGroc Wallet</span>
-                    <span>Rs 0</span>
-                </div>
+                    <div class="summary-line">
+                        <span>Delivery Charge</span>
+                        <span>Rs 50</span>
+                    </div>
 
-                <div class="summary-line total">
-                    <span>Total Amount Payable</span>
-                    <span>Rs 160</span>
+                    <div class="summary-line">
+                        <span>Voucher Discount</span>
+                        <a href="#">Apply Voucher</a>
+                    </div>
+
+                    <div class="summary-line total">
+                        <span>Total Amount Payable</span>
+                        <span>Rs 160</span>
+                    </div>
+                    
+                    <p class="savings">Your Total Savings Rs 22.50</p>
+                    
+                    <button class="checkout-btn">PROCEED TO CHECKOUT</button>
                 </div>
-                <p class="savings">Your Total Savings Rs 22.50</p>
-                
-                <button class="checkout-btn">PROCEED TO CHECKOUT</button>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<script>
-function toggleDropdown(id) {
-    const options = document.getElementById(id);
-    options.classList.toggle('show');
-}
+    <script>
+        function toggleDropdown(id) {
+            const options = document.getElementById(id);
+            options.classList.toggle('show');
+        }
 
-function toggleAddressForm() {
-    const form = document.getElementById('add-address-form');
-    const isVisible = form.style.display !== 'none';
-    form.style.display = isVisible ? 'none' : 'block';
-}
+        function toggleAddressForm() {
+            const form = document.getElementById('add-address-form');
+            const isVisible = form.style.display !== 'none';
+            form.style.display = isVisible ? 'none' : 'block';
+        }
 
-function selectNickname(button) {
-    // Remove active class from all nickname buttons
-    const buttons = document.querySelectorAll('.nickname-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    
-    // Add active class to clicked button
-    button.classList.add('active');
-}
-</script>
-
+        function selectNickname(button) {
+            // Remove active class from all nickname buttons
+            const buttons = document.querySelectorAll('.nickname-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+        }
+    </script>
 {% endblock main %}

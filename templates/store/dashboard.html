@@ -1,77 +1,1047 @@
-{% extends "base/base.html" %}
-
-{% block head %}
-<link rel="stylesheet" href="/media/css/dashboard.css">
-{% endblock head %}
-
-{% block main %}
-<main>
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>Change Password</h2>
-            <ul>
-                <li class="active"><i class="fas fa-th"></i> Dashboard</li>
-                <li><i class="fas fa-user"></i> Personal Info</li>
-                <li><i class="fas fa-credit-card"></i> Payment Method</li>
-                <li><i class="fas fa-shopping-cart"></i> Order</li>
-                <li><i class="fas fa-heart"></i> Wishlist</li>
-                <li><i class="fas fa-map-marker-alt"></i> Address</li>
-                <li><i class="fas fa-star"></i> Reviews</li>
-                <li><i class="fas fa-lock"></i> Change Password</li>
-                <li><i class="fas fa-life-ring"></i> Support Ticket</li>
-                <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-            </ul>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="navbar">
-                <h1>Hello, Sajjad</h1>
-                <div class="toggle-switch">
-                    <span>Switch Dashboard</span>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </header>
-
-            <!-- Stats Cards -->
-            <section class="cards">
-                <div class="card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>New Orders</h3>
-                    <p>656</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-truck"></i>
-                    <h3>Delivery Completed</h3>
-                    <p>99,783</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-headset"></i>
-                    <h3>Support Tickets</h3>
-                    <p>09</p>
-                </div>
-            </section>
-
-            <!-- Personal Info -->
-            <section class="info-section">
-                <div class="info-box">
-                    <h3>Personal Information</h3>
-                    <p><strong>Name:</strong> Sajjad</p>
-                    <p><strong>Email:</strong> demoemail@gmail.com</p>
-                    <p><strong>Phone:</strong> 023 434 54354</p>
-                </div>
-                <div class="info-box">
-                    <h3>Shop Information</h3>
-                    <p><strong>Name:</strong> EcoShop Super-Shop</p>
-                    <p><strong>Email:</strong> demoemail@gmail.com</p>
-                    <p><strong>Phone:</strong> 023 434 54354</p>
-                </div>
-            </section>
-        </main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+ 
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-title">Grocery administration</div>
+        <div class="admin-nav">
+            <span>WELCOME, ADMIN</span>
+            <a href="#">VIEW SITE</a>
+            <a href="#">CHANGE PASSWORD</a>
+            <a href="#">LOG OUT</a>
+        </div>
     </div>
-</main>
-{% endblock main %}
+
+    <div class="breadcrumb">
+        <a href="#">Home</a> › <a href="#">Store</a> › <a href="#">Categories</a> › Dashboard
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">Accounts</div>
+                <ul class="sidebar-items">
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('users')">
+                            Users
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('profiles')">
+                            Profiles
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('groups')">
+                            Groups
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">Store Management</div>
+                <ul class="sidebar-items">
+                    <li class="sidebar-item active">
+                        <a href="#" onclick="showTab('products')">
+                            Products
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('categories')">
+                            Categories
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('orders')">
+                            Orders
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('coupons')">
+                            Coupons
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('inventory')">
+                            Inventory
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">Delivery Management</div>
+                <ul class="sidebar-items">
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('drivers')">
+                            Drivers
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('delivery-zones')">
+                            Delivery Zones
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('delivery-schedule')">
+                            Delivery Schedule
+                            <button class="add-btn">+ Add</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">Analytics & Reports</div>
+                <ul class="sidebar-items">
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('sales-reports')">
+                            Sales Reports
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('customer-analytics')">
+                            Customer Analytics
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" onclick="showTab('inventory-reports')">
+                            Inventory Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProducts">0</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalOrders">147</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCustomers">89</div>
+                    <div class="stat-label">Active Customers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRevenue">$12,450</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-content active">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">Product Management</h1>
+                        <p class="content-subtitle">Add and manage your grocery products</p>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="switchSubTab('add-product')">Add Product</button>
+                    <button class="tab" onclick="switchSubTab('manage-products')">Manage Products</button>
+                </div>
+
+                <div id="add-product" class="tab-content active">
+                    <form id="productForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" class="form-control" placeholder="Enter product name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <select id="productCategory" class="form-control" required>
+                                    <option value="">Select Category</option>
+                                    <option value="fruits">Fruits</option>
+                                    <option value="vegetables">Vegetables</option>
+                                    <option value="dairy">Dairy</option>
+                                    <option value="meat">Meat & Poultry</option>
+                                    <option value="seafood">Seafood</option>
+                                    <option value="bakery">Bakery</option>
+                                    <option value="beverages">Beverages</option>
+                                    <option value="snacks">Snacks</option>
+                                    <option value="frozen">Frozen Foods</option>
+                                    <option value="pantry">Pantry Staples</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productPrice">Price ($)</label>
+                                <input type="number" id="productPrice" class="form-control" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productStock">Stock Quantity</label>
+                                <input type="number" id="productStock" class="form-control" placeholder="0" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription">Description</label>
+                            <textarea id="productDescription" class="form-control" placeholder="Enter product description" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <div class="file-upload" onclick="document.getElementById('productImage').click()">
+                                <input type="file" id="productImage" accept="image/*">
+                                <div>📷 Click to upload image</div>
+                                <small>Drag and drop or click to select</small>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-success">Save Product</button>
+                            <button type="button" class="btn" onclick="document.getElementById('productForm').reset()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="manage-products" class="tab-content">
+                    <div class="form-group">
+                        <input type="text" class="form-control search-bar" placeholder="Search products..." id="productSearch">
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #718096;">No products added yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div id="categories-tab" class="tab-content">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">Category Management</h1>
+                        <p class="content-subtitle">Organize your products into categories</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" class="form-control" placeholder="Enter category name">
+                    </div>
+                    <div class="form-group">
+                        <label>Category Slug</label>
+                        <input type="text" class="form-control" placeholder="category-slug">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" placeholder="Category description"></textarea>
+                </div>
+
+                <button class="btn btn-success">Save Category</button>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">Order Management</h1>
+                        <p class="content-subtitle">Track and manage customer orders</p>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-001</td>
+                            <td>John Doe</td>
+                            <td>$45.99</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>2024-01-15</td>
+                            <td>
+                                <button class="btn btn-success">View</button>
+                                <button class="btn btn-danger">Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="tab-content">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">User Management</h1>
+                        <p class="content-subtitle">Manage customer accounts</p>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>johndoe</td>
+                            <td>john@example.com</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>2024-01-10</td>
+                            <td>
+                                <button class="btn">Edit</button>
+                                <button class="btn btn-danger">Disable</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Other tabs content would go here -->
+            <div id="profiles-tab" class="tab-content">
+                <h1 class="content-title">Profile Management</h1>
+                <p>Manage user profiles and personal information.</p>
+            </div>
+
+            <div id="groups-tab" class="tab-content">
+                <h1 class="content-title">Group Management</h1>
+                <p>Organize users into groups with specific permissions.</p>
+            </div>
+
+            <div id="coupons-tab" class="tab-content">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">Coupon Management</h1>
+                        <p class="content-subtitle">Create and manage discount coupons</p>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="switchSubTab('add-coupon')">Add Coupon</button>
+                    <button class="tab" onclick="switchSubTab('manage-coupons')">Manage Coupons</button>
+                </div>
+
+                <div id="add-coupon" class="tab-content active">
+                    <form id="couponForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="couponName">Coupon Name</label>
+                                <input type="text" id="couponName" class="form-control" placeholder="e.g., Summer Sale 2024" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="couponCode">Coupon Code</label>
+                                <input type="text" id="couponCode" class="form-control" placeholder="e.g., SUMMER20" required style="text-transform: uppercase;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discountType">Discount Type</label>
+                                <select id="discountType" class="form-control" required>
+                                    <option value="">Select Discount Type</option>
+                                    <option value="percentage">Percentage (%)</option>
+                                    <option value="fixed">Fixed Amount ($)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discountValue">Discount Value</label>
+                                <input type="number" id="discountValue" class="form-control" placeholder="0" step="0.01" min="0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="minOrderAmount">Minimum Order Amount ($)</label>
+                                <input type="number" id="minOrderAmount" class="form-control" placeholder="0.00" step="0.01" min="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="maxDiscount">Maximum Discount Amount ($)</label>
+                                <input type="number" id="maxDiscount" class="form-control" placeholder="Optional" step="0.01" min="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="usageLimit">Usage Limit</label>
+                                <input type="number" id="usageLimit" class="form-control" placeholder="Unlimited if empty" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="userLimit">Usage Per User</label>
+                                <input type="number" id="userLimit" class="form-control" placeholder="1" min="1" value="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="datetime-local" id="startDate" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="datetime-local" id="endDate" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="couponDescription">Description</label>
+                            <textarea id="couponDescription" class="form-control" placeholder="Describe the coupon offer and terms" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="applicableCategories">Applicable Categories</label>
+                            <select id="applicableCategories" class="form-control" multiple>
+                                <option value="all">All Categories</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="dairy">Dairy</option>
+                                <option value="meat">Meat & Poultry</option>
+                                <option value="seafood">Seafood</option>
+                                <option value="bakery">Bakery</option>
+                                <option value="beverages">Beverages</option>
+                                <option value="snacks">Snacks</option>
+                                <option value="frozen">Frozen Foods</option>
+                                <option value="pantry">Pantry Staples</option>
+                            </select>
+                            <small style="color: #a0aec0;">Hold Ctrl/Cmd to select multiple categories</small>
+                        </div>
+
+                        <div style="display: flex; gap: 20px; margin: 20px 0;">
+                            <label style="display: flex; align-items: center; gap: 10px; color: #e2e8f0;">
+                                <input type="checkbox" id="isActive" checked>
+                                Active
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; color: #e2e8f0;">
+                                <input type="checkbox" id="firstTimeUser">
+                                First-time users only
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; color: #e2e8f0;">
+                                <input type="checkbox" id="freeShipping">
+                                Include free shipping
+                            </label>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-success">Create Coupon</button>
+                            <button type="button" class="btn" onclick="generateCouponCode()">Generate Code</button>
+                            <button type="button" class="btn" onclick="document.getElementById('couponForm').reset()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="manage-coupons" class="tab-content">
+                    <div class="form-group">
+                        <input type="text" class="form-control search-bar" placeholder="Search coupons..." id="couponSearch">
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Coupon Name</th>
+                                <th>Code</th>
+                                <th>Discount</th>
+                                <th>Usage</th>
+                                <th>Status</th>
+                                <th>Expires</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="couponsTableBody">
+                            <tr>
+                                <td>Welcome Offer</td>
+                                <td>WELCOME10</td>
+                                <td>10%</td>
+                                <td>45/100</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>2024-12-31</td>
+                                <td>
+                                    <button class="btn">Edit</button>
+                                    <button class="btn btn-danger">Disable</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Summer Sale</td>
+                                <td>SUMMER20</td>
+                                <td>$5</td>
+                                <td>12/50</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>2024-08-31</td>
+                                <td>
+                                    <button class="btn">Edit</button>
+                                    <button class="btn btn-danger">Disable</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Black Friday</td>
+                                <td>BLACKFRI30</td>
+                                <td>30%</td>
+                                <td>156/200</td>
+                                <td><span class="status-badge status-inactive">Expired</span></td>
+                                <td>2023-11-30</td>
+                                <td>
+                                    <button class="btn">View</button>
+                                    <button class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="inventory-tab" class="tab-content">
+                <h1 class="content-title">Inventory Management</h1>
+                <p>Track product stock levels and manage inventory.</p>
+            </div>
+
+            <div id="drivers-tab" class="tab-content">
+                <h1 class="content-title">Driver Management</h1>
+                <p>Manage delivery drivers and their schedules.</p>
+            </div>
+
+            <div id="delivery-zones-tab" class="tab-content">
+                <h1 class="content-title">Delivery Zones</h1>
+                <p>Configure delivery areas and zones.</p>
+            </div>
+
+            <div id="delivery-schedule-tab" class="tab-content">
+                <h1 class="content-title">Delivery Schedule</h1>
+                <p>Manage delivery time slots and schedules.</p>
+            </div>
+
+            <div id="sales-reports-tab" class="tab-content">
+                <h1 class="content-title">Sales Reports</h1>
+                <p>View detailed sales analytics and reports.</p>
+            </div>
+
+            <div id="customer-analytics-tab" class="tab-content">
+                <div class="content-header">
+                    <div>
+                        <h1 class="content-title">Customer Analytics</h1>
+                        <p class="content-subtitle">Analyze customer behavior and preferences</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">Total Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">67</div>
+                        <div class="stat-label">Active This Month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$125.50</div>
+                        <div class="stat-label">Avg Order Value</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">78%</div>
+                        <div class="stat-label">Retention Rate</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <div class="stat-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px; color: #e2e8f0;">Customer Growth</h3>
+                        <canvas id="customerGrowthChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="stat-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px; color: #e2e8f0;">Order Frequency</h3>
+                        <canvas id="orderFrequencyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div class="stat-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px; color: #e2e8f0;">Top Categories</h3>
+                        <canvas id="topCategoriesChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="stat-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px; color: #e2e8f0;">Customer Demographics</h3>
+                        <canvas id="demographicsChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inventory-reports-tab" class="tab-content">
+                <h1 class="content-title">Inventory Reports</h1>
+                <p>Track inventory levels and stock movements.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        let products = [];
+        let productIdCounter = 1;
+        let currentTab = 'products';
+        let coupons = [];
+        let couponIdCounter = 1;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            initializeCharts();
+            setDefaultDates();
+        });
+
+        // Initialize charts
+        function initializeCharts() {
+            // Customer Growth Chart
+            const growthCtx = document.getElementById('customerGrowthChart');
+            if (growthCtx) {
+                new Chart(growthCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'New Customers',
+                            data: [12, 19, 15, 25, 22, 30],
+                            borderColor: '#63b3ed',
+                            backgroundColor: 'rgba(99, 179, 237, 0.1)',
+                            tension: 0.4
+                        }, {
+                            label: 'Returning Customers',
+                            data: [8, 15, 18, 20, 25, 28],
+                            borderColor: '#38a169',
+                            backgroundColor: 'rgba(56, 161, 105, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e2e8f0' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(160, 174, 192, 0.2)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(160, 174, 192, 0.2)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Order Frequency Chart
+            const frequencyCtx = document.getElementById('orderFrequencyChart');
+            if (frequencyCtx) {
+                new Chart(frequencyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['1 Order', '2-5 Orders', '6-10 Orders', '10+ Orders'],
+                        datasets: [{
+                            label: 'Customers',
+                            data: [25, 35, 20, 9],
+                            backgroundColor: ['#e53e3e', '#d69e2e', '#38a169', '#63b3ed']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(160, 174, 192, 0.2)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(160, 174, 192, 0.2)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Top Categories Chart
+            const categoriesCtx = document.getElementById('topCategoriesChart');
+            if (categoriesCtx) {
+                new Chart(categoriesCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Fruits', 'Vegetables', 'Dairy', 'Meat', 'Beverages'],
+                        datasets: [{
+                            data: [30, 25, 20, 15, 10],
+                            backgroundColor: ['#38a169', '#63b3ed', '#d69e2e', '#e53e3e', '#805ad5']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#e2e8f0' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Demographics Chart
+            const demographicsCtx = document.getElementById('demographicsChart');
+            if (demographicsCtx) {
+                new Chart(demographicsCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['18-25', '26-35', '36-45', '46-60', '60+'],
+                        datasets: [{
+                            data: [15, 35, 25, 20, 5],
+                            backgroundColor: ['#63b3ed', '#38a169', '#d69e2e', '#e53e3e', '#805ad5']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#e2e8f0' }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Set default dates for coupon form
+        function setDefaultDates() {
+            const now = new Date();
+            const startDate = now.toISOString().slice(0, 16);
+            const endDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16);
+            
+            const startInput = document.getElementById('startDate');
+            const endInput = document.getElementById('endDate');
+            if (startInput) startInput.value = startDate;
+            if (endInput) endInput.value = endDate;
+        }
+
+        // Generate random coupon code
+        function generateCouponCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('couponCode').value = code;
+        }
+
+        // Coupon form submission
+        document.getElementById('couponForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedCategories = Array.from(document.getElementById('applicableCategories').selectedOptions)
+                .map(option => option.value);
+            
+            const couponData = {
+                id: couponIdCounter++,
+                name: document.getElementById('couponName').value,
+                code: document.getElementById('couponCode').value.toUpperCase(),
+                discountType: document.getElementById('discountType').value,
+                discountValue: parseFloat(document.getElementById('discountValue').value),
+                minOrderAmount: parseFloat(document.getElementById('minOrderAmount').value) || 0,
+                maxDiscount: parseFloat(document.getElementById('maxDiscount').value) || null,
+                usageLimit: parseInt(document.getElementById('usageLimit').value) || null,
+                userLimit: parseInt(document.getElementById('userLimit').value) || 1,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                description: document.getElementById('couponDescription').value,
+                applicableCategories: selectedCategories,
+                isActive: document.getElementById('isActive').checked,
+                firstTimeUser: document.getElementById('firstTimeUser').checked,
+                freeShipping: document.getElementById('freeShipping').checked,
+                usedCount: 0
+            };
+
+            addCoupon(couponData);
+            this.reset();
+            setDefaultDates();
+            
+            alert('Coupon created successfully!');
+        });
+
+        function addCoupon(couponData) {
+            coupons.push(couponData);
+            updateCouponsTable();
+        }
+
+        function updateCouponsTable() {
+            const tbody = document.getElementById('couponsTableBody');
+            
+            if (coupons.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #718096;">No coupons created yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = coupons.map(coupon => {
+                const discount = coupon.discountType === 'percentage' 
+                    ? `${coupon.discountValue}%` 
+                    : `${coupon.discountValue}`;
+                
+                const usage = coupon.usageLimit 
+                    ? `${coupon.usedCount}/${coupon.usageLimit}`
+                    : `${coupon.usedCount}/∞`;
+                
+                const endDate = new Date(coupon.endDate);
+                const isExpired = endDate < new Date();
+                const status = !coupon.isActive ? 'Inactive' : (isExpired ? 'Expired' : 'Active');
+                const statusClass = !coupon.isActive ? 'status-inactive' : (isExpired ? 'status-inactive' : 'status-active');
+                
+                return `
+                    <tr>
+                        <td>${coupon.name}</td>
+                        <td><strong>${coupon.code}</strong></td>
+                        <td>${discount}</td>
+                        <td>${usage}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td>${endDate.toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn" onclick="editCoupon(${coupon.id})">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteCoupon(${coupon.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function deleteCoupon(id) {
+            if (confirm('Are you sure you want to delete this coupon?')) {
+                coupons = coupons.filter(c => c.id !== id);
+                updateCouponsTable();
+            }
+        }
+
+        function editCoupon(id) {
+            alert('Edit coupon functionality would be implemented here');
+        }
+
+        // Convert coupon code to uppercase as user types
+        document.getElementById('couponCode').addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase();
+        });
+
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked sidebar item
+            event.target.closest('.sidebar-item').classList.add('active');
+            
+            currentTab = tabName;
+            
+            // Initialize charts when customer analytics tab is shown
+            if (tabName === 'customer-analytics') {
+                setTimeout(initializeCharts, 100);
+            }
+        }
+
+        // Sub-tab switching within main tabs
+        function switchSubTab(subTabName) {
+            // Remove active class from all sub-tabs in current section
+            const currentSection = document.getElementById(currentTab + '-tab');
+            currentSection.querySelectorAll('.tabs .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            currentSection.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab and show content
+            event.target.classList.add('active');
+            document.getElementById(subTabName).classList.add('active');
+        }
+
+        // Product form submission
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: productIdCounter++,
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                description: document.getElementById('productDescription').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                image: document.getElementById('productImage').files[0],
+                status: 'Active'
+            };
+
+            addProduct(formData);
+            this.reset();
+            
+            // Show success message
+            alert('Product added successfully!');
+        });
+
+        function addProduct(productData) {
+            products.push(productData);
+            updateProductsTable();
+            updateStats();
+        }
+
+        function updateProductsTable() {
+            const tbody = document.getElementById('productsTableBody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #718096;">No products added yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.price.toFixed(2)}</td>
+                    <td>${product.stock}</td>
+                    <td><span class="status-badge status-active">${product.status}</span></td>
+                    <td>
+                        <button class="btn" onclick="editProduct(${product.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                updateProductsTable();
+                updateStats();
+            }
+        }
+
+        function editProduct(id) {
+            alert('Edit functionality would be implemented here');
+        }
+
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+        }
+
+        // Search functionality
+        document.getElementById('productSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update table with filtered results
+            const tbody = document.getElementById('productsTableBody');
+            if (filteredProducts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #718096;">No products found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredProducts.map(product => `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.price.toFixed(2)}</td>
+                    <td>${product.stock}</td>
+                    <td><span class="status-badge status-active">${product.status}</span></td>
+                    <td>
+                        <button class="btn" onclick="editProduct(${product.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        });
+   
+
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+        }
+
+        // Search functionality
+        document.getElementById('productSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update table with filtered results
+            const tbody = document.getElementById('productsTableBody');
+            if (filteredProducts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #718096;">No products found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredProducts.map(product => `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>$${product.price.toFixed(2)}</td>
+                    <td>${product.stock}</td>
+                    <td><span class="status-badge status-active">${product.status}</span></td>
+                    <td>
+                        <button class="btn" onclick="editProduct(${product.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        });
+    </script>
+</body>
