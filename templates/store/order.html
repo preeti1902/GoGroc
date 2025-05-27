@@ -1,263 +1,267 @@
 {% extends "base/base.html" %} 
+
 {% block head %}
-<link rel="stylesheet" href="/media/css/order.css" />
+<link rel="stylesheet" href="/media/css/order.css">
 {% endblock head %} 
+
 {% block main %}
-    <div class="container">
+
+<div class="order-page">
+    <div class="order-container">
     <!-- Header -->
-    <div class="order-header">
-      <div class="back-nav">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back to Orders</span>
-      </div>
-      <div class="order-id">
-        <h1>Order #GOG12345678</h1>
-        <span class="order-date">Placed on March 15, 2024</span>
-      </div>
-    </div>
-
-    <div class="main-content">
-      <!-- Left Section - Order Items and Details -->
-      <div class="left-section">
-        <!-- Order Items -->
-        <div class="items-section">
-          <h2>Items Ordered (3 items)</h2>
-
-          <div class="item-card">
-            <div class="item-image">
-              <img src="https://via.placeholder.com/80x80/4CAF50/white?text=Apples" alt="Red Apples">
-            </div>
-            <div class="item-details">
-              <h4>Fresh Red Apples</h4>
-              <p>Brand: Farm Fresh | 1 kg</p>
-              <div class="item-price">
-                <span class="current-price">₹150</span>
-                <span class="original-price">₹180</span>
-                <span class="discount">16% OFF</span>
-              </div>
-              <div class="quantity">Qty: 2</div>
-            </div>
-            <div class="item-total">
-              <strong>₹300</strong>
-            </div>
-          </div>
-
-          <div class="item-card">
-            <div class="item-image">
-              <img src="https://via.placeholder.com/80x80/FF9800/white?text=Bread" alt="Whole Wheat Bread">
-            </div>
-            <div class="item-details">
-              <h4>Whole Wheat Bread</h4>
-              <p>Brand: Daily Fresh | 400g</p>
-              <div class="item-price">
-                <span class="current-price">₹45</span>
-                <span class="original-price">₹50</span>
-                <span class="discount">10% OFF</span>
-              </div>
-              <div class="quantity">Qty: 1</div>
-            </div>
-            <div class="item-total">
-              <strong>₹45</strong>
-            </div>
-          </div>
-
-          <div class="item-card">
-            <div class="item-image">
-              <img src="https://via.placeholder.com/80x80/2196F3/white?text=Milk" alt="Fresh Milk">
-            </div>
-            <div class="item-details">
-              <h4>Fresh Toned Milk</h4>
-              <p>Brand: Pure Dairy | 1 Litre</p>
-              <div class="item-price">
-                <span class="current-price">₹55</span>
-              </div>
-              <div class="quantity">Qty: 1</div>
-            </div>
-            <div class="item-total">
-              <strong>₹55</strong>
-            </div>
-          </div>
+      <div class="order-header">
+        <div class="back-nav">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Orders</span>
         </div>
-
-        <!-- Order Status Timeline -->
-        <div class="status-section">
-          <div class="status-header">
-            <h2>Order Status</h2>
-            <span class="status-badge delivered">Delivered</span>
-          </div>
-
-          <div class="timeline">
-            <div class="timeline-item completed">
-              <div class="timeline-icon">
-                <i class="fas fa-check-circle"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Order Confirmed</h4>
-                <p>March 15, 2024 at 2:30 PM</p>
-                <span>Your order has been confirmed and is being prepared</span>
-              </div>
-            </div>
-
-            <div class="timeline-item completed">
-              <div class="timeline-icon">
-                <i class="fas fa-box"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Order Packed</h4>
-                <p>March 15, 2024 at 4:15 PM</p>
-                <span>Your order has been packed and ready for pickup</span>
-              </div>
-            </div>
-
-            <div class="timeline-item completed">
-              <div class="timeline-icon">
-                <i class="fas fa-truck"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Out for Delivery</h4>
-                <p>March 16, 2024 at 9:00 AM</p>
-                <span>Your order is out for delivery</span>
-              </div>
-            </div>
-
-            <div class="timeline-item completed">
-              <div class="timeline-icon">
-                <i class="fas fa-home"></i>
-              </div>
-              <div class="timeline-content">
-                <h4>Delivered</h4>
-                <p>March 16, 2024 at 2:45 PM</p>
-                <span>Order delivered successfully to your address</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Delivery Details -->
-        <div class="delivery-section">
-          <h2>Delivery Details</h2>
-          <div class="delivery-card">
-            <div class="delivery-address">
-              <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
-              <div class="address-details">
-                <strong>John Doe</strong><br>
-                +91 9876543210<br>
-                123, ABC Apartment, 2nd Floor<br>
-                100 Feet Road, Koramangala<br>
-                Bangalore, Karnataka - 560095
-              </div>
-            </div>
-            <div class="delivery-info">
-              <div class="info-item">
-                <strong>Delivery Partner:</strong>
-                <span>GoGroc Express</span>
-              </div>
-              <div class="info-item">
-                <strong>Delivery Boy:</strong>
-                <span>Ramesh Kumar (+91 9988776655)</span>
-              </div>
-              <div class="info-item">
-                <strong>Delivery Time:</strong>
-                <span>March 16, 2024 at 2:45 PM</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-section">
-          <button class="btn secondary">
-            <i class="fas fa-download"></i>
-            Download Invoice
-          </button>
-          <button class="btn secondary">
-            <i class="fas fa-headset"></i>
-            Need Help?
-          </button>
-          <button class="btn primary">
-            <i class="fas fa-redo"></i>
-            Reorder Items
-          </button>
-        </div>
-
-        <!-- Additional Info -->
-        <div class="info-section">
-          <div class="info-card">
-            <h4><i class="fas fa-shield-alt"></i> Return & Exchange Policy</h4>
-            <p>Items can be returned within 24 hours of delivery for fresh products. Packaged goods can be returned
-              within 7 days if unopened.</p>
-          </div>
-
-          <div class="info-card">
-            <h4><i class="fas fa-star"></i> Rate Your Experience</h4>
-            <p>Help us improve by rating your delivery experience and product quality.</p>
-            <div class="rating" id="star-rating">
-              <i class="fa-star far" data-rating="1"></i>
-              <i class="fa-star far" data-rating="2"></i>
-              <i class="fa-star far" data-rating="3"></i>
-              <i class="fa-star far" data-rating="4"></i>
-              <i class="fa-star far" data-rating="5"></i>
-              <span id="rating-value">4.0/5</span>
-            </div>
-          </div>
+        <div class="order-id">
+          <h1>Order #GOG12345678</h1>
+          <span class="order-date">Placed on March 15, 2024</span>
         </div>
       </div>
 
-      <!-- Right Section - Payment Summary -->
-      <div class="right-section">
-        <div class="payment-summary-wrapper">
-          <div class="gogroc-header">
-            <img src="images\WhatsApp Image 2025-02-18 at 21.59.46_97d398d2.jpg" alt="gogroc logo"
-              class="gogroc-logo" />
-            <button class="join-btn">JOIN NOW</button>
-            <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
-          </div>
+      <div class="main-content">
+        <!-- Left Section - Order Items and Details -->
+        <div class="left-section">
+          <!-- Order Items -->
+          <div class="items-section">
+            <h2>Items Ordered (3 items)</h2>
 
-          <div class="payment-section">
-            <h3>Payment Summary</h3>
-
-            <div class="payment-summary">
-              <div class="summary-row">
-                <span>Items Total (3 items)</span>
-                <span>₹400</span>
+            <div class="item-card">
+              <div class="item-image">
+                <img src="https://via.placeholder.com/80x80/4CAF50/white?text=Apples" alt="Red Apples">
               </div>
-              <div class="summary-row">
-                <span>Delivery Charges</span>
-                <span>₹30</span>
+              <div class="item-details">
+                <h4>Fresh Red Apples</h4>
+                <p>Brand: Farm Fresh | 1 kg</p>
+                <div class="item-price">
+                  <span class="current-price">₹150</span>
+                  <span class="original-price">₹180</span>
+                  <span class="discount">16% OFF</span>
+                </div>
+                <div class="quantity">Qty: 2</div>
               </div>
-              <div class="summary-row discount">
-                <span>Discount Applied</span>
-                <span>-₹30</span>
-              </div>
-
-              <div class="summary-row total">
-                <span>Total Amount Paid</span>
-                <span>₹350</span>
+              <div class="item-total">
+                <strong>₹300</strong>
               </div>
             </div>
 
-            <div class="payment-method">
-              <div class="method-info">
-                <i class="fas fa-credit-card"></i>
-                <div>
-                  <strong>Payment Method</strong>
-                  <p>UPI - Google Pay</p>
-                  <p class="upi-id">@okaxis</p>
+            <div class="item-card">
+              <div class="item-image">
+                <img src="https://via.placeholder.com/80x80/FF9800/white?text=Bread" alt="Whole Wheat Bread">
+              </div>
+              <div class="item-details">
+                <h4>Whole Wheat Bread</h4>
+                <p>Brand: Daily Fresh | 400g</p>
+                <div class="item-price">
+                  <span class="current-price">₹45</span>
+                  <span class="original-price">₹50</span>
+                  <span class="discount">10% OFF</span>
+                </div>
+                <div class="quantity">Qty: 1</div>
+              </div>
+              <div class="item-total">
+                <strong>₹45</strong>
+              </div>
+            </div>
+
+            <div class="item-card">
+              <div class="item-image">
+                <img src="https://via.placeholder.com/80x80/2196F3/white?text=Milk" alt="Fresh Milk">
+              </div>
+              <div class="item-details">
+                <h4>Fresh Toned Milk</h4>
+                <p>Brand: Pure Dairy | 1 Litre</p>
+                <div class="item-price">
+                  <span class="current-price">₹55</span>
+                </div>
+                <div class="quantity">Qty: 1</div>
+              </div>
+              <div class="item-total">
+                <strong>₹55</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Status Timeline -->
+          <div class="status-section">
+            <div class="status-header">
+              <h2>Order Status</h2>
+              <span class="status-badge delivered">Delivered</span>
+            </div>
+
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4>Order Confirmed</h4>
+                  <p>March 15, 2024 at 2:30 PM</p>
+                  <span>Your order has been confirmed and is being prepared</span>
                 </div>
               </div>
-              <div class="transaction-id">
-                <strong>Transaction ID:</strong>
-                <span>TXN123456789ABC</span>
+
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-box"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4>Order Packed</h4>
+                  <p>March 15, 2024 at 4:15 PM</p>
+                  <span>Your order has been packed and ready for pickup</span>
+                </div>
+              </div>
+
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-truck"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4>Out for Delivery</h4>
+                  <p>March 16, 2024 at 9:00 AM</p>
+                  <span>Your order is out for delivery</span>
+                </div>
+              </div>
+
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-home"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4>Delivered</h4>
+                  <p>March 16, 2024 at 2:45 PM</p>
+                  <span>Order delivered successfully to your address</span>
+                </div>
               </div>
             </div>
+          </div>
 
-            <p class="savings">Your Total Savings ₹30</p>
+          <!-- Delivery Details -->
+          <div class="delivery-section">
+            <h2>Delivery Details</h2>
+            <div class="delivery-card">
+              <div class="delivery-address">
+                <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+                <div class="address-details">
+                  <strong>John Doe</strong><br>
+                  +91 9876543210<br>
+                  123, ABC Apartment, 2nd Floor<br>
+                  100 Feet Road, Koramangala<br>
+                  Bangalore, Karnataka - 560095
+                </div>
+              </div>
+              <div class="delivery-info">
+                <div class="info-item">
+                  <strong>Delivery Partner:</strong>
+                  <span>GoGroc Express</span>
+                </div>
+                <div class="info-item">
+                  <strong>Delivery Boy:</strong>
+                  <span>Ramesh Kumar (+91 9988776655)</span>
+                </div>
+                <div class="info-item">
+                  <strong>Delivery Time:</strong>
+                  <span>March 16, 2024 at 2:45 PM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-section">
+            <button class="btn secondary">
+              <i class="fas fa-download"></i>
+              Download Invoice
+            </button>
+            <button class="btn secondary">
+              <i class="fas fa-headset"></i>
+              Need Help?
+            </button>
+            <button class="btn primary">
+              <i class="fas fa-redo"></i>
+              Reorder Items
+            </button>
+          </div>
+
+          <!-- Additional Info -->
+          <div class="info-section">
+            <div class="info-card">
+              <h4><i class="fas fa-shield-alt"></i> Return & Exchange Policy</h4>
+              <p>Items can be returned within 24 hours of delivery for fresh products. Packaged goods can be returned
+                within 7 days if unopened.</p>
+            </div>
+
+            <div class="info-card">
+              <h4><i class="fas fa-star"></i> Rate Your Experience</h4>
+              <p>Help us improve by rating your delivery experience and product quality.</p>
+              <div class="rating" id="star-rating">
+                <i class="fa-star far" data-rating="1"></i>
+                <i class="fa-star far" data-rating="2"></i>
+                <i class="fa-star far" data-rating="3"></i>
+                <i class="fa-star far" data-rating="4"></i>
+                <i class="fa-star far" data-rating="5"></i>
+                <span id="rating-value">4.0/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Section - Payment Summary -->
+        <div class="right-section">
+          <div class="payment-summary-wrapper">
+            <div class="gogroc-header">
+              <img src="images\WhatsApp Image 2025-02-18 at 21.59.46_97d398d2.jpg" alt="gogroc logo"
+                class="gogroc-logo" />
+              <button class="join-btn">JOIN NOW</button>
+              <p class="join-subtext">Avail Free Deliveries, Cashback and More</p>
+            </div>
+
+            <div class="payment-section">
+              <h3>Payment Summary</h3>
+
+              <div class="payment-summary">
+                <div class="summary-row">
+                  <span>Items Total (3 items)</span>
+                  <span>₹400</span>
+                </div>
+                <div class="summary-row">
+                  <span>Delivery Charges</span>
+                  <span>₹30</span>
+                </div>
+                <div class="summary-row discount">
+                  <span>Discount Applied</span>
+                  <span>-₹30</span>
+                </div>
+
+                <div class="summary-row total">
+                  <span>Total Amount Paid</span>
+                  <span>₹350</span>
+                </div>
+              </div>
+
+              <div class="payment-method">
+                <div class="method-info">
+                  <i class="fas fa-credit-card"></i>
+                  <div>
+                    <strong>Payment Method</strong>
+                    <p>UPI - Google Pay</p>
+                    <p class="upi-id">@okaxis</p>
+                  </div>
+                </div>
+                <div class="transaction-id">
+                  <strong>Transaction ID:</strong>
+                  <span>TXN123456789ABC</span>
+                </div>
+              </div>
+
+              <p class="savings">Your Total Savings ₹30</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
-
+</div>
   <script>
     // Add any interactive functionality here
     document.querySelector('.back-nav').addEventListener('click', function () {

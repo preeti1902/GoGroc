@@ -11,7 +11,7 @@
             padding: 20px;
         }
 
-        .container {
+        .order-container {
             max-width: 1200px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
@@ -21,7 +21,14 @@
             backdrop-filter: blur(10px);
         }
 
-        .header {
+        .order-page {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+        }
+        
+        .order-header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;

@@ -1,7 +1,7 @@
 from .models import Cart, Wishlist
 
 def cart_items_context(request):
-    cart_items = []
+    cart_items = Cart.objects.none()
     cart_total = 0
     if request.user.is_authenticated:
         cart = Cart.objects.filter(user=request.user, is_paid=False).first()
@@ -14,7 +14,7 @@ def cart_items_context(request):
     }
 
 def wishlist_context(request):
-    wishlist_items = []
+    wishlist_items = Wishlist.objects.none()
     if request.user.is_authenticated:
         wishlist_items = Wishlist.objects.filter(user=request.user).select_related("product")
     return {
