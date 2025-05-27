@@ -154,7 +154,7 @@ class OrderProduct(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    price_at_order = models.DecimalField(max_digits=10, decimal_places=2)
+    price_at_order = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def total_price(self):
         return self.quantity * self.price_at_order
