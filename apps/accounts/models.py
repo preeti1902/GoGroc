@@ -7,6 +7,24 @@ import uuid
 from ..base.emails import sendAccountActivationEmail
 from apps.store.models import CartItem
 
+class Address(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=20)
+    address = models.TextField()
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=20)
+    address_type = models.CharField(max_length=50, choices=[
+        ('home', 'Home'),
+        ('work', 'Work'),
+        ('other', 'Other')
+    ], default='home')
+
+    def __str__(self):
+        return f"Address of {self.first_name} {self.last_name} ({self.address_type}) of {self.user.username}"
 
 class Profile(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
@@ -26,7 +44,6 @@ class ProfileImage(BaseModel):
 
     def __str__(self):
         return f"Profile Image of {self.profile.user.username}"
-
 
 @receiver(post_save , sender = User)
 def sendEmailToken(sender , instance , created , **kwargs):
