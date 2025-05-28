@@ -1,10 +1,10 @@
-{% extends "base/base.html" %} 
+{% extends "base/base.html" %}
 {% block head %}
 <link rel="stylesheet" href="/media/css/orders.css">
-{% endblock head %} 
+{% endblock head %}
 {% block main %}
 <main class="orders-main">
-  <div class="container">
+    <div class="container">
         <div class="header">
             <h1>🛒 Order History</h1>
             <p>Track and manage all your grocery orders</p>
@@ -31,7 +31,8 @@
 
         <div class="controls">
             <div class="search-container">
-                <input type="text" class="search-input" id="search-input" placeholder="Search by order ID, customer name, or product...">
+                <input type="text" class="search-input" id="search-input"
+                    placeholder="Search by order ID, customer name, or product...">
                 <span class="search-icon">🔍</span>
             </div>
             <div class="filter-container">
@@ -230,17 +231,17 @@
         function renderPagination() {
             const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
             const pagination = document.getElementById('pagination');
-            
+
             if (totalPages <= 1) {
                 pagination.innerHTML = '';
                 return;
             }
 
             let paginationHTML = '';
-            
+
             // Previous button
             paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
-            
+
             // Page numbers
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
@@ -249,10 +250,10 @@
                     paginationHTML += '<span>...</span>';
                 }
             }
-            
+
             // Next button
             paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
-            
+
             pagination.innerHTML = paginationHTML;
         }
 
@@ -283,16 +284,16 @@
 
             filteredOrders = ordersData.filter(order => {
                 const matchesSearch = order.id.toLowerCase().includes(searchTerm) ||
-                                    order.customer.toLowerCase().includes(searchTerm) ||
-                                    order.product.toLowerCase().includes(searchTerm);
-                
+                    order.customer.toLowerCase().includes(searchTerm) ||
+                    order.product.toLowerCase().includes(searchTerm);
+
                 const matchesStatus = !statusFilter || order.status === statusFilter;
-                
+
                 let matchesDate = true;
                 if (dateFilter) {
                     const orderDate = new Date(order.date);
                     const today = new Date();
-                    
+
                     switch (dateFilter) {
                         case 'today':
                             matchesDate = orderDate.toDateString() === today.toDateString();
@@ -320,7 +321,7 @@
             // Redirect to order details page with order ID as parameter
             // You can customize this URL based on your routing setup
             window.location.href = `order-details.html?id=${orderId}`;
-            
+
             // Alternative: If you want to open in a new tab/window
             // window.open(`order-details.html?id=${orderId}`, '_blank');
         }
@@ -340,5 +341,5 @@
         init();
     </script>
 </main>
-    
+
 {% endblock main %}
