@@ -9,7 +9,78 @@
   <div class="cart-container">
     <div class="form-section">
 
-      // make a container and add the products in the cart
+      <div class="cart-items-section">
+                <h2>Your Cart Items</h2>
+                <div class="cart-items-container">
+                    <!-- Sample cart items - these would come from backend -->
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product1.jpg" alt="Fresh Apples" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Fresh Red Apples</h4>
+                            <p class="item-description">Premium quality apples - 1kg pack</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹120</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(1, -1)">-</button>
+                                    <span class="quantity" id="qty-1">2</span>
+                                    <button class="qty-btn" onclick="updateQuantity(1, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹240</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(1)">×</button>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product2.jpg" alt="Fresh Bananas" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Organic Bananas</h4>
+                            <p class="item-description">Fresh organic bananas - 1 dozen</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹60</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(2, -1)">-</button>
+                                    <span class="quantity" id="qty-2">1</span>
+                                    <button class="qty-btn" onclick="updateQuantity(2, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹60</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(2)">×</button>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product3.jpg" alt="Milk" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Fresh Milk</h4>
+                            <p class="item-description">Farm fresh whole milk - 1L</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹55</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(3, -1)">-</button>
+                                    <span class="quantity" id="qty-3">2</span>
+                                    <button class="qty-btn" onclick="updateQuantity(3, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹110</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(3)">×</button>
+                    </div>
+                </div>
+
+                <div class="cart-subtotal">
+                    <div class="subtotal-line">
+                        <span>Subtotal (<span id="total-items">5</span> items)</span>
+                        <span class="subtotal-amount" id="subtotal-amount">₹410</span>
+                    </div>
+                </div>
+            </div>
 
       <h2>Delivery Address</h2>
       <ul class="existing-addresses">
