@@ -235,13 +235,12 @@ def orderPage(request):
                        for op in order_products if op.product.price > op.price_at_order])
         total_savings += savings
 
-        # Safely get address and phone if address exists
         address_text = order.address.address if order.address else ""
         phone_number = order.address.mobile if order.address else ""
 
         orders_list.append({
             "id": order.order_number,
-            "customer": f"{request.user.first_name} {request.user.last_name}",
+            "customer": f"{order.address.first_name} {order.address.last_name}" if order.address else "",
             "email": request.user.email,
             "product": product_names,
             "date": order.created_at.strftime("%Y-%m-%d"),

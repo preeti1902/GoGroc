@@ -58,7 +58,6 @@
                     <tr>
                         <th>Order ID</th>
                         <th>Customer</th>
-                        <th>Product</th>
                         <th>Date</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -107,7 +106,6 @@
             <tr>
                 <td><strong>${order.id}</strong></td>
                 <td>${order.customer}</td>
-                <td>${order.product}</td>
                 <td>${formatDate(order.date)}</td>
                 <td><strong>₹${order.amount.toFixed(2)}</strong></td>
                 <td><span class="status ${order.status}">${order.status}</span></td>
