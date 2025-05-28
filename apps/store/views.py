@@ -7,6 +7,7 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 def getProduct(request, slug):
     try:
@@ -130,7 +131,6 @@ def success(request):
             cart.save()
 
             address = Address.objects.get(uuid=address_id)
-            print("Address:", address)
             user = cart.user
 
             order = Order.objects.create(
@@ -221,7 +221,47 @@ def addToWishlist(request, uuid):
 
 @login_required
 def orderPage(request):
-    return render(request, 'store/orders.html')
+    user_orders = Order.objects.filter(user=request.user).prefetch_related('orderproduct_set__product')
+    total_orders = user_orders.count()
+    pending_orders = user_orders.filter(status='pending').count()
+    delivered_orders = user_orders.filter(status='delivered').count()
+    total_savings = 0
+
+    orders_list = []
+    for order in user_orders:
+        order_products = order.orderproduct_set.all()
+        product_names = ', '.join([op.product.name for op in order_products])
+        savings = sum([(op.product.price - op.price_at_order) * op.quantity 
+                       for op in order_products if op.product.price > op.price_at_order])
+        total_savings += savings
+
+        # Safely get address and phone if address exists
+        address_text = order.address.address if order.address else ""
+        phone_number = order.address.mobile if order.address else ""
+
+        orders_list.append({
+            "id": order.order_number,
+            "customer": f"{request.user.first_name} {request.user.last_name}",
+            "email": request.user.email,
+            "product": product_names,
+            "date": order.created_at.strftime("%Y-%m-%d"),
+            "amount": float(order.total),
+            "savings": float(savings),
+            "status": order.status,
+            "address": address_text,
+            "phone": phone_number
+        })
+
+    context = {
+        'orders_data': json.dumps(orders_list),
+        'total_orders': total_orders,
+        'pending_orders': pending_orders,
+        'delivered_orders': delivered_orders,
+        'total_savings': total_savings,
+    }
+
+    return render(request, 'store/orders.html', context)
+
 
 @login_required
 def productOrder(request):

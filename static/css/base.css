@@ -777,7 +777,7 @@ body {
   \*-----------------------------------*/
 
 .footer {
-    background-image: url("../images/hero-left-bg.png"), url("../images/hero-right-bg.png");
+    background-image: url("/media/images/home/hero-left-bg.png"), url("/media/images/home/hero-right-bg.png");
     background-color: var(--charleston-green);
     background-repeat: no-repeat, no-repeat;
     background-position: bottom left, top right;
