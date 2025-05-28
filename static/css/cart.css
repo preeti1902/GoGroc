@@ -15,6 +15,11 @@
     margin-bottom: 25px;
 }
 
+.cart-form {
+    display: inline;
+    position: initial;
+}
+
 .cart-item {
     display: flex;
     align-items: center;
