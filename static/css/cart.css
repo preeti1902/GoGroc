@@ -1,7 +1,7 @@
-* Cart Items Section Styles */
+
 .cart-items-section {
     margin-bottom: 40px;
-    padding: 25px;
+    padding: 10px 15px;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 12px;
     border: 1px solid #e9ecef;
@@ -249,15 +249,14 @@
 
 .cart-container {
     display: flex;
-    max-width: 1200px;
     gap: 20px;
     flex-wrap: wrap;
     padding: 40px 20px;
 }
 
 .form-section {
-    flex: 2;
-    min-width: 600px;
+    flex: 50;
+    min-width: 700px;
     background: #fff;
     padding: 20px;
     border: 1px solid #ddd;
@@ -473,13 +472,11 @@
     background: hsl(152, 95%, 25%) !important;
 }
 
-/* Summary Wrapper - Fixed Layout */
 .summary-wrapper {
-    flex: 1;
-    min-width: 320px;
-    max-width: 400px;
+    flex: 100;
+    min-width: 330px;
+    max-width: 450px;
     position: relative;
-    left: 25%;
 }
 
 /* GoGroc Header Styles - Fixed */

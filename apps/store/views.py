@@ -48,6 +48,10 @@ def cartPage(request):
     cart_obj = Cart.objects.filter(is_paid=False, user=request.user).first()
     coupons = Coupon.objects.all()
 
+    cart_products = []
+    if cart_obj:
+        cart_products = cart_obj.cart_items.select_related('product').all()
+
     if request.method == 'POST':
         if 'remove_coupon' in request.POST:
             if cart_obj:
@@ -106,11 +110,52 @@ def cartPage(request):
     addresses = request.user.addresses.all()
     context = {
         'cart': cart_obj,
+        'cart_products': cart_products,  # Add products in cart to context
         'addresses': addresses,
         'coupons': coupons,
         'payment': payment,
     }
     return render(request, 'store/cart.html', context)
+
+@login_required
+def update_cart_quantity(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'Invalid request method'})
+    item_uuid = request.POST.get('item_uuid')
+    delta = int(request.POST.get('delta', 0))
+
+    cart_item = CartItem.objects.filter(uuid=item_uuid, cart__user=request.user, cart__is_paid=False).first()
+    if not cart_item:
+        return JsonResponse({'success': False, 'message': 'Item not found'})
+
+    cart_item.quantity += delta
+    if cart_item.quantity <= 0:
+        cart_item.delete()
+        return JsonResponse({'success': True, 'removed': True})
+    else:
+        cart_item.save()
+        return JsonResponse({
+            'success': True,
+            'quantity': cart_item.quantity,
+            'total_price': cart_item.total_price(),
+            'item_id': cart_item.uuid,
+        })
+
+def get_cart_summary(request):
+    if request.user.is_authenticated:
+        try:
+            cart = Cart.objects.get(user=request.user, is_paid=False)  # or just .last() if no such flag
+        except Cart.DoesNotExist:
+            return JsonResponse({'subtotal': 0, 'discount': 0, 'total': 0})
+
+        data = {
+            'subtotal': cart.get_cart_total_without_discount(),
+            'discount': cart.get_discount_price(),
+            'total': cart.get_cart_total(),
+            'items_count': cart.get_products_count(),
+        }
+        return JsonResponse(data)
+    return JsonResponse({'error': 'Unauthorized'}, status=401)
 
 @csrf_exempt
 def success(request):

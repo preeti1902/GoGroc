@@ -73,6 +73,9 @@ class Cart(BaseModel):
     def __str__(self):
         return f"{self.user.username}'s Cart"
     
+    def get_products_count(self):
+        return self.cart_items.count()
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(

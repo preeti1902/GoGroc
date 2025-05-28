@@ -8,79 +8,44 @@
 <main class="cart-main">
   <div class="cart-container">
     <div class="form-section">
-
       <div class="cart-items-section">
-                <h2>Your Cart Items</h2>
-                <div class="cart-items-container">
-                    <!-- Sample cart items - these would come from backend -->
-                    <div class="cart-item">
-                        <div class="item-image">
-                            <img src="/media/images/product1.jpg" alt="Fresh Apples" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
-                        </div>
-                        <div class="item-details">
-                            <h4 class="item-name">Fresh Red Apples</h4>
-                            <p class="item-description">Premium quality apples - 1kg pack</p>
-                            <div class="item-price-quantity">
-                                <span class="item-price">₹120</span>
-                                <div class="quantity-controls">
-                                    <button class="qty-btn" onclick="updateQuantity(1, -1)">-</button>
-                                    <span class="quantity" id="qty-1">2</span>
-                                    <button class="qty-btn" onclick="updateQuantity(1, 1)">+</button>
-                                </div>
-                                <span class="item-total">₹240</span>
-                            </div>
-                        </div>
-                        <button class="remove-item" onclick="removeItem(1)">×</button>
-                    </div>
-
-                    <div class="cart-item">
-                        <div class="item-image">
-                            <img src="/media/images/product2.jpg" alt="Fresh Bananas" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
-                        </div>
-                        <div class="item-details">
-                            <h4 class="item-name">Organic Bananas</h4>
-                            <p class="item-description">Fresh organic bananas - 1 dozen</p>
-                            <div class="item-price-quantity">
-                                <span class="item-price">₹60</span>
-                                <div class="quantity-controls">
-                                    <button class="qty-btn" onclick="updateQuantity(2, -1)">-</button>
-                                    <span class="quantity" id="qty-2">1</span>
-                                    <button class="qty-btn" onclick="updateQuantity(2, 1)">+</button>
-                                </div>
-                                <span class="item-total">₹60</span>
-                            </div>
-                        </div>
-                        <button class="remove-item" onclick="removeItem(2)">×</button>
-                    </div>
-
-                    <div class="cart-item">
-                        <div class="item-image">
-                            <img src="/media/images/product3.jpg" alt="Milk" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
-                        </div>
-                        <div class="item-details">
-                            <h4 class="item-name">Fresh Milk</h4>
-                            <p class="item-description">Farm fresh whole milk - 1L</p>
-                            <div class="item-price-quantity">
-                                <span class="item-price">₹55</span>
-                                <div class="quantity-controls">
-                                    <button class="qty-btn" onclick="updateQuantity(3, -1)">-</button>
-                                    <span class="quantity" id="qty-3">2</span>
-                                    <button class="qty-btn" onclick="updateQuantity(3, 1)">+</button>
-                                </div>
-                                <span class="item-total">₹110</span>
-                            </div>
-                        </div>
-                        <button class="remove-item" onclick="removeItem(3)">×</button>
-                    </div>
-                </div>
-
-                <div class="cart-subtotal">
-                    <div class="subtotal-line">
-                        <span>Subtotal (<span id="total-items">5</span> items)</span>
-                        <span class="subtotal-amount" id="subtotal-amount">₹410</span>
-                    </div>
-                </div>
+        <h2>Your Cart Items</h2>
+        <div class="cart-items-container">
+          {% for item in cart_products %}
+          <div class="cart-item" data-uuid="{{ item.uuid }}">
+            <div class="item-image">
+              <img src="/media/{{ item.product.product_images.first.image }}" alt="{{ item.product.name }}"
+                onerror="this.style.background='#f0f0f0'; this.alt='No Image';">
             </div>
+            <div class="item-details">
+              <h4 class="item-name">{{ item.product.name }}</h4>
+              <p class="item-description">{{ item.product.description }}</p>
+              <div class="item-price-quantity">
+                <span class="item-price">₹{{ item.product.price }}</span>
+                <div class="quantity-controls">
+                  <button class="qty-btn" onclick="updateQuantity('{{ item.uuid }}', -1)">-</button>
+                  <span class="quantity" id="qty-{{ item.uuid }}">{{ item.quantity }}</span>
+                  <button class="qty-btn" onclick="updateQuantity('{{ item.uuid }}', 1)">+</button>
+                </div>
+                <span class="item-total" data-total-{{ item.uuid }}>₹{{ item.total_price }}</span>
+              </div>
+            </div>
+            <form method="POST" action="{% url 'removeFromCart' item.product.uuid %}" class="cart-form">
+              {% csrf_token %}
+              <button type="submit" class="remove-item" aria-label="Remove item">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+            </form>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="cart-subtotal">
+          <div class="subtotal-line">
+            <span>Subtotal (<span id="total-items">{{cart.get_products_count}}</span> items)</span>
+            <span class="subtotal-amount" id="basket-value">₹ {{ cart.get_cart_total_without_discount }}</span>
+          </div>
+        </div>
+      </div>
 
       <h2>Delivery Address</h2>
       <ul class="existing-addresses">
@@ -225,32 +190,23 @@
 
         <div class="summary-line">
           <span>Basket Value</span>
-          <span>Rs {{ cart.get_cart_total_without_discount }}</span>
+          <span id="basket-value">Rs {{ cart.get_cart_total_without_discount }}</span>
         </div>
-
-        <div class="summary-line">
-          <span>Delivery Charge</span>
-          <span><del>Rs 50</del> <strong>Free</strong></span>
-        </div>
-
+        
         <div class="summary-line">
           <span>Voucher Discount</span>
-          {% if cart.coupon %}
-          <span>- Rs {{ cart.get_discount_price }}</span>
-          {% else %}
-          <span>-</span>
-          {% endif %}
+          <span id="voucher-discount">
+            {% if cart.coupon %}- Rs {{ cart.get_discount_price }}{% else %}-{% endif %}
+          </span>
         </div>
-
+        
         <div class="summary-line total">
           <span>Total Amount Payable</span>
-          <span>Rs {{ cart.get_cart_total }}</span>
+          <span id="total-amount">Rs {{ cart.get_cart_total }}</span>
         </div>
-
-        <p class="savings">
-          {% if cart.coupon %}
-          Your Total Savings Rs {{ cart.get_discount_price }}
-          {% endif %}
+        
+        <p class="savings" id="savings">
+          {% if cart.coupon %}Your Total Savings Rs {{ cart.get_discount_price }}{% endif %}
         </p>
 
         <button id="rzp-button1" class="checkout-btn">Pay Now</button>
@@ -321,17 +277,17 @@
   document.getElementById('rzp-button1').onclick = function (e) {
     e.preventDefault();
     if (isDevMode) {
-    // Simulate successful payment response
-    const dummyResponse = {
-      razorpay_order_id: "order_dummy123",
-      razorpay_payment_id: "payment_dummy123",
-      razorpay_signature: "signature_dummy123"
-    };
+      // Simulate successful payment response
+      const dummyResponse = {
+        razorpay_order_id: "order_dummy123",
+        razorpay_payment_id: "payment_dummy123",
+        razorpay_signature: "signature_dummy123"
+      };
 
-    options.handler(dummyResponse);
-  } else {
-    rzp1.open();
-  }
+      options.handler(dummyResponse);
+    } else {
+      rzp1.open();
+    }
   }
 
   // Get CSRF token from cookies
@@ -407,6 +363,56 @@
   }
 
   document.addEventListener('DOMContentLoaded', highlightSelectedAddress);
+
+  function updateQuantity(itemUUID, delta) {
+    fetch("{% url 'update_cart_quantity' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+      body: new URLSearchParams({
+        'item_uuid': itemUUID,
+        'delta': delta
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        if (data.removed) {
+
+          const itemElement = document.querySelector(`[data-uuid="${itemUUID}"]`);
+          if (itemElement) itemElement.remove();
+        } else {
+
+          document.getElementById(`qty-${data.item_id}`).innerText = data.quantity;
+
+          const totalSpan = document.querySelector(`[data-total-${data.item_id}]`);
+          if (totalSpan) {
+            totalSpan.innerText = `₹${data.total_price}`;
+          }
+        }
+
+        refreshCartSummary();
+      } else {
+        alert(data.message || "Error updating quantity");
+      }
+    });
+  }
+
+  function refreshCartSummary() {
+    fetch("{% url 'cart_summary' %}")
+        .then(response => response.json())
+        .then(data => {
+          if (data.subtotal !== undefined) {
+            document.getElementById('basket-value').innerText = `Rs ${data.subtotal}`;
+            document.getElementById('voucher-discount').innerText = `- Rs ${data.discount}`;
+            document.getElementById('total-amount').innerText = `Rs ${data.total}`;
+            document.getElementById('savings').innerText = `Your Total Savings Rs ${data.discount}`;
+            document.getElementById('total-items').innerText = `${data.items_count}`;
+          }
+        });
+    }
 </script>
 
 {% endblock main %}
