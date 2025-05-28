@@ -23,10 +23,6 @@
                 <h3 id="pending-orders">0</h3>
                 <p>Pending</p>
             </div>
-            <div class="stat-card">
-                <h3 id="total-savings">₹0</h3>
-                <p>Total Savings</p>
-            </div>
         </div>
 
         <div class="controls">
@@ -88,7 +84,6 @@
             document.getElementById('total-orders').textContent = '{{ total_orders }}';
             document.getElementById('delivered-orders').textContent = '{{ delivered_orders }}';
             document.getElementById('pending-orders').textContent = '{{ pending_orders }}';
-            document.getElementById('total-savings').textContent = `₹{{ total_savings|floatformat:2 }}`;
         }
 
         function renderOrders() {
@@ -110,7 +105,7 @@
                 <td><strong>₹${order.amount.toFixed(2)}</strong></td>
                 <td><span class="status ${order.status}">${order.status}</span></td>
                 <td>
-                    <button class="action-btn view-btn" onclick="viewOrder('${order.id}')">👁️</button>
+                    <a class="action-btn view-btn" href="/store/orders/${order.id}/">👁️</a>
                 </td>
             </tr>
         `).join('');

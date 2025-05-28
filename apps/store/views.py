@@ -308,8 +308,22 @@ def orderPage(request):
 
 
 @login_required
-def productOrder(request):
-    return render(request, 'store/order.html')
+def productOrder(request, order_number):
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    ordered_products = order.orderproduct_set.select_related('product')
+    address = order.address
+    print("Ordered Products:", ordered_products)
+
+    total_items = sum(op.quantity for op in ordered_products)
+    total_price = order.calculate_total()
+
+    return render(request, 'store/order.html', {
+        'order': order,
+        'ordered_products': ordered_products,
+        'address': address,
+        'total_items': total_items,
+        'total_price': total_price,
+    })
 
 @login_required
 def addAddress(request):

@@ -1,88 +1,48 @@
-{% extends "base/base.html" %} 
+{% extends "base/base.html" %}
 
 {% block head %}
 <link rel="stylesheet" href="/media/css/order.css">
-{% endblock head %} 
+{% endblock head %}
 
 {% block main %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="order-page">
-    <div class="order-container">
+  <div class="order-container">
     <!-- Header -->
-      <div class="order-header">
-        <div class="back-nav">
-          <i class="fas fa-arrow-left"></i>
-          <a href="{% url 'orderPage' %}">Back to Orders</a>
-        </div>
-        <div class="order-id">
-          <h1>Order #GOG12345678</h1>
-          <span class="order-date">Placed on March 15, 2024</span>
-        </div>
+    <div class="order-header">
+      <div class="back-nav">
+        <i class="fas fa-arrow-left"></i>
+        <a href="{% url 'orderPage' %}">Back to Orders</a>
       </div>
+      <div class="order-id">
+        <h1>Order #{{ order.order_number }}</h1>
+        <span class="order-date">Placed on {{ order.created_at|date:"F d, Y" }}</span>
+      </div>
+    </div>
 
-      <div class="main-content">
-        <!-- Left Section - Order Items and Details -->
-        <div class="left-section">
-          <!-- Order Items -->
-          <div class="items-section">
-            <h2>Items Ordered (3 items)</h2>
-
-            <div class="item-card">
-              <div class="item-image">
-                <img src="https://via.placeholder.com/80x80/4CAF50/white?text=Apples" alt="Red Apples">
-              </div>
-              <div class="item-details">
-                <h4>Fresh Red Apples</h4>
-                <p>Brand: Farm Fresh | 1 kg</p>
-                <div class="item-price">
-                  <span class="current-price">₹150</span>
-                  <span class="original-price">₹180</span>
-                  <span class="discount">16% OFF</span>
-                </div>
-                <div class="quantity">Qty: 2</div>
-              </div>
-              <div class="item-total">
-                <strong>₹300</strong>
-              </div>
+    <div class="main-content">
+      <div class="left-section">
+        <div class="items-section">
+          <h2>Items Ordered ({{ ordered_products.count }} items)</h2>
+          {% for item in ordered_products %}
+          <div class="item-card">
+            <div class="item-image">
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
             </div>
-
-            <div class="item-card">
-              <div class="item-image">
-                <img src="https://via.placeholder.com/80x80/FF9800/white?text=Bread" alt="Whole Wheat Bread">
+            <div class="item-details">
+              <h4>{{ item.product.name }}</h4>
+              <p>Brand: {{ item.product.brand }} | {{ item.product.weight }}</p>
+              <div class="item-price">
+                <span class="current-price">₹{{ item.price_at_order }}</span>
               </div>
-              <div class="item-details">
-                <h4>Whole Wheat Bread</h4>
-                <p>Brand: Daily Fresh | 400g</p>
-                <div class="item-price">
-                  <span class="current-price">₹45</span>
-                  <span class="original-price">₹50</span>
-                  <span class="discount">10% OFF</span>
-                </div>
-                <div class="quantity">Qty: 1</div>
-              </div>
-              <div class="item-total">
-                <strong>₹45</strong>
-              </div>
+              <div class="quantity">Qty: {{ item.quantity }}</div>
             </div>
-
-            <div class="item-card">
-              <div class="item-image">
-                <img src="https://via.placeholder.com/80x80/2196F3/white?text=Milk" alt="Fresh Milk">
-              </div>
-              <div class="item-details">
-                <h4>Fresh Toned Milk</h4>
-                <p>Brand: Pure Dairy | 1 Litre</p>
-                <div class="item-price">
-                  <span class="current-price">₹55</span>
-                </div>
-                <div class="quantity">Qty: 1</div>
-              </div>
-              <div class="item-total">
-                <strong>₹55</strong>
-              </div>
+            <div class="item-total">
+              <strong>₹{{ item.total_price }}</strong>
             </div>
           </div>
+          {% endfor %}
 
           <!-- Order Status Timeline -->
           <div class="status-section">
@@ -98,41 +58,41 @@
                 </div>
                 <div class="timeline-content">
                   <h4>Order Confirmed</h4>
-                  <p>March 15, 2024 at 2:30 PM</p>
+                  <p>{{ order.created_at|date:"F j, Y \\a\\t g:i A" }}</p>
                   <span>Your order has been confirmed and is being prepared</span>
                 </div>
               </div>
 
-              <div class="timeline-item completed">
+              <div class="timeline-item">
                 <div class="timeline-icon">
                   <i class="fas fa-box"></i>
                 </div>
                 <div class="timeline-content">
                   <h4>Order Packed</h4>
-                  <p>March 15, 2024 at 4:15 PM</p>
-                  <span>Your order has been packed and ready for pickup</span>
+                  <p>{{ order.created_at|add:"21600"|date:"F j, Y \\a\\t g:i A" }}</p>
+                  <span>Your order will be packed and ready for pickup</span>
                 </div>
               </div>
 
-              <div class="timeline-item completed">
+              <div class="timeline-item">
                 <div class="timeline-icon">
                   <i class="fas fa-truck"></i>
                 </div>
                 <div class="timeline-content">
                   <h4>Out for Delivery</h4>
-                  <p>March 16, 2024 at 9:00 AM</p>
-                  <span>Your order is out for delivery</span>
+                  <p>{{ order.created_at|add:"172800"|date:"F j, Y \\a\\t g:i A" }}</p>
+                  <span>Your order will be out for delivery</span>
                 </div>
               </div>
 
-              <div class="timeline-item completed">
+              <div class="timeline-item">
                 <div class="timeline-icon">
                   <i class="fas fa-home"></i>
                 </div>
                 <div class="timeline-content">
                   <h4>Delivered</h4>
-                  <p>March 16, 2024 at 2:45 PM</p>
-                  <span>Order delivered successfully to your address</span>
+                  <p>{{ order.created_at|add:"259200"|date:"F j, Y \\a\\t g:i A" }}</p>
+                  <span>Your order will be delivered to your address</span>
                 </div>
               </div>
             </div>
@@ -145,11 +105,10 @@
               <div class="delivery-address">
                 <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
                 <div class="address-details">
-                  <strong>John Doe</strong><br>
-                  +91 9876543210<br>
-                  123, ABC Apartment, 2nd Floor<br>
-                  100 Feet Road, Koramangala<br>
-                  Bangalore, Karnataka - 560095
+                  <strong>{{ address.address_type }}</strong><br>
+                  Phone Number: {{ address.mobile }}<br>
+                  {{ address.address }}<br>
+                  {{ address.city }}, {{ address.state }} - {{ address.zip_code }}
                 </div>
               </div>
               <div class="delivery-info">
@@ -159,11 +118,11 @@
                 </div>
                 <div class="info-item">
                   <strong>Delivery Boy:</strong>
-                  <span>Ramesh Kumar (+91 9988776655)</span>
+                  <span>Yet to be assigned</span>
                 </div>
                 <div class="info-item">
                   <strong>Delivery Time:</strong>
-                  <span>March 16, 2024 at 2:45 PM</span>
+                  <span>Yet to be finalized</span>
                 </div>
               </div>
             </div>
@@ -208,98 +167,86 @@
           </div>
         </div>
 
-        <!-- Right Section - Payment Summary -->
         <div class="right-section">
-         
 
-            <div class="payment-section">
-              <h3>Payment Summary</h3>
 
-              <div class="payment-summary">
-                <div class="summary-row">
-                  <span>Items Total (3 items)</span>
-                  <span>₹400</span>
-                </div>
-                <div class="summary-row">
-                  <span>Delivery Charges</span>
-                  <span>₹30</span>
-                </div>
-                <div class="summary-row discount">
-                  <span>Discount Applied</span>
-                  <span>-₹30</span>
-                </div>
+          <div class="payment-section">
+            <h3>Payment Summary</h3>
 
-                <div class="summary-row total">
-                  <span>Total Amount Paid</span>
-                  <span>₹350</span>
-                </div>
+            <div class="payment-summary">
+              <div class="summary-row">
+                <span>Items Total ({{ total_items }} items)</span>
+                <span>₹{{ total_price }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Delivery Charges</span>
+                <span><del>₹50</del> Free</span>
               </div>
 
-              <div class="payment-method">
-                <div class="method-info">
-                  <i class="fas fa-credit-card"></i>
-                  <div>
-                    <strong>Payment Method</strong>
-                    <p>UPI - Google Pay</p>
-                    <p class="upi-id">@okaxis</p>
-                  </div>
-                </div>
-                <div class="transaction-id">
-                  <strong>Transaction ID:</strong>
-                  <span>TXN123456789ABC</span>
-                </div>
+              <div class="summary-row total">
+                <span>Total Amount Paid</span>
+                <span>₹{{ order.total }}</span>
               </div>
-
-              <p class="savings">Your Total Savings ₹30</p>
             </div>
+
+            <div class="payment-method">
+              <div class="method-info">
+                <i class="fas fa-credit-card"></i>
+                <div>
+                  <strong>Payment Method</strong>
+                  <p>UPI - Razorpay</p>
+                </div>
+              </div>
+              <div class="transaction-id">
+                <p>{{ order.get_payment_method_display }}</p>
+                <p class="upi-id">{{ order.transaction_id }}</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>
-  <script>
-    // Add any interactive functionality here
-    document.querySelector('.back-nav').addEventListener('click', function () {
-      // Navigate back to orders page
-      console.log('Navigate back to orders');
+<script>
+  document.querySelector('.back-nav').addEventListener('click', function () {
+    console.log('Navigate back to orders');
+  });
+
+  document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+      const action = this.textContent.trim();
+      console.log(`Action clicked: ${action}`);
     });
+  });
 
-    // Add click handlers for action buttons
-    document.querySelectorAll('.btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        const action = this.textContent.trim();
-        console.log(`Action clicked: ${action}`);
-      });
-    });
+  const stars = document.querySelectorAll('#star-rating i');
+  const ratingValue = document.getElementById('rating-value');
+  let currentRating = 4;
 
-    //handling ratings
-    const stars = document.querySelectorAll('#star-rating i');
-    const ratingValue = document.getElementById('rating-value');
-    let currentRating = 4;
-
-    function updateStars(rating) {
-      stars.forEach(star => {
-        const value = parseInt(star.getAttribute('data-rating'));
-        if (value <= rating) {
-          star.classList.remove('far');
-          star.classList.add('fas');
-        } else {
-          star.classList.remove('fas');
-          star.classList.add('far');
-        }
-      });
-      ratingValue.textContent = `${rating}.0/5`;
-    }
-
+  function updateStars(rating) {
     stars.forEach(star => {
-      star.addEventListener('click', () => {
-        currentRating = parseInt(star.getAttribute('data-rating'));
-        updateStars(currentRating);
-      });
+      const value = parseInt(star.getAttribute('data-rating'));
+      if (value <= rating) {
+        star.classList.remove('far');
+        star.classList.add('fas');
+      } else {
+        star.classList.remove('fas');
+        star.classList.add('far');
+      }
     });
+    ratingValue.textContent = `${rating}.0/5`;
+  }
 
-    // Initial star fill
-    updateStars(currentRating);
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      currentRating = parseInt(star.getAttribute('data-rating'));
+      updateStars(currentRating);
+    });
+  });
 
-  </script>
+  updateStars(currentRating);
+
+</script>
 {% endblock main %}
