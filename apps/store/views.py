@@ -2,9 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import razorpay
-
 from apnabazar import settings
-from .models import Product, Category, Cart, CartItem, Wishlist, Coupon ,Address
+from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
@@ -68,13 +67,18 @@ def cartPage(request):
         elif cart_obj and cart_obj.get_cart_total_without_discount() < coupon_obj.minimum_amount:
             messages.warning(request, f'Minimum amount should be Rs {coupon_obj.minimum_amount}')
         else:
-            cart_obj.coupon = coupon_obj
-            cart_obj.save()
-            messages.success(request, 'Coupon applied successfully.')
+            if cart_obj:
+                cart_obj.coupon = coupon_obj
+                cart_obj.save()
+                messages.success(request, 'Coupon applied successfully.')
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    print("Cart Object:", cart_obj.get_cart_total())
-    
+
+    if cart_obj:
+        print("Cart Object:", cart_obj.get_cart_total())
+    else:
+        print("Cart Object: None")
+
     if cart_obj and cart_obj.cart_items.exists():
         client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
         try:
@@ -103,19 +107,56 @@ def cartPage(request):
         'cart': cart_obj,
         'addresses': addresses,
         'coupons': coupons,
-        'payment':payment,
+        'payment': payment,
     }
     return render(request, 'store/cart.html', context)
 
+@csrf_exempt
 def success(request):
-    order_id = request.GET.get('razorpay_order_id')
-    try:
-        cart = Cart.objects.get(razor_pay_order_id=order_id)
-        cart.is_paid = True
-        cart.save()
-        return HttpResponseRedirect(request.path_info)
-    except Cart.DoesNotExist:
-        return HttpResponse("Invalid payment reference", status=400)
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            order_id = data.get("razorpay_order_id")
+            payment_id = data.get("razorpay_payment_id")
+            signature = data.get("razorpay_signature")
+            address_id = data.get("address_id")
+            print("Received data:", data)
+
+            if not order_id or not address_id:
+                return JsonResponse({"error": "Missing order ID or address"}, status=400)
+
+            cart = Cart.objects.get(razor_pay_order_id=order_id)
+            cart.is_paid = True
+            cart.save()
+
+            address = Address.objects.get(uuid=address_id)
+            print("Address:", address)
+            user = cart.user
+
+            order = Order.objects.create(
+                user=user,
+                address=address,
+                total=cart.get_cart_total(),
+                payment_status='paid',
+                payment_method='razorpay',
+                transaction_id=payment_id
+            )
+
+            for item in cart.cart_items.all():
+                OrderProduct.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price_at_order=item.product.price
+                )
+
+            return JsonResponse({"message": "Payment successful and order created"})
+        except Cart.DoesNotExist:
+            return JsonResponse({"error": "Invalid order ID"}, status=400)
+        except Address.DoesNotExist:
+            return JsonResponse({"error": "Invalid address ID"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
 @login_required
 def dashboard(request):

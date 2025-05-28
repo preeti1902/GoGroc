@@ -68,7 +68,7 @@ class Cart(BaseModel):
 
     def get_cart_total(self):
         total_price = self.get_cart_total_without_discount() - self.get_discount_price()
-        return total_price
+        return max(total_price, 0)
 
     def __str__(self):
         return f"{self.user.username}'s Cart"

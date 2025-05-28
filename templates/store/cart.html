@@ -1,13 +1,12 @@
 {% extends "base/base.html" %}
+
 {% block head %}
 <link rel="stylesheet" href="/media/css/cart.css" />
 {% endblock head %}
+
 {% block main %}
 <main class="cart-main">
-    <div class="cart-container">
-        <div class="form-section">
-            <!-- Cart Items Section -->
-            <div class="cart-items-section">
+    <div class="cart-items-section">
                 <h2>Your Cart Items</h2>
                 <div class="cart-items-container">
                     <!-- Sample cart items - these would come from backend -->
@@ -70,6 +69,30 @@
                         </div>
                         <button class="remove-item" onclick="removeItem(3)">×</button>
                     </div>
+                </div>
+
+                <div class="cart-subtotal">
+                    <div class="subtotal-line">
+                        <span>Subtotal (<span id="total-items">5</span> items)</span>
+                        <span class="subtotal-amount" id="subtotal-amount">₹410</span>
+                    </div>
+                </div>
+            </div>
+      <h2>Delivery Address</h2>
+      <ul class="existing-addresses">
+        <li>
+          <h3>Select Existing Address</h3>
+          <ul class="address-options">
+            {% for address in addresses %}
+            <li class="address-card">
+              <input type="radio" name="address" id="address-{{ address.uuid }}" value="{{ address.uuid }}" {% if address.uuid|stringformat:"s" == selected_address_uuid|stringformat:"s" %}checked{% endif %} />
+              <label for="address-{{ address.uuid }}" class="address-label">
+                <div class="address-nickname">{{ address.address_type|upper }}</div>
+                <div class="address-details">
+                  <strong>{{ address.first_name }} {{ address.last_name }}</strong><br />
+                  +91 {{ address.mobile }}<br />
+                  {{ address.address }}<br />
+                  {{ address.city }} {{ address.state }} - {{ address.zip_code }}
                 </div>
 
                 <div class="cart-subtotal">
@@ -295,31 +318,91 @@
 <script>
   var options = {
     "key": "rzp_test_171e6d7TSvS6aZ",
-    "amount": "{{payment.amount}}",
+    "amount": "{{payment.amount }}",
     "currency": "INR",
     "name": "GoGroc",
     "description": "Purchase Transaction",
     "order_id": "{{payment.id}}",
     "handler": function (response) {
-      window.location.href = `http://127.0.0.1:8000/store/success/?razorpay_order_id=${response.razorpay_order_id}`
+      const selectedAddress = document.querySelector('input[name="address"]:checked');
+      const address_id = selectedAddress ? selectedAddress.value : null;
+
+      if (!address_id) {
+        alert("Please select a delivery address.");
+        return;
+      }
+
+      fetch("http://127.0.0.1:8000/store/success/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          address_id: address_id
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.message) {
+            console.log(data.message)
+            alert(data.message);
+            window.location.href = "/store/orders/";
+          } else {
+            console.error("Error:", data);
+            alert(data.error || "Unknown error occurred");
+          }
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          alert("Payment verification failed");
+        });
     },
     "theme": {
       "color": "#3399cc"
     }
   };
+  const isDevMode = false;
+
   var rzp1 = new Razorpay(options);
   rzp1.on('payment.failed', function (response) {
-    alert(response.error.code);
-    alert(response.error.description);
-    alert(response.error.source);
-    alert(response.error.step);
-    alert(response.error.reason);
-    alert(response.error.metadata.order_id);
-    alert(response.error.metadata.payment_id);
+    alert("Payment failed");
+    console.log(response);
   });
+
   document.getElementById('rzp-button1').onclick = function (e) {
-    rzp1.open();
     e.preventDefault();
+    if (isDevMode) {
+    // Simulate successful payment response
+    const dummyResponse = {
+      razorpay_order_id: "order_dummy123",
+      razorpay_payment_id: "payment_dummy123",
+      razorpay_signature: "signature_dummy123"
+    };
+
+    options.handler(dummyResponse);
+  } else {
+    rzp1.open();
+  }
+  }
+
+  // Get CSRF token from cookies
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
   }
 </script>
 <script>
@@ -396,6 +479,35 @@
         // Add active class to clicked button
         button.classList.add('active');
     }
+</script>
+
+<script>
+  function highlightSelectedAddress() {
+    const inputs = document.querySelectorAll('input[name="address"]');
+    inputs.forEach((input) => {
+      input.addEventListener('change', () => {
+        document.querySelectorAll('.address-card').forEach((card) => {
+          card.classList.remove('selected');
+        });
+
+        const selectedCard = input.closest('.address-card');
+        if (selectedCard) {
+          selectedCard.classList.add('selected');
+        }
+      });
+    });
+
+    // Initial highlight on page load
+    const preselected = document.querySelector('input[name="address"]:checked');
+    if (preselected) {
+      const selectedCard = preselected.closest('.address-card');
+      if (selectedCard) {
+        selectedCard.classList.add('selected');
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', highlightSelectedAddress);
 </script>
 
 {% endblock main %}
