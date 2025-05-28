@@ -4,184 +4,292 @@
 {% endblock head %}
 {% block main %}
 <main class="cart-main">
-  <div class="cart-container">
-    <div class="form-section">
-      <h2>Delivery Address</h2>
-      <ul class="existing-addresses">
-        <li>
-          <h3>Select Existing Address</h3>
-          <ul class="address-options">
-            {% for address in addresses %}
-            <li class="address-card">
-              <input type="radio" name="address" id="home-address" />
-              <label for="home-address" class="address-label">
-                <div class="address-nickname">HOME</div>
-                <div class="address-details">
-                  <strong>{{address.first_name}} {{address.last_name}}</strong><br />
-                  +91 {{address.mobile}}<br />
-                  {{address.address}}<br />
-                  {{address.city}} {{address.state}} - {{address.zip_code}}
+    <div class="cart-container">
+        <div class="form-section">
+            <!-- Cart Items Section -->
+            <div class="cart-items-section">
+                <h2>Your Cart Items</h2>
+                <div class="cart-items-container">
+                    <!-- Sample cart items - these would come from backend -->
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product1.jpg" alt="Fresh Apples" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Fresh Red Apples</h4>
+                            <p class="item-description">Premium quality apples - 1kg pack</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹120</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(1, -1)">-</button>
+                                    <span class="quantity" id="qty-1">2</span>
+                                    <button class="qty-btn" onclick="updateQuantity(1, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹240</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(1)">×</button>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product2.jpg" alt="Fresh Bananas" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Organic Bananas</h4>
+                            <p class="item-description">Fresh organic bananas - 1 dozen</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹60</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(2, -1)">-</button>
+                                    <span class="quantity" id="qty-2">1</span>
+                                    <button class="qty-btn" onclick="updateQuantity(2, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹60</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(2)">×</button>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="/media/images/product3.jpg" alt="Milk" onerror="this.style.background='#f0f0f0'; this.innerHTML='IMG';">
+                        </div>
+                        <div class="item-details">
+                            <h4 class="item-name">Fresh Milk</h4>
+                            <p class="item-description">Farm fresh whole milk - 1L</p>
+                            <div class="item-price-quantity">
+                                <span class="item-price">₹55</span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQuantity(3, -1)">-</button>
+                                    <span class="quantity" id="qty-3">2</span>
+                                    <button class="qty-btn" onclick="updateQuantity(3, 1)">+</button>
+                                </div>
+                                <span class="item-total">₹110</span>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(3)">×</button>
+                    </div>
                 </div>
-              </label>
-            </li>
-            {% endfor %}
-          </ul>
-          <button class="add-new-address-btn" onclick="toggleAddressForm()">
-            + Add New Address
-          </button>
-        </li>
-      </ul>
 
-      <!-- Add New Address Form -->
-      <form method="POST" action="{% url 'addAddress' %}" class="add-address-form" id="add-address-form"
-        style="display: none">
-        {% csrf_token %}
-        <h3>Add New Address</h3>
-        <div class="delivery-details">
-          <div class="flex-row">
-            <div class="flex-col">
-              <label>First Name</label>
-              <input type="text" name="first_name" placeholder="Enter first name" required />
+                <div class="cart-subtotal">
+                    <div class="subtotal-line">
+                        <span>Subtotal (<span id="total-items">5</span> items)</span>
+                        <span class="subtotal-amount" id="subtotal-amount">₹410</span>
+                    </div>
+                </div>
             </div>
-            <div class="flex-col">
-              <label>Last Name</label>
-              <input type="text" name="last_name" placeholder="Enter last name" required />
-            </div>
-            <div class="flex-col">
-              <label>Contact Number</label>
-              <input type="text" name="mobile" placeholder="Enter contact number" required />
-            </div>
-          </div>
 
-          <div class="flex-row">
-            <div class="flex-col">
-              <label>Address</label>
-              <input type="text" name="full_address" />
-            </div>
-          </div>
+            <h2>Delivery Address</h2>
 
-          <div class="flex-row">
-            <div class="flex-col">
-              <label>City</label>
-              <input type="text" name="city" />
-            </div>
-            <div class="flex-col">
-              <label>State</label>
-              <input type="text" name="state" />
-            </div>
-            <div class="flex-col">
-              <label>Pincode</label>
-              <input type="text" name="zip_code" placeholder="Enter pincode" />
-            </div>
-          </div>
+            <!-- Existing Addresses Section -->
+            <div class="existing-addresses">
+                <h3>Select Existing Address</h3>
+                <div class="address-options">
+                    <div class="address-card">
+                        <input type="radio" name="address" id="home-address" />
+                        <label for="home-address" class="address-label">
+                            <div class="address-nickname">HOME</div>
+                            <div class="address-details">
+                                <strong>John Doe</strong><br>
+                                +91 9876543210<br>
+                                123, ABC Apartment<br>
+                                100 Feet Road, Koramangala<br>
+                                Bangalore - 560095
+                            </div>
+                        </label>
+                    </div>
 
-          <input type="hidden" name="address_type" id="address_type" value="home" />
+                    <div class="address-card">
+                        <input type="radio" name="address" id="office-address" />
+                        <label for="office-address" class="address-label">
+                            <div class="address-nickname">OFFICE</div>
+                            <div class="address-details">
+                                <strong>John Doe</strong><br>
+                                +91 9876543210<br>
+                                456, Tech Park<br>
+                                Outer Ring Road, Marathahalli<br>
+                                Bangalore - 560037
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
-          <label>Choose nickname for this address:</label>
-          <div class="nickname-buttons">
-            <button type="button" class="nickname-btn active" onclick="selectNickname(this)">
-              HOME
-            </button>
-            <button type="button" class="nickname-btn" onclick="selectNickname(this)">
-              OFFICE
-            </button>
-            <button type="button" class="nickname-btn" onclick="selectNickname(this)">
-              OTHER
-            </button>
-          </div>
+                <button class="add-new-address-btn" onclick="toggleAddressForm()">
+                    + Add New Address
+                </button>
+            </div>
 
-          <div class="form-buttons">
-            <button type="button" class="btn cancel-btn" onclick="toggleAddressForm()">
-              CANCEL
-            </button>
-            <button type="submit" class="btn save-btn">SAVE ADDRESS</button>
-          </div>
+            <!-- Add New Address Form -->
+            <div class="add-address-form" id="add-address-form" style="display: none;">
+                <h3>Add New Address</h3>
+                <div class="delivery-details">
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Enter first name" />
+                        </div>
+                        <div class="flex-col">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Enter last name" />
+                        </div>
+                        <div class="flex-col">
+                            <label>Contact Number</label>
+                            <input type="text" placeholder="Enter contact number" />
+                        </div>
+                    </div>
+
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label>House No</label>
+                            <input type="text" />
+                        </div>
+                        <div class="flex-col">
+                            <label>Apartment Name</label>
+                            <input type="text" />
+                        </div>
+                    </div>
+
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label>Street Details</label>
+                            <input type="text" />
+                        </div>
+                        <div class="flex-col">
+                            <label>Landmark</label>
+                            <input type="text" />
+                        </div>
+                    </div>
+
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label>City</label>
+                            <select>
+                                <option>Bangalore</option>
+                            </select>
+                        </div>
+                        <div class="flex-col">
+                            <label>Area</label>
+                            <input type="text" placeholder="Enter area" />
+                        </div>
+                        <div class="flex-col">
+                            <label>Pincode</label>
+                            <input type="text" placeholder="Enter pincode" />
+                        </div>
+                    </div>
+
+                    <label>Choose nick name for this address:</label>
+                    <div class="nickname-buttons">
+                        <button type="button" class="nickname-btn active" onclick="selectNickname(this)">HOME</button>
+                        <button type="button" class="nickname-btn" onclick="selectNickname(this)">OFFICE</button>
+                        <button type="button" class="nickname-btn" onclick="selectNickname(this)">OTHER</button>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn cancel-btn" onclick="toggleAddressForm()">CANCEL</button>
+                        <button type="button" class="btn save-btn">SAVE ADDRESS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Options -->
+            <div class="collapsible">
+                <div class="dropdown" onclick="toggleDropdown('delivery-options')">
+                    <strong>Delivery Options</strong>
+                </div>
+
+                <div class="delivery-options-container">
+                    <div class="delivery-option">
+                        <input type="radio" name="delivery" id="standard-delivery" value="0" onchange="updateDeliveryCharge(0)" checked />
+                        <label for="standard-delivery" class="delivery-label">
+                            <div class="delivery-header">
+                                <div class="delivery-icon">📦</div>
+                                <div class="delivery-info">
+                                    <h4>Standard Delivery</h4>
+                                    <p class="delivery-time">3-5 Business Days</p>
+                                </div>
+                                <div class="delivery-price">FREE</div>
+                            </div>
+                            <div class="delivery-description">
+                                Get your order delivered at standard speed with no extra cost
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="delivery-option">
+                        <input type="radio" name="delivery" id="express-delivery" value="50" onchange="updateDeliveryCharge(50)" />
+                        <label for="express-delivery" class="delivery-label">
+                            <div class="delivery-header">
+                                <div class="delivery-icon">⚡</div>
+                                <div class="delivery-info">
+                                    <h4>Express Delivery</h4>
+                                    <p class="delivery-time">1-2 Business Days</p>
+                                </div>
+                                <div class="delivery-price">₹50</div>
+                            </div>
+                            <div class="delivery-description">
+                                Faster delivery for when you need your items quickly
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="delivery-option">
+                        <input type="radio" name="delivery" id="same-day-delivery" value="100" onchange="updateDeliveryCharge(100)" />
+                        <label for="same-day-delivery" class="delivery-label">
+                            <div class="delivery-header">
+                                <div class="delivery-icon">🚀</div>
+                                <div class="delivery-info">
+                                    <h4>Same Day Delivery</h4>
+                                    <p class="delivery-time">Within 6 Hours</p>
+                                </div>
+                                <div class="delivery-price">₹100</div>
+                            </div>
+                            <div class="delivery-description">
+                                Ultra-fast delivery for urgent orders (Order before 2 PM)
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-      </form>
 
-      <!-- Delivery Options -->
-      <div class="collapsible">
-        <div class="dropdown" onclick="toggleDropdown('delivery-options')">
-          <strong>Delivery Options</strong>
+        <!-- Right Summary -->
+        <div class="summary-wrapper">
+            <div class="summary-section">
+                <h3>Order Summary</h3>
+
+                <div class="voucher-box">
+                    <input type="text" placeholder="Enter voucher code" />
+                    <button class="btn apply-btn">APPLY</button>
+                    <p><a href="#">You have 8 vouchers available</a></p>
+                </div>
+
+                <div class="summary-line">
+                    <span>Basket Value</span>
+                    <span id="basket-value">Rs 410</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Delivery Charge</span>
+                    <span>Rs 50</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Voucher Discount</span>
+                    <a href="#">Apply Voucher</a>
+                </div>
+
+                <div class="summary-line total">
+                    <span>Total Amount Payable</span>
+                    <span id="total-payable">Rs 460</span>
+                </div>
+
+                <p class="savings">Your Total Savings Rs 22.50</p>
+
+                <button class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </div>
         </div>
-        <div class="options" id="delivery-options">
-          <label><input type="radio" name="delivery" checked> Free Delivery</label>
-        </div>
-      </div>
     </div>
-
-    <div class="summary-wrapper">
-      <div class="summary-section">
-        <h3>Order Summary</h3>
-        <form method="POST" action="{% url 'cartPage' %}" class="voucher-box p-3 rounded shadow-sm"
-          style="background-color: #f9f9f9;">
-          {% include "base/alert.html" %}
-          {% csrf_token %}
-          {% if cart.coupon %}
-          <div class="mb-3">
-            <p class="mb-1 text-success fw-semibold">
-              <i class="bi bi-check-circle-fill"></i> Applied Coupon: {{ cart.coupon.coupon_code }}
-              <span class="badge bg-success text-white"></span><br />
-            </p>
-            <p class="mb-2">Discount: Rs {{ cart.coupon.discount_price }}</p><br />
-            <button name="remove_coupon" value="1" type="submit" class="btn btn-outline-danger w-100">
-              <i class="bi bi-x-circle"></i> Remove Coupon
-            </button>
-          </div>
-          {% else %}
-          <div class="mb-3">
-            <label for="coupon" class="form-label fw-semibold">Select a Coupon</label><br />
-            <select name="coupon" id="coupon" class="form-select">
-              <option disabled selected>Select a Coupon</option>
-              {% for coupon in coupons %}
-              <option value="{{ coupon.coupon_code }}">{{ coupon.coupon_code }} — Rs {{ coupon.discount_price }}
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-          <br />
-          <button type="submit" class="btn w-100">
-            <i class="bi bi-tag-fill"></i> Apply Coupon
-          </button>
-          {% endif %}
-        </form>
-
-
-        <div class="summary-line">
-          <span>Basket Value</span>
-          <span>Rs {{ cart.get_cart_total_without_discount }}</span>
-        </div>
-
-        <div class="summary-line">
-          <span>Delivery Charge</span>
-          <span><del>Rs 50</del> <strong>Free</strong></span>
-        </div>
-
-        <div class="summary-line">
-          <span>Voucher Discount</span>
-          {% if cart.coupon %}
-          <span>- Rs {{ cart.get_discount_price }}</span>
-          {% else %}
-          <span>-</span>
-          {% endif %}
-        </div>
-
-        <div class="summary-line total">
-          <span>Total Amount Payable</span>
-          <span>Rs {{ cart.get_cart_total }}</span>
-        </div>
-
-        <p class="savings">
-          {% if cart.coupon %}
-          Your Total Savings Rs {{ cart.get_discount_price }}
-          {% endif %}
-        </p>
-
-        <button id="rzp-button1" class="checkout-btn">Pay Now</button>
-      </div>
-    </div>
-
-  </div>
 </main>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
@@ -215,33 +323,79 @@
   }
 </script>
 <script>
-  function toggleDropdown(id) {
-    const options = document.getElementById(id);
-    options.classList.toggle("show");
-  }
+ // Cart functionality
+    let cartData = {
+        1: { name: "Fresh Red Apples", price: 120, quantity: 2, total: 240 },
+        2: { name: "Organic Bananas", price: 60, quantity: 1, total: 60 },
+        3: { name: "Fresh Milk", price: 55, quantity: 2, total: 110 }
+    };
 
-  function toggleAddressForm() {
-    const form = document.getElementById("add-address-form");
-    const isVisible = form.style.display !== "none";
-    form.style.display = isVisible ? "none" : "block";
-  }
+    function updateQuantity(itemId, change) {
+        const item = cartData[itemId];
+        if (item) {
+            item.quantity += change;
+            if (item.quantity < 1) {
+                item.quantity = 1;
+            }
+            item.total = item.price * item.quantity;
+            
+            // Update UI
+            document.getElementById(`qty-${itemId}`).textContent = item.quantity;
+            document.querySelector(`#qty-${itemId}`).parentElement.parentElement.querySelector('.item-total').textContent = `₹${item.total}`;
+            
+            updateCartSummary();
+        }
+    }
 
-  function selectNickname(button) {
-    const buttons = document.querySelectorAll(".nickname-btn");
-    buttons.forEach((btn) => btn.classList.remove("active"));
+    function removeItem(itemId) {
+        if (confirm('Are you sure you want to remove this item?')) {
+            delete cartData[itemId];
+            document.querySelector(`#qty-${itemId}`).closest('.cart-item').remove();
+            updateCartSummary();
+        }
+    }
 
-    // Add active class to clicked button
-    button.classList.add("active");
-  }
+    function updateCartSummary() {
+        let subtotal = 0;
+        let totalItems = 0;
+        
+        Object.values(cartData).forEach(item => {
+            subtotal += item.total;
+            totalItems += item.quantity;
+        });
+        
+        // Update subtotal in cart section
+        document.getElementById('subtotal-amount').textContent = `₹${subtotal}`;
+        document.getElementById('total-items').textContent = totalItems;
+        
+        // Update basket value in summary
+        document.getElementById('basket-value').textContent = `Rs ${subtotal}`;
+        
+        // Update total payable (subtotal + delivery charge)
+        const deliveryCharge = 50;
+        const totalPayable = subtotal + deliveryCharge;
+        document.getElementById('total-payable').textContent = `Rs ${totalPayable}`;
+    }
 
-  function selectNickname(button) {
-    document
-      .querySelectorAll(".nickname-btn")
-      .forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById("address_type").value =
-      button.innerText.toLowerCase();
-  }
+    function toggleDropdown(id) {
+        const options = document.getElementById(id);
+        options.classList.toggle('show');
+    }
+
+    function toggleAddressForm() {
+        const form = document.getElementById('add-address-form');
+        const isVisible = form.style.display !== 'none';
+        form.style.display = isVisible ? 'none' : 'block';
+    }
+
+    function selectNickname(button) {
+        // Remove active class from all nickname buttons
+        const buttons = document.querySelectorAll('.nickname-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // Add active class to clicked button
+        button.classList.add('active');
+    }
 </script>
 
 {% endblock main %}
