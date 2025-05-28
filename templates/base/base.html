@@ -57,7 +57,7 @@
             </li>
 
             <li>
-              <a href="{% url 'about' %}" class="navbar-link">Checkout</a>
+              <a href="{% url 'cartPage' %}" class="navbar-link">Checkout</a>
             </li>
 
             <li>
@@ -97,7 +97,7 @@
           <button class="header-action-btn" aria-label="Open shopping cart" data-panel-btn="cart">
             <ion-icon name="basket-outline"></ion-icon>
 
-            <span class="btn-badge">{{ request.user.cart.cart_items.count }}</span>
+            <span class="btn-badge">{{ cart_item_count }}</span>
           </button>
           {% else %}
           <button class="header-action-btn" aria-label="Open whishlist" data-panel-btn="whishlist">

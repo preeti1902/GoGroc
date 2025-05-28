@@ -73,12 +73,12 @@
 }
 
 .address-card {
-    position: relative;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    padding: 0;
-    background: white;
-    transition: all 0.3s ease;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
 .address-card:hover {
@@ -101,6 +101,11 @@
 .address-card input[type="radio"]:checked+.address-label .address-nickname {
     background-color: hsl(152, 95%, 31%);
     color: white;
+}
+
+.address-card.selected {
+  border-color: #007bff;
+  background-color: #f0f8ff;
 }
 
 .address-label {
