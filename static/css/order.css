@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    background: rgb(237, 237, 237);
     padding: 2rem;
 }
 
@@ -9,7 +10,6 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background: white;
     min-height: 100vh;
 }
 
