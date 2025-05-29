@@ -44,12 +44,12 @@ def scrape_flipkart(product_name):
                 print("Flipkart price found:", clean_price)
                 return clean_price
         print("No price found on Flipkart for:", product_name)
-        return None
+        return 0
     except Exception as e:
         print("Flipkart scrape error:", e)
-        return None
+        return 0
 
-def scrape_blinkit(product_name): return None
+def scrape_blinkit(product_name): return 0
 
 def scrape_zepto(product_name):
     try:
@@ -75,10 +75,10 @@ def scrape_zepto(product_name):
                 print("Zepto price found:", price, "for product:", title)
                 return price
         print("No price found on Zepto for:", product_name)
-        return None
+        return 0
     except Exception as e:
         print("Zepto scrape error:", e)
-        return None
+        return 0
 
 def get_lowest_online_price(product_name):
     prices = []
