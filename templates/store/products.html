@@ -14,13 +14,21 @@
         <h2 class="h2 section-title">All Organic Products</h2>
 
         <ul class="filter-list">
-          {% for category in categories %}
           <li>
-            <button class="filter-btn">
-              <img src="/media/{{category.image}}" width="20" alt="" class="color" />
-              <p class="filter-text">{{category.description}}</p>
+            <button class="filter-btn {% if not selected_category_slug %}active{% endif %}"
+                    onclick="window.location.href='{% url 'products' %}'">
+              <p class="filter-text">All</p>
             </button>
           </li>
+
+          {% for category in categories %}
+            <li>
+              <button class="filter-btn {% if selected_category_slug == category.slug %}active{% endif %}"
+                      onclick="window.location.href='?category={{ category.slug }}'">
+                <img src="/media/{{ category.image }}" width="20" alt="{{ category.name }}" class="color" />
+                <p class="filter-text">{{ category.description }}</p>
+              </button>
+            </li>
           {% endfor %}
         </ul>
 

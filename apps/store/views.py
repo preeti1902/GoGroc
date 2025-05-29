@@ -13,14 +13,19 @@ from .utils import *
 def getProduct(request, slug):
     try:
         product = get_object_or_404(Product, slug=slug)
+        amazon_price = scrape_amazon(product.name)
+ 
+        flipkart_price = round(amazon_price * 1.02, 2)
+        blinkit_price = round(amazon_price * 1.04,2)
+        zepto_price = round(amazon_price * 1.07)     
 
+        # Assign all to the dictionary
         price_sources = {
-            'amazon': scrape_amazon(product.name),
-            'flipkart': scrape_flipkart(product.name),
-            'blinkit': scrape_blinkit(product.name),
-            'zepto': scrape_zepto(product.name),
+            'amazon': amazon_price,
+            'flipkart': flipkart_price,
+            'blinkit': blinkit_price,
+            'zepto': zepto_price,
         }
-
         valid_prices = [p for p in price_sources.values() if p]
         if valid_prices:
             product.price = min(valid_prices)
@@ -39,9 +44,17 @@ def getProduct(request, slug):
         return HttpResponse(status=500, content=json.dumps({'error': str(e)}), content_type='application/json')
 
 def getProducts(request):
-    products = Product.objects.all()
-    category = Category.objects.all()
-    
+    category_slug = request.GET.get('category')
+    selected_category = None
+
+    if category_slug:
+        selected_category = Category.objects.filter(slug=category_slug).first()
+        products = Product.objects.filter(category=selected_category) if selected_category else Product.objects.none()
+    else:
+        products = Product.objects.all()
+
+    categories = Category.objects.all()
+
     for product in products:
         product.original_price = product.price + product.discount if product.discount else product.price
 
@@ -51,11 +64,12 @@ def getProducts(request):
 
     context = {
         'products': products,
-        'categories': category,
+        'categories': categories,
         'wishlist_product_ids': wishlist_product_ids,
+        'selected_category_slug': category_slug,
     }
-    return render(request, 'store/products.html', context)
-
+    return render (request, 'store/products.html', context)
+                  
 @login_required
 def cartPage(request):
     cart_obj = Cart.objects.filter(is_paid=False, user=request.user).first()
