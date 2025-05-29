@@ -122,7 +122,7 @@ def cartPage(request):
     addresses = request.user.addresses.all()
     context = {
         'cart': cart_obj,
-        'cart_products': cart_products,  # Add products in cart to context
+        'cart_products': cart_products,
         'addresses': addresses,
         'coupons': coupons,
         'payment': payment,
@@ -207,6 +207,9 @@ def success(request):
                     quantity=item.quantity,
                     price_at_order=item.product.price
                 )
+            
+            order.total = order.calculate_total()
+            order.save()
 
             return JsonResponse({"message": "Payment successful and order created"})
         except Cart.DoesNotExist:

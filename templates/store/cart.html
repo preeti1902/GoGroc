@@ -42,7 +42,6 @@
         <div class="cart-subtotal">
           <div class="subtotal-line">
             <span>Subtotal (<span id="total-items">{{cart.get_products_count}}</span> items)</span>
-            <span class="subtotal-amount" id="basket-value">₹ {{ cart.get_cart_total_without_discount }}</span>
           </div>
         </div>
       </div>
@@ -54,7 +53,7 @@
           <ul class="address-options">
             {% for address in addresses %}
             <li class="address-card">
-              <input type="radio" name="address" id="address-{{ address.uuid }}" value="{{ address.uuid }}" {% if address.uuid|stringformat:"s" == selected_address_uuid|stringformat:"s" %}checked{% endif %} />
+              <input type="radio" name="address" id="address-{{ address.uuid }}" value="{{ address.uuid|stringformat:'s' }}" {% if address.uuid|stringformat:'s' == selected_address_uuid|stringformat:'s' %}checked{% endif %} />
               <label for="address-{{ address.uuid }}" class="address-label">
                 <div class="address-nickname">{{ address.address_type|upper }}</div>
                 <div class="address-details">
@@ -140,7 +139,6 @@
         </div>
       </form>
 
-      <!-- Delivery Options -->
       <div class="collapsible">
         <div class="dropdown" onclick="toggleDropdown('delivery-options')">
           <strong>Delivery Options</strong>
@@ -217,18 +215,51 @@
 </main>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+  // Highlights selected address
+  function highlightSelectedAddress() {
+    const inputs = document.querySelectorAll('input[name="address"]');
+    inputs.forEach((input) => {
+      input.addEventListener('change', () => {
+        document.querySelectorAll('.address-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+        input.closest('.address-card').classList.add('selected');
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', highlightSelectedAddress);
+
+  // Get CSRF token from cookies
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  const isDevMode = false;
+
   var options = {
-    "key": "rzp_test_171e6d7TSvS6aZ",
-    "amount": "{{payment.amount}}",
-    "currency": "INR",
-    "name": "GoGroc",
-    "description": "Purchase Transaction",
-    "order_id": "{{payment.id}}",
-    "handler": function (response) {
+    key: "rzp_test_171e6d7TSvS6aZ",
+    amount: "{{payment.amount}}", // will be overwritten dynamically
+    currency: "INR",
+    name: "GoGroc",
+    description: "Purchase Transaction",
+    order_id: "{{payment.id}}", // Razorpay order ID from backend
+    handler: function (response) {
       const selectedAddress = document.querySelector('input[name="address"]:checked');
       const address_id = selectedAddress ? selectedAddress.value : null;
-      const payment_amount = document.getElementById('total-amount').innerText.replace('Rs ', '').replace(',', '');
-      options.amount = payment_amount * 100;
+      const payment_amount = document.getElementById('total-amount').innerText.replace('Rs ', '').replace(',', '').trim();
+      const amount = parseFloat(payment_amount);
 
       if (!address_id) {
         alert("Please select a delivery address.");
@@ -246,70 +277,68 @@
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
           address_id: address_id,
-          amount: options.amount
+          amount: amount * 100
         })
       })
         .then(res => res.json())
         .then(data => {
           if (data.message) {
-            console.log(data.message)
             alert(data.message);
             window.location.href = "/store/orders/";
           } else {
-            console.error("Error:", data);
             alert(data.error || "Unknown error occurred");
           }
         })
         .catch(err => {
-          console.error("Error:", err);
           alert("Payment verification failed");
+          console.error("Error:", err);
         });
     },
-    "theme": {
-      "color": "#3399cc"
+    theme: {
+      color: "#3399cc"
     }
   };
-  const isDevMode = false;
-
-  var rzp1 = new Razorpay(options);
-  rzp1.on('payment.failed', function (response) {
-    alert("Payment failed");
-    console.log(response);
-  });
 
   document.getElementById('rzp-button1').onclick = function (e) {
     e.preventDefault();
+
+    const selectedAddress = document.querySelector('input[name="address"]:checked');
+    if (!selectedAddress) {
+      alert("Please select a delivery address before making payment.");
+      return;
+    }
+
+    const payment_amount = document.getElementById('total-amount').innerText.replace('Rs ', '').replace(',', '').trim();
+    const amount = parseFloat(payment_amount);
+
+    if (isNaN(amount) || amount <= 0) {
+      alert("Total amount must be greater than zero.");
+      return;
+    }
+
+    options.amount = amount * 100; // update Razorpay amount
+
     if (isDevMode) {
-      // Simulate successful payment response
       const dummyResponse = {
         razorpay_order_id: "order_dummy123",
         razorpay_payment_id: "payment_dummy123",
         razorpay_signature: "signature_dummy123"
       };
-
       options.handler(dummyResponse);
     } else {
+      const rzp1 = new Razorpay(options);
       rzp1.open();
     }
-  }
+  };
 
-  // Get CSRF token from cookies
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let cookie of cookies) {
-        cookie = cookie.trim();
-        if (cookie.startsWith(name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-</script>
-<script>
+  // Razorpay failure listener
+  const rzp1 = new Razorpay(options);
+  rzp1.on('payment.failed', function (response) {
+    alert("Payment failed");
+    console.log(response);
+  });
+
+  // Utility Functions
   function toggleDropdown(id) {
     const options = document.getElementById(id);
     options.classList.toggle("show");
@@ -322,50 +351,10 @@
   }
 
   function selectNickname(button) {
-    const buttons = document.querySelectorAll(".nickname-btn");
-    buttons.forEach((btn) => btn.classList.remove("active"));
-
-    // Add active class to clicked button
+    document.querySelectorAll(".nickname-btn").forEach((btn) => btn.classList.remove("active"));
     button.classList.add("active");
+    document.getElementById("address_type").value = button.innerText.toLowerCase();
   }
-
-  function selectNickname(button) {
-    document
-      .querySelectorAll(".nickname-btn")
-      .forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById("address_type").value =
-      button.innerText.toLowerCase();
-  }
-</script>
-
-<script>
-  function highlightSelectedAddress() {
-    const inputs = document.querySelectorAll('input[name="address"]');
-    inputs.forEach((input) => {
-      input.addEventListener('change', () => {
-        document.querySelectorAll('.address-card').forEach((card) => {
-          card.classList.remove('selected');
-        });
-
-        const selectedCard = input.closest('.address-card');
-        if (selectedCard) {
-          selectedCard.classList.add('selected');
-        }
-      });
-    });
-
-    // Initial highlight on page load
-    const preselected = document.querySelector('input[name="address"]:checked');
-    if (preselected) {
-      const selectedCard = preselected.closest('.address-card');
-      if (selectedCard) {
-        selectedCard.classList.add('selected');
-      }
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', highlightSelectedAddress);
 
   function updateQuantity(itemUUID, delta) {
     fetch("{% url 'update_cart_quantity' %}", {
@@ -383,19 +372,15 @@
     .then(data => {
       if (data.success) {
         if (data.removed) {
-
           const itemElement = document.querySelector(`[data-uuid="${itemUUID}"]`);
           if (itemElement) itemElement.remove();
         } else {
-
           document.getElementById(`qty-${data.item_id}`).innerText = data.quantity;
-
           const totalSpan = document.querySelector(`[data-total-${data.item_id}]`);
           if (totalSpan) {
             totalSpan.innerText = `₹${data.total_price}`;
           }
         }
-
         refreshCartSummary();
       } else {
         alert(data.message || "Error updating quantity");
@@ -405,17 +390,18 @@
 
   function refreshCartSummary() {
     fetch("{% url 'cart_summary' %}")
-        .then(response => response.json())
-        .then(data => {
-          if (data.subtotal !== undefined) {
-            document.getElementById('basket-value').innerText = `Rs ${data.subtotal}`;
-            document.getElementById('voucher-discount').innerText = `- Rs ${data.discount}`;
-            document.getElementById('total-amount').innerText = `Rs ${data.total}`;
-            document.getElementById('savings').innerText = `Your Total Savings Rs ${data.discount}`;
-            document.getElementById('total-items').innerText = `${data.items_count}`;
-          }
-        });
-    }
+      .then(response => response.json())
+      .then(data => {
+        if (data.subtotal !== undefined) {
+          document.getElementById('basket-value').innerText = `Rs ${data.subtotal}`;
+          document.getElementById('voucher-discount').innerText = `- Rs ${data.discount}`;
+          document.getElementById('total-amount').innerText = `Rs ${data.total}`;
+          document.getElementById('savings').innerText = `Your Total Savings Rs ${data.discount}`;
+          document.getElementById('total-items').innerText = `${data.items_count}`;
+        }
+      });
+  }
 </script>
+
 
 {% endblock main %}
