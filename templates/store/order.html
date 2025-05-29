@@ -28,7 +28,7 @@
           {% for item in ordered_products %}
           <div class="item-card">
             <div class="item-image">
-              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+              <img src="/media/{{ item.product.product_images.first.image }}" alt="{{ item.product.name }}">
             </div>
             <div class="item-details">
               <h4>{{ item.product.name }}</h4>

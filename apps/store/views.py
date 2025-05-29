@@ -7,6 +7,7 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
+from apps.accounts.emails import sendPaymentSuccessEmail
 from .utils import *
 
 def getProduct(request, slug):
@@ -210,6 +211,8 @@ def success(request):
             
             order.total = order.calculate_total()
             order.save()
+            
+            sendPaymentSuccessEmail(user.email, order.order_number)
 
             return JsonResponse({"message": "Payment successful and order created"})
         except Cart.DoesNotExist:
