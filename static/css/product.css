@@ -2,13 +2,6 @@
     --ff-playfair-display: 'Playfair Display', serif;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f9f7f2;
-}
-
 .product-header {
     display: flex;
     justify-content: space-between;
@@ -40,6 +33,11 @@ body {
     justify-content: center;
     align-items: flex-start;
     padding: 2rem;
+    background-color: #e9e9e9;
+}
+
+.quantity-controls {
+    justify-content: normal;
 }
 
 .breadcrumb {
@@ -151,7 +149,7 @@ input[type="number"] {
     padding: 0.75rem 1rem;
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    font-size: 14px ;
+    font-size: 14px;
     flex: 1 1 160px;
     text-align: center;
     color: #1e3d30;

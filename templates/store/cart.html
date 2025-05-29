@@ -219,7 +219,7 @@
 <script>
   var options = {
     "key": "rzp_test_171e6d7TSvS6aZ",
-    "amount": "{{payment.amount }}",
+    "amount": "{{payment.amount}}",
     "currency": "INR",
     "name": "GoGroc",
     "description": "Purchase Transaction",
@@ -227,6 +227,8 @@
     "handler": function (response) {
       const selectedAddress = document.querySelector('input[name="address"]:checked');
       const address_id = selectedAddress ? selectedAddress.value : null;
+      const payment_amount = document.getElementById('total-amount').innerText.replace('Rs ', '').replace(',', '');
+      options.amount = payment_amount * 100;
 
       if (!address_id) {
         alert("Please select a delivery address.");
@@ -243,7 +245,8 @@
           razorpay_order_id: response.razorpay_order_id,
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
-          address_id: address_id
+          address_id: address_id,
+          amount: options.amount
         })
       })
         .then(res => res.json())

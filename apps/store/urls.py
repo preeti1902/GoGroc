@@ -2,6 +2,7 @@ from .views import *
 from django.urls import path
 
 urlpatterns = [
+    path('', getProducts, name="products"),
     path('cart/', cartPage, name='cartPage'),
     path('success/', success, name='success'),
     path('cart/update-quantity/', update_cart_quantity, name='update_cart_quantity'),
@@ -11,7 +12,6 @@ urlpatterns = [
     path('orders/', orderPage, name='orderPage'),
     path('orders/<order_number>/', productOrder, name='productOrder'),
     path('<slug>/', getProduct, name="product"),
-    path('', getProducts, name="products"),
     path('addToCart/<uuid>/', addToCart, name='addToCart'),
     path('removeFromCart/<uuid>/', removeFromCart, name='removeFromCart'),
     path('addToWishlist/<uuid:uuid>/', addToWishlist, name='addToWishlist'),

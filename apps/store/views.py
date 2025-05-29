@@ -7,18 +7,30 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
-from django.core.serializers.json import DjangoJSONEncoder
+from .utils import *
 
 def getProduct(request, slug):
     try:
         product = get_object_or_404(Product, slug=slug)
-        if product.discount:
-            original_price = product.price + product.discount
-        else:
-            original_price = product.price
+
+        price_sources = {
+            'amazon': scrape_amazon(product.name),
+            'flipkart': scrape_flipkart(product.name),
+            'blinkit': scrape_blinkit(product.name),
+            'zepto': scrape_zepto(product.name),
+        }
+
+        valid_prices = [p for p in price_sources.values() if p]
+        if valid_prices:
+            product.price = min(valid_prices)
+            product.save(update_fields=['price'])
+
+        original_price = product.price + product.discount if product.discount else product.price
+
         context = {
             'product': product,
             'original_price': original_price,
+            'price_sources': price_sources
         }
         return render(request, 'store/product.html', context=context)
     except Exception as e:
@@ -166,6 +178,7 @@ def success(request):
             payment_id = data.get("razorpay_payment_id")
             signature = data.get("razorpay_signature")
             address_id = data.get("address_id")
+            amount = data.get("amount")
             print("Received data:", data)
 
             if not order_id or not address_id:
@@ -181,7 +194,7 @@ def success(request):
             order = Order.objects.create(
                 user=user,
                 address=address,
-                total=cart.get_cart_total(),
+                total=amount,
                 payment_status='paid',
                 payment_method='razorpay',
                 transaction_id=payment_id

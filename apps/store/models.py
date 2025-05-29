@@ -23,7 +23,7 @@ class Product(BaseModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     discount = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     stock = models.PositiveIntegerField(default=0)
     rating = models.IntegerField(default=0)
@@ -161,7 +161,7 @@ class Order(BaseModel):
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Order #{self.uuid} by {self.user.username} - ₹{self.total}"
+        return f"Order #{self.uuid} by {self.user.username} - ₹{self.total} - date {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
 
 class OrderProduct(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

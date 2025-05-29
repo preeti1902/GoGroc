@@ -17,17 +17,21 @@
             <div class="price-comparison">
                 <h3>Compare Prices</h3>
                 <div class="price-row">
-
-                    <div class="price-item"><strong>Blinkit:</strong> $95</div>
-                    <div class="price-item"><strong>Zepto:</strong> $92</div>
-                    <div class="price-item"><strong>Amazon:</strong> $99</div>
-                    <div class="price-item"><strong>Flipkart:</strong> $94</div>
+                    <div class="price-item"><strong>Blinkit:</strong> ₹{{ price_sources.blinkit|default:"--" }}</div>
+                    <div class="price-item"><strong>Zepto:</strong> ₹{{ price_sources.zepto|default:"--" }}</div>
+                    <div class="price-item"><strong>Amazon:</strong> ₹{{ price_sources.amazon|default:"--" }}</div>
+                    <div class="price-item"><strong>Flipkart:</strong> ₹{{ price_sources.flipkart|default:"--" }}</div>
                 </div>
             </div>
-            <label>Quantity:
-                <input type="number" value="1" min="1" />
-            </label>
-            <button class="add-to-cart">Add to Cart</button>
+            <form method="POST" action="{% url 'addToCart' product.uuid %}" class="add-to-cart-form">
+                {% csrf_token %}
+                <div class="quantity-controls">
+                  <button type="button" class="plusAndminus decrease-btn">−</button>
+                  <input type="number" name="quantity" class="quantity-input" value="0" min="0" readonly>
+                  <button type="button" class="plusAndminus increase-btn">+</button>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+              </form>
 
             <div class="product-info">
                 <p>
